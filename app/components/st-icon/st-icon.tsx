@@ -8,6 +8,7 @@ export interface IIconProps {
   icon: string;
   size: number;
   color: string;
+  style?: any;
 }
 
 /**

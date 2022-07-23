@@ -16,7 +16,8 @@ import {
   ComponentWrapper,
   Text,
   TextRow,
-  FlatLineChart
+  FlatLineChart,
+  TouchableRow,
 } from "../../components"
 
 // Styles
@@ -79,6 +80,23 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
             title="title 2"
             description="description 2"
             isLast={true}
+          />
+        </ComponentWrapper>
+
+        <ComponentWrapper isTouchable={false}>
+          <TouchableRow
+            icon="money_wad_outline_28"
+            title="title"
+            description="description"
+            isLast={false}
+            onPress={() => {}}
+          />
+          <TouchableRow
+            icon="money_wad_outline_28"
+            title="title"
+            description="description"
+            isLast={true}
+            onPress={() => {}}
           />
         </ComponentWrapper>
         
