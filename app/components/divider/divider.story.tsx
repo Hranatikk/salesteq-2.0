@@ -1,17 +1,14 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
-import { View } from "react-native";
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { ComponentWrapper } from "./component-wrapper"
+import { Divider } from "./divider"
 
-storiesOf("ComponentWrapper", module)
+storiesOf("Divider", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
-      <UseCase text="ComponentWrapper" usage="Component wrapper.">
-        <ComponentWrapper isTouchable={false}>
-          <View />
-        </ComponentWrapper>
+      <UseCase text="Divider" usage="Divider component.">
+        <Divider horizontal={0} bottom={0} />
       </UseCase>
     </Story>
   ))

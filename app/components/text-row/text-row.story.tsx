@@ -1,17 +1,14 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
-import { View } from "react-native";
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { ComponentWrapper } from "./component-wrapper"
+import { TextRow } from "./text-row"
 
-storiesOf("ComponentWrapper", module)
+storiesOf("TextRow", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
-      <UseCase text="ComponentWrapper" usage="Component wrapper.">
-        <ComponentWrapper isTouchable={false}>
-          <View />
-        </ComponentWrapper>
+      <UseCase text="TextRow" usage="Text row">
+        <TextRow leftText="left text" rightText="right text" isLast={false} />
       </UseCase>
     </Story>
   ))

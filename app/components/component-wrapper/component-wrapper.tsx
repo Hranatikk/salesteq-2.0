@@ -5,10 +5,11 @@ import { color, spacing } from "../../theme"
 
 const CONTAINER: ViewStyle = {
   marginHorizontal: spacing[4],
-  paddingHorizontal: spacing[2],
+  paddingHorizontal: spacing[4],
   paddingVertical: spacing[3],
   backgroundColor: color.palette.white,
   borderRadius: 9,
+  marginBottom: spacing[4]
 }
 
 export interface ComponentWrapperProps {

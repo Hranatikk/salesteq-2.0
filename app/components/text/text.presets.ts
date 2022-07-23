@@ -39,6 +39,11 @@ export const presets = {
   /**
    * Description for inputs, fields, rows
    */
+  boldTitle: { ...BASE, fontSize: 16, fontWeight: "bold" } as TextStyle,
+
+  /**
+   * Description for inputs, fields, rows
+   */
   description: { ...BASE, fontSize: 16, color: color.dim } as TextStyle,
 
   /**
