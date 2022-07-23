@@ -9,7 +9,15 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import { Screen, SimpleBackground, Header, ComponentWrapper, Text, TextRow } from "../../components"
+import {
+  Screen,
+  SimpleBackground,
+  Header,
+  ComponentWrapper,
+  Text,
+  TextRow,
+  FlatLineChart
+} from "../../components"
 
 // Styles
 import { color, spacing } from "../../theme"
@@ -21,7 +29,7 @@ const HEADER_TEXT: TextStyle = {
 }
 
 const CONTAINER_TITLE: TextStyle = {
-  marginBottom: spacing[4]
+  marginBottom: spacing[5]
 }
 
 
@@ -58,8 +66,20 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
         <ComponentWrapper isTouchable={false}>
           <Text preset="boldTitle" style={CONTAINER_TITLE}>Progress till next rank: Level 5</Text>
-          <TextRow leftText="leftText" rightText="rightText" isLast={false} />
-          <TextRow leftText="leftText" rightText="rightText" isLast={true} />
+          <FlatLineChart
+            current={70}
+            needed={100}
+            title="title"
+            description="description"
+            isLast={false}
+          />
+           <FlatLineChart
+            current={20}
+            needed={100}
+            title="title 2"
+            description="description 2"
+            isLast={true}
+          />
         </ComponentWrapper>
         
       </Screen>
