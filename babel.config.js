@@ -4,12 +4,14 @@ module.exports = {
     production: {},
   },
   plugins: [
+
     [
       "@babel/plugin-proposal-decorators",
       {
         legacy: true,
       },
     ],
+    ["react-native-reanimated/plugin"],
     ["@babel/plugin-proposal-optional-catch-binding"],
   ],
 }

@@ -1,14 +1,17 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
+import { View } from "react-native";
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { SimpleBackground } from "./simple-background"
+import { ComponentWrapper } from "./component-wrapper"
 
-storiesOf("SimpleBackground", module)
+storiesOf("ComponentWrapper", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
-      <UseCase text="Primary" usage="The primary.">
-        <SimpleBackground />
+      <UseCase text="ComponentWrapper" usage="Component wrapper.">
+        <ComponentWrapper>
+          <View />
+        </ComponentWrapper>
       </UseCase>
     </Story>
   ))

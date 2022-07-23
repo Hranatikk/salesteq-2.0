@@ -39,11 +39,11 @@ export const color = {
   /**
    * The default color of text in many components.
    */
-  text: palette.white,
+  text: palette.black,
   /**
    * Secondary information.
    */
-  dim: palette.lightGrey,
+  dim: palette.grey,
   /**
    * Error messages and icons.
    */

@@ -1,14 +1,14 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { StIcon } from "./st-icon"
+import { STIcon } from "./st-icon"
 
-storiesOf("StIcon", module)
+storiesOf("STIcon", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Primary" usage="The primary.">
-        <StIcon />
+        <STIcon icon="icon" color="#fff" size={20} />
       </UseCase>
     </Story>
   ))

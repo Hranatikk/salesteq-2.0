@@ -8,10 +8,14 @@ import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { WelcomeScreen, DemoScreen, DemoListScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { STIcon } from "../components";
 import { color } from "../theme"
+import {
+  WelcomeScreen,
+  DemoListScreen,
+  AnalyticsScreen,
+} from "../screens"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,6 +33,7 @@ export type NavigatorParamList = {
   welcome: undefined
   demo: undefined
   demoList: undefined
+  analytics: undefined
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -40,10 +45,10 @@ const AppStack = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="welcome"
+      initialRouteName="analytics"
     >
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
-      <Stack.Screen name="demo" component={DemoScreen} />
+      <Stack.Screen name="analytics" component={AnalyticsScreen} />
+      <Stack.Screen name="demo" component={WelcomeScreen} />
       <Stack.Screen name="demoList" component={DemoListScreen} />
     </Stack.Navigator>
   )

@@ -9,7 +9,7 @@ const CONTAINER: ViewStyle = {
   right: 0,
   top: 0,
   bottom: 0,
-  backgroundColor: color.primary,
+  backgroundColor: color.background,
 }
 
 /**

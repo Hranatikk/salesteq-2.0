@@ -3,8 +3,8 @@ import { View, ViewStyle, TextStyle } from "react-native"
 import { HeaderProps } from "./header.props"
 import { Button } from "../button/button"
 import { Text } from "../text/text"
-import { Icon } from "../icon/icon"
-import { spacing } from "../../theme"
+import { STIcon } from "../st-icon/st-icon"
+import { color, spacing } from "../../theme"
 import { translate } from "../../i18n/"
 
 // static styles
@@ -16,7 +16,7 @@ const ROOT: ViewStyle = {
   paddingBottom: spacing[5],
   justifyContent: "flex-start",
 }
-const TITLE: TextStyle = { textAlign: "center" }
+const TITLE: TextStyle = { textAlign: "center", color: color.text, fontSize: 120 }
 const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" }
 const LEFT: ViewStyle = { width: 32 }
 const RIGHT: ViewStyle = { width: 32 }
@@ -41,7 +41,7 @@ export function Header(props: HeaderProps) {
     <View style={[ROOT, style]}>
       {leftIcon ? (
         <Button preset="link" onPress={onLeftPress}>
-          <Icon icon={leftIcon} />
+          <STIcon icon={leftIcon} size={24} color={color.palette.grey} />
         </Button>
       ) : (
         <View style={LEFT} />
@@ -51,7 +51,7 @@ export function Header(props: HeaderProps) {
       </View>
       {rightIcon ? (
         <Button preset="link" onPress={onRightPress}>
-          <Icon icon={rightIcon} />
+          <STIcon icon={rightIcon} size={24} color={color.palette.grey} />
         </Button>
       ) : (
         <View style={RIGHT} />

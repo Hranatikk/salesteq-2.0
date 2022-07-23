@@ -32,6 +32,16 @@ export const presets = {
   header: { ...BASE, fontSize: 24, fontWeight: "bold" } as TextStyle,
 
   /**
+   * Description for inputs, fields, rows
+   */
+  title: { ...BASE, fontSize: 18 } as TextStyle,
+
+  /**
+   * Description for inputs, fields, rows
+   */
+  description: { ...BASE, fontSize: 16, color: color.dim } as TextStyle,
+
+  /**
    * Field labels that appear on forms above the inputs.
    */
   fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
