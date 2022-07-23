@@ -1,5 +1,8 @@
 import React, { FC } from "react"
-import { View, TextStyle } from "react-native"
+import { View, TextStyle, Dimensions } from "react-native"
+
+// Libs
+import { LineChart } from 'react-native-chart-kit';
 
 // State
 import { observer } from "mobx-react-lite"
@@ -85,7 +88,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
         <ComponentWrapper isTouchable={false}>
           <TouchableRow
-            icon="money_wad_outline_28"
+            icon="history_backward_outline_28"
             title="title"
             description="description"
             isLast={false}
@@ -97,6 +100,39 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
             description="description"
             isLast={true}
             onPress={() => {}}
+          />
+        </ComponentWrapper>
+
+        <ComponentWrapper isTouchable={false}>
+          <LineChart
+            data={{
+              labels: ["January", "February", "March", "April", "May", "June"],
+              datasets: [
+                {
+                  data: [
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100,
+                    Math.random() * 100
+                  ]
+                }
+              ]
+            }}
+            width={Dimensions.get('window').width-60}
+            height={330}
+            verticalLabelRotation={60}
+            chartConfig={{
+              color: () => 'rgba(90, 84, 202, 1)',
+              strokeWidth: 2,
+              backgroundGradientFrom: '#fff',
+              backgroundGradientTo: '#fff',
+              barPercentage: 1,
+              decimalPlaces: 0,
+            }}
+            bezier={true}
+            // onDataPointClick={({value, dataset, getColor}) => Alert.alert(`value: ${value}, dataset: ${dataset}`)}
           />
         </ComponentWrapper>
         

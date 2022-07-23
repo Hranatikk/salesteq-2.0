@@ -14,7 +14,7 @@ export interface DividerProps {
 }
 
 /**
- * Describe your component here
+ * Divider component
  */
 export const Divider = observer(function Divider(props: DividerProps) {
   return (

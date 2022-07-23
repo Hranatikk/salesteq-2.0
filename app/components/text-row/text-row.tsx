@@ -18,7 +18,7 @@ export interface TextRowProps {
 }
 
 /**
- * Describe your component here
+ * Row with text info
  */
 export const TextRow = observer(function TextRow(props: TextRowProps) {
   return (

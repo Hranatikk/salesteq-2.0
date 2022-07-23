@@ -37,7 +37,7 @@ export interface FlatLineChartProps {
 }
 
 /**
- * Describe your component here
+ * Flat line chart
  */
 export const FlatLineChart = observer(function FlatLineChart(props: FlatLineChartProps) {
   

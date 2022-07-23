@@ -46,7 +46,7 @@ export interface TouchableRowProps {
 }
 
 /**
- * Describe your component here
+ * Touchable row with text
  */
 export const TouchableRow = observer(function TouchableRow(props: TouchableRowProps) {
   return (

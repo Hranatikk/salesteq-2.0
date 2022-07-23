@@ -19,7 +19,7 @@ export interface ComponentWrapperProps {
 }
 
 /**
- * Describe your component here
+ * White wrapper for components
  */
 export const ComponentWrapper = observer(function ComponentWrapper(props: ComponentWrapperProps) {
   return props.isTouchable ?

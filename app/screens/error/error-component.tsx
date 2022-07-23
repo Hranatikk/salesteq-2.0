@@ -64,7 +64,7 @@ export interface ErrorComponentProps {
 }
 
 /**
- * Describe your component here
+ * Error component
  */
 export const ErrorComponent = (props: ErrorComponentProps) => {
   return (
