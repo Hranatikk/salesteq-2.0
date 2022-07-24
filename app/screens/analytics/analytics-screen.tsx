@@ -1,8 +1,9 @@
 import React, { FC } from "react"
-import { View, TextStyle, Dimensions } from "react-native"
+import { View, TextStyle, Dimensions, ViewStyle } from "react-native"
 
 // Libs
 import { LineChart } from 'react-native-chart-kit';
+import { PieChart } from 'react-native-svg-charts';
 
 // State
 import { observer } from "mobx-react-lite"
@@ -40,6 +41,10 @@ const CONTAINER_SUBTITLE: TextStyle = {
   marginBottom: spacing[5]
 }
 
+const PIE_CHART: ViewStyle = {
+  height: 280
+}
+
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
   // Pull in one of our MST stores
@@ -47,6 +52,53 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
+
+  const getColorByString = (str:string) => {
+    let hash = 0;
+    // tslint:disable-next-line: no-increment-decrement
+    for (let i = 0; i < str.length; i++) {
+      // tslint:disable-next-line: no-bitwise
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const h = hash % 360;
+    return `hsl(${h}, 70%, 80%)`;
+  };
+
+  const getPieChartData = (item) => {
+  return item.map((i, index) => ({
+      value: i.amount,
+      name: `${i.title}`,
+      svg: {
+        fill: getColorByString(`${i.title}${i.index}`),
+      },
+      key: `pie-${index}`,
+    }));
+  }
+
+  const data = [
+    {
+      title: 'Ivan Staver',
+      amount: 250
+    },
+    {
+      title: 'Hleb Skrypinski',
+      amount: 250
+    },
+    {
+      title: 'Nikita Zyl',
+      amount: 350
+    },
+    {
+      title: 'Andrei Shaban',
+      amount: 100
+    },
+    {
+      title: 'Zubr',
+      amount: 500
+    },
+  ]
+
+
   return (
     <View testID="AnalyticsScreen" style={FULL}>
       <SimpleBackground />
@@ -143,6 +195,13 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
             bezier={true}
             // onDataPointClick={({value, dataset, getColor}) => Alert.alert(`value: ${value}, dataset: ${dataset}`)}
           />
+        </ComponentWrapper>
+
+        <ComponentWrapper isTouchable={false}>
+          <Text preset="boldTitle" style={CONTAINER_TITLE}>PieChart example</Text>
+          <Text preset="description" style={CONTAINER_SUBTITLE}>Pie chart description</Text>
+
+          <PieChart style={[PIE_CHART]} data={getPieChartData(data)} innerRadius="0" padAngle={0} />
         </ComponentWrapper>
         
       </Screen>
