@@ -33,6 +33,10 @@ const HEADER_TEXT: TextStyle = {
 }
 
 const CONTAINER_TITLE: TextStyle = {
+  marginBottom: spacing[3]
+}
+
+const CONTAINER_SUBTITLE: TextStyle = {
   marginBottom: spacing[5]
 }
 
@@ -104,6 +108,9 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
         </ComponentWrapper>
 
         <ComponentWrapper isTouchable={false}>
+          <Text preset="boldTitle" style={CONTAINER_TITLE}>Graphic example</Text>
+          <Text preset="description" style={CONTAINER_SUBTITLE}>Progress till next rank: Level 5</Text>
+
           <LineChart
             data={{
               labels: ["January", "February", "March", "April", "May", "June"],
@@ -120,13 +127,15 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
                 }
               ]
             }}
-            width={Dimensions.get('window').width-60}
+            width={Dimensions.get('window').width-30}
             height={330}
+            style={{marginLeft: -30}}
             verticalLabelRotation={60}
             chartConfig={{
               color: () => 'rgba(90, 84, 202, 1)',
-              strokeWidth: 2,
+              strokeWidth: 1,
               backgroundGradientFrom: '#fff',
+              backgroundGradientFromOpacity: 0,
               backgroundGradientTo: '#fff',
               barPercentage: 1,
               decimalPlaces: 0,
