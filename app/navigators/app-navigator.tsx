@@ -12,7 +12,6 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { STIcon } from "../components";
 import { color } from "../theme"
 import {
-  WelcomeScreen,
   DemoListScreen,
   AnalyticsScreen,
 } from "../screens"
@@ -30,8 +29,6 @@ import {
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type NavigatorParamList = {
-  welcome: undefined
-  demo: undefined
   demoList: undefined
   analytics: undefined
 }
@@ -48,7 +45,6 @@ const AppStack = () => {
       initialRouteName="analytics"
     >
       <Stack.Screen name="analytics" component={AnalyticsScreen} />
-      <Stack.Screen name="demo" component={WelcomeScreen} />
       <Stack.Screen name="demoList" component={DemoListScreen} />
     </Stack.Navigator>
   )
@@ -138,5 +134,5 @@ AppNavigator.displayName = "AppNavigator"
  *
  * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
-const exitRoutes = ["welcome"]
+const exitRoutes = ["analytics"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)

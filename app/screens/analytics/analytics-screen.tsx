@@ -2,7 +2,7 @@ import React, { FC } from "react"
 import { View, TextStyle, Dimensions, ViewStyle } from "react-native"
 
 // Libs
-import { LineChart } from 'react-native-chart-kit';
+
 import { PieChart } from 'react-native-svg-charts';
 
 // State
@@ -22,6 +22,7 @@ import {
   TextRow,
   FlatLineChart,
   TouchableRow,
+  BezierChart
 } from "../../components"
 
 // Styles
@@ -55,9 +56,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
   const getColorByString = (str:string) => {
     let hash = 0;
-    // tslint:disable-next-line: no-increment-decrement
     for (let i = 0; i < str.length; i++) {
-      // tslint:disable-next-line: no-bitwise
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     const h = hash % 360;
@@ -163,12 +162,13 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
           <Text preset="boldTitle" style={CONTAINER_TITLE}>Graphic example</Text>
           <Text preset="description" style={CONTAINER_SUBTITLE}>Progress till next rank: Level 5</Text>
 
-          <LineChart
+          <BezierChart
             data={{
-              labels: ["January", "February", "March", "April", "May", "June"],
+              labels: ["January", "February", "March", "April", "May", "June", "July"],
               datasets: [
                 {
                   data: [
+                    Math.random() * 100,
                     Math.random() * 100,
                     Math.random() * 100,
                     Math.random() * 100,
@@ -179,21 +179,6 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
                 }
               ]
             }}
-            width={Dimensions.get('window').width-30}
-            height={330}
-            style={{marginLeft: -30}}
-            verticalLabelRotation={60}
-            chartConfig={{
-              color: () => 'rgba(90, 84, 202, 1)',
-              strokeWidth: 1,
-              backgroundGradientFrom: '#fff',
-              backgroundGradientFromOpacity: 0,
-              backgroundGradientTo: '#fff',
-              barPercentage: 1,
-              decimalPlaces: 0,
-            }}
-            bezier={true}
-            // onDataPointClick={({value, dataset, getColor}) => Alert.alert(`value: ${value}, dataset: ${dataset}`)}
           />
         </ComponentWrapper>
 
