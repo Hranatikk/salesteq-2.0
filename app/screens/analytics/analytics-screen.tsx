@@ -22,6 +22,9 @@ import {
   PieChart
 } from "../../components"
 
+// Utils
+import { getColorByString } from "../../utils/get-color-by-string"
+
 // Styles
 import { color, spacing } from "../../theme"
 import { FULL, HEADER, HEADER_TITLE, CONTAINER } from './styles';
@@ -45,15 +48,6 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
-
-  const getColorByString = (str:string) => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const h = hash % 360;
-    return `hsl(${h}, 70%, 80%)`;
-  };
 
   const getPieChartData = (item) => {
   return item.map((i, index) => ({
