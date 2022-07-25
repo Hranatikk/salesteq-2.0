@@ -14,6 +14,7 @@ import { color } from "../theme"
 import {
   DemoListScreen,
   AnalyticsScreen,
+  SettingsScreen,
 } from "../screens"
 
 /**
@@ -31,12 +32,13 @@ import {
 export type NavigatorParamList = {
   demoList: undefined
   analytics: undefined
+  settings: undefined
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
 const Tab = createBottomTabNavigator();
 
-const AppStack = () => {
+const AnalyticsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -46,6 +48,18 @@ const AppStack = () => {
     >
       <Stack.Screen name="analytics" component={AnalyticsScreen} />
       <Stack.Screen name="demoList" component={DemoListScreen} />
+    </Stack.Navigator>
+  )
+}
+const SettingsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="settings"
+    >
+      <Stack.Screen name="settings" component={SettingsScreen} />
     </Stack.Navigator>
   )
 }
@@ -61,8 +75,8 @@ const TabNavigator = () => {
       initialRouteName=''
     >
       <Tab.Screen
-        name="demoStack"
-        component={AppStack}
+        name="analyticsStack"
+        component={AnalyticsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="statistics_outline_28" color={focused ? color.palette.black : color.palette.grey} size={focused ? 30 : 29} />
@@ -71,7 +85,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="demoStack1"
-        component={AppStack}
+        component={AnalyticsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="calendar_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
@@ -80,7 +94,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="demoStack2"
-        component={AppStack}
+        component={AnalyticsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="add_square_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
@@ -89,7 +103,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="demoStack23"
-        component={AppStack}
+        component={AnalyticsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="users_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
@@ -97,8 +111,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="demoStack24"
-        component={AppStack}
+        name="settingsStack"
+        component={SettingsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="settings_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />

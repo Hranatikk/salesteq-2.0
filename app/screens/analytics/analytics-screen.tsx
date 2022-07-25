@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { View, TextStyle } from "react-native"
+import { View, TextStyle, ViewStyle } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -28,7 +28,6 @@ import { getColorByString } from "../../utils/get-color-by-string"
 
 // Styles
 import { color, spacing } from "../../theme"
-import { FULL, HEADER, HEADER_TITLE, CONTAINER } from './styles';
 
 const HEADER_TEXT: TextStyle = {
   marginHorizontal: spacing[4],
@@ -41,6 +40,25 @@ const CONTAINER_TITLE: TextStyle = {
 
 const CONTAINER_SUBTITLE: TextStyle = {
   marginBottom: spacing[5]
+}
+
+const FULL: ViewStyle = {
+  flex: 1,
+}
+
+const HEADER: TextStyle = {
+  paddingBottom: spacing[5] - 1,
+  paddingHorizontal: spacing[4],
+  paddingTop: spacing[3],
+}
+
+const HEADER_TITLE: TextStyle = {
+  fontSize: 18,
+  textAlign: "center",
+}
+
+const CONTAINER: ViewStyle = {
+  backgroundColor: color.transparent,
 }
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {

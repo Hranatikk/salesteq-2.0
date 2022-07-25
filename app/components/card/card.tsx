@@ -37,7 +37,7 @@ export interface CardProps {
 }
 
 /**
- * Describe your component here
+ * Touchable card item
  */
 export const Card = observer(function Card(props: CardProps) {
 

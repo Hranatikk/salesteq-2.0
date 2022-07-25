@@ -9,7 +9,16 @@ storiesOf("Card", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Card item" usage="Card item.">
-        <Card style={{ backgroundColor: color.error }} />
+        <Card
+          title="Title"
+          subtitle="Subtitle"
+          onPress={() => console.log('e')}
+          iconName="game_outline_28"
+          iconText="Icon description"
+          iconTextColor={color.palette.grey}
+          statusText="Status: Gold"
+          statusTextColor={color.palette.red}
+        />
       </UseCase>
     </Story>
   ))

@@ -7,16 +7,21 @@
   "errors": {
     "invalidEmail": "Invalid email address."
   },
-  "welcomeScreen": {
-    "poweredBy": "POWERED BY IGNITE",
-    "readyForLaunch": "Ready for launch.",
-    "continue": "CONTINUE"
-  },
   "demoListScreen": {
     "title": "Demo List"
   },
   "analyticsScreen": {
     "title": "Analytics"
+  },
+  "settingsScreen": {
+    "title": "Settings",
+    "name": "Name",
+    "surname": "Surname",
+    "company": "Company",
+    "status": "Status",
+    "email": "Email",
+    "language": "Language",
+    "logout": "Log out from account"
   },
   "errorScreen": {
     "title": "Something went wrong!",
