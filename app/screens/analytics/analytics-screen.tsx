@@ -1,9 +1,5 @@
 import React, { FC } from "react"
-import { View, TextStyle, Dimensions, ViewStyle } from "react-native"
-
-// Libs
-
-import { PieChart } from 'react-native-svg-charts';
+import { View, TextStyle } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -22,7 +18,8 @@ import {
   TextRow,
   FlatLineChart,
   TouchableRow,
-  BezierChart
+  BezierChart,
+  PieChart
 } from "../../components"
 
 // Styles
@@ -41,11 +38,6 @@ const CONTAINER_TITLE: TextStyle = {
 const CONTAINER_SUBTITLE: TextStyle = {
   marginBottom: spacing[5]
 }
-
-const PIE_CHART: ViewStyle = {
-  height: 280
-}
-
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
   // Pull in one of our MST stores
@@ -165,19 +157,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
           <BezierChart
             data={{
               labels: ["January", "February", "March", "April", "May", "June", "July"],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100
-                  ]
-                }
-              ]
+              datasets: [ { data: [25, 50, 33, 44, 10, 70, 88] } ]
             }}
           />
         </ComponentWrapper>
@@ -186,7 +166,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
           <Text preset="boldTitle" style={CONTAINER_TITLE}>PieChart example</Text>
           <Text preset="description" style={CONTAINER_SUBTITLE}>Pie chart description</Text>
 
-          <PieChart style={[PIE_CHART]} data={getPieChartData(data)} innerRadius="0" padAngle={0} />
+          <PieChart data={getPieChartData(data)} showList={true} />
         </ComponentWrapper>
         
       </Screen>
