@@ -26,7 +26,7 @@ export const ComponentWrapper = observer(function ComponentWrapper(props: Compon
   (
     <TouchableOpacity
       style={CONTAINER}
-      activeOpacity={0.8}
+      activeOpacity={0.7}
       onPress={() => props.onPress ? props.onPress() : {}}
     >
       {props.children}

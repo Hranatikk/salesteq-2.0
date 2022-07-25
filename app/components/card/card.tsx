@@ -1,36 +1,70 @@
 import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography } from "../../theme"
+import { color, spacing } from "../../theme"
 import { Text } from "../text/text"
+import { ComponentWrapper } from "../component-wrapper/component-wrapper"
+import { Divider } from "../divider/divider"
+import { STIcon } from "../st-icon/st-icon"
 
-const CONTAINER: ViewStyle = {
-  justifyContent: "center",
+const ICON_WRAPPER: ViewStyle = {
+  flexDirection: "row",
+  alignItems: "center"
 }
 
-const TEXT: TextStyle = {
-  fontFamily: typography.primary,
-  fontSize: 14,
-  color: color.primary,
+const TITLE_TEXT: TextStyle = {
+  marginBottom: spacing[3]
+}
+
+const STATUS_TEXT: TextStyle = {
+  marginBottom: spacing[2],
+  color: color.palette.lightRed
+}
+
+const ICON_TEXT: TextStyle = {
+  marginLeft: spacing[1]
 }
 
 export interface CardProps {
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<ViewStyle>
+  title: string;
+  subtitle?: string;
+  onPress: () => void;
+  iconName?: string;
+  iconText?: string;
+  iconTextColor?: string;
+  statusText?: string;
+  statusTextColor?: string;
 }
 
 /**
  * Describe your component here
  */
 export const Card = observer(function Card(props: CardProps) {
-  const { style } = props
-  const styles = Object.assign({}, CONTAINER, style)
 
   return (
-    <View style={styles}>
-      <Text style={TEXT}>Hello</Text>
-    </View>
+    <ComponentWrapper isTouchable={true} onPress={() => props.onPress()}>
+      {props.statusText ? (
+        <>
+          <Text preset="description" style={[STATUS_TEXT, props.statusTextColor && {color: props.statusTextColor}]}>{props.statusText}</Text>
+          <Divider horizontal={spacing[0]} bottom={spacing[3]} />
+        </>
+      ) : null}
+
+      <View style={{marginBottom: 15}}>
+        <Text preset="title" style={[props.subtitle ? TITLE_TEXT : {}]}>{props.title}</Text>
+        {props.subtitle ? <Text preset="description">{props.subtitle}</Text> : null}
+      </View>
+      
+      {props.iconName ? (
+        <>
+          <Divider horizontal={spacing[0]} bottom={spacing[3]} />
+          <View style={ICON_WRAPPER}>
+            <STIcon icon={props.iconName} size={24} color={color.text} />
+            <Text preset="description" style={[ICON_TEXT, props.iconTextColor && {color: props.iconTextColor}]}>{props.iconText}</Text>
+          </View>
+        </>
+      ) : null}
+
+    </ComponentWrapper>
   )
 })

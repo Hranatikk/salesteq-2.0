@@ -19,7 +19,8 @@ import {
   FlatLineChart,
   TouchableRow,
   BezierChart,
-  PieChart
+  PieChart,
+  Card
 } from "../../components"
 
 // Utils
@@ -162,6 +163,17 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
 
           <PieChart data={getPieChartData(data)} showList={true} />
         </ComponentWrapper>
+
+        <Card
+          title="Title"
+          subtitle="Subtitle"
+          onPress={() => console.log('e')}
+          iconName="game_outline_28"
+          iconText="Icon description"
+          iconTextColor={color.palette.grey}
+          statusText="Status: Gold"
+          statusTextColor={color.palette.red}
+        />
         
       </Screen>
     </View>

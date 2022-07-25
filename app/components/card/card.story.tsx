@@ -8,7 +8,7 @@ storiesOf("Card", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
-      <UseCase text="Primary" usage="The primary.">
+      <UseCase text="Card item" usage="Card item.">
         <Card style={{ backgroundColor: color.error }} />
       </UseCase>
     </Story>
