@@ -6,7 +6,7 @@
  */
 import React from "react"
 import { NavigationContainer } from "@react-navigation/native"
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { STIcon } from "../components";
@@ -15,6 +15,7 @@ import {
   DemoListScreen,
   AnalyticsScreen,
   SettingsScreen,
+  CalendarScreen
 } from "../screens"
 
 /**
@@ -33,6 +34,7 @@ export type NavigatorParamList = {
   demoList: undefined
   analytics: undefined
   settings: undefined
+  calendar: undefined
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -51,6 +53,20 @@ const AnalyticsStack = () => {
     </Stack.Navigator>
   )
 }
+
+const CalendarStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="calendar"
+    >
+      <Stack.Screen name="calendar" component={CalendarScreen} />
+    </Stack.Navigator>
+  )
+}
+
 const SettingsStack = () => {
   return (
     <Stack.Navigator
@@ -84,8 +100,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="demoStack1"
-        component={AnalyticsStack}
+        name="calendarStack"
+        component={CalendarStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="calendar_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
