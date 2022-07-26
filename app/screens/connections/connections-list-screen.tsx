@@ -16,7 +16,8 @@ import {
   Button,
   Card,
   Text,
-  AutoImage
+  AutoImage,
+  ContentLoader
 } from "../../components"
 
 // Utils
@@ -71,9 +72,9 @@ const fakeUsers = [
     data: {
       turnover: 100
     },
-    first_name: 'Gleb',
-    last_name: 'Skrypinski',
-    email: 'g.skripinsky@gmail.com',
+    first_name: "Gleb",
+    last_name: "Skrypinski",
+    email: "g.skripinsky@gmail.com",
   },
 ];
 
@@ -88,7 +89,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         statusText="Status: Gold"
         statusTextColor={color.palette.green}
         iconName="dollar_outline_28"
-        iconText={item.data?.turnover ? `${item.data.turnover} BYN` : 'text'}
+        iconText={item.data?.turnover ? `${item.data.turnover} BYN` : "text"}
         iconTextColor={color.palette.grey}
       />
     )
@@ -118,7 +119,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
               <Button
                 preset="primary"
                 text={translate("connectionsScreen.addPartner")}
-                onPress={() => console.log('e')}
+                onPress={() => console.log("e")}
                 activeOpacity={0.8}
                 style={BUTTON_ADD}
               />
