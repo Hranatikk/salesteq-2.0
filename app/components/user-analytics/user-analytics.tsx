@@ -25,10 +25,7 @@ const CONTAINER_SUBTITLE: TextStyle = {
 }
 
 export interface UserAnalyticsProps {
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<ViewStyle>
+  profile?: any
 }
 
 const data = [
@@ -69,10 +66,11 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       key: `pie-${index}`,
     }));
   }
+  console.log(props.profile.toJSON())
 
   return (
     <>
-      <Text preset="header" style={HEADER_TEXT}>John Doe Doeee</Text>
+      <Text preset="header" style={HEADER_TEXT}>{props.profile.first_name}</Text>
       <Text preset="description" style={HEADER_TEXT}>head@smartup.com</Text>
 
       <ComponentWrapper isTouchable={false}>

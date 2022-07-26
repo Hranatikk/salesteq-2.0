@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { View, TextStyle, ViewStyle } from "react-native"
 
 // State
@@ -18,6 +18,8 @@ import {
 
 // Styles
 import { color, spacing } from "../../theme"
+
+import { useStores } from "../../models"
 
 const FULL: ViewStyle = {
   flex: 1,
@@ -39,11 +41,16 @@ const HEADER_TITLE: TextStyle = {
 }
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+  const { profileStore, characterStore: { characters } } = useStores()
+  const { profile } = profileStore
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  useEffect(() => {
+    async function fetchData() {
+      await profileStore.getCharacters(() => console.log(profile, profileStore, characters))
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <View testID="AnalyticsScreen" style={FULL}>
@@ -55,7 +62,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
           titleStyle={HEADER_TITLE}
         />
 
-        <UserAnalytics />        
+        <UserAnalytics profile={profile} />        
       </Screen>
     </View>
   )
