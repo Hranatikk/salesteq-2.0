@@ -9,3 +9,6 @@ export * from "./settings/settings-screen"
 
 // CALENDAR
 export * from "./calendar/calendar-screen"
+
+// CONNECTIONS
+export * from "./connections/connections-list-screen"

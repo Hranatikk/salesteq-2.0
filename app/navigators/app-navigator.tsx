@@ -15,7 +15,8 @@ import {
   DemoListScreen,
   AnalyticsScreen,
   SettingsScreen,
-  CalendarScreen
+  CalendarScreen,
+  ConnectionsScreen
 } from "../screens"
 
 /**
@@ -35,6 +36,7 @@ export type NavigatorParamList = {
   analytics: undefined
   settings: undefined
   calendar: undefined
+  connectionsList: undefined
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -63,6 +65,19 @@ const CalendarStack = () => {
       initialRouteName="calendar"
     >
       <Stack.Screen name="calendar" component={CalendarScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const ConnectionsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="connectionsList"
+    >
+      <Stack.Screen name="connectionsList" component={ConnectionsScreen} />
     </Stack.Navigator>
   )
 }
@@ -118,8 +133,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="demoStack23"
-        component={AnalyticsStack}
+        name="connections"
+        component={ConnectionsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="users_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />

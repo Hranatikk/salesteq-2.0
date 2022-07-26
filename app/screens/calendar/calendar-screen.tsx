@@ -177,7 +177,7 @@ export const CalendarScreen: FC<StackScreenProps<NavigatorParamList, "calendar">
         title={item.title}
         subtitle={item.subtitle}
         onPress={() => {}}
-        iconName="users"
+        iconName="users_outline_28"
         iconText={item.participants.join(', ')}
         iconTextColor={color.text}
       />
