@@ -29,7 +29,11 @@ const ICON_WRAPPER: ViewStyle = {
 
 const HEADER_WRAPPER: ViewStyle = {
   flexDirection: "column",
-  marginLeft: spacing[4]
+  marginLeft: spacing[4],
+}
+
+const HEADER_TEXT: ViewStyle = {
+  marginRight: spacing[9],
 }
 
 const ICON: ViewStyle = {
@@ -62,8 +66,8 @@ export const TouchableRow = observer(function TouchableRow(props: TouchableRowPr
           </View>
 
           <View style={HEADER_WRAPPER}>
-            <Text preset="title">{props.title}</Text>
-            <Text preset="description">{props.description}</Text>
+            <Text preset="title" style={HEADER_TEXT}>{props.title}</Text>
+            <Text preset="description" style={HEADER_TEXT}>{props.description}</Text>
           </View>
         </View>
 

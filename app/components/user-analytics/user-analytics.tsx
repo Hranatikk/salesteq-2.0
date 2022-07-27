@@ -112,15 +112,15 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       <ComponentWrapper isTouchable={false}>
         <TouchableRow
           icon="history_backward_outline_28"
-          title="title"
-          description="description"
+          title={translate("analyticsScreen.saleHistory")}
+          description={translate("analyticsScreen.saleHistoryDescription")}
           isLast={false}
           onPress={() => {}}
         />
         <TouchableRow
           icon="money_wad_outline_28"
-          title="title"
-          description="description"
+          title={translate("analyticsScreen.revenueFromSales")}
+          description={translate("analyticsScreen.revenueFromSalesDecription")}
           isLast={true}
           onPress={() => {}}
         />

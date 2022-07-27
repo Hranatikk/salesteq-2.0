@@ -38,4 +38,4 @@
  * 7 = huge    - ?
  * 8 = massive - an uncomfortable amount of whitespace
  */
-export const spacing = [0, 5, 10, 12, 15, 20, 30, 45, 65]
+export const spacing = [0, 5, 10, 12, 15, 20, 30, 45, 50, 65]

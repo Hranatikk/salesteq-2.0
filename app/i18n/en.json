@@ -13,7 +13,11 @@
   "analyticsScreen": {
     "title": "Analytics",
     "rank": "Rank",
-    "turnover": "Turnover"
+    "turnover": "Turnover",
+    "saleHistory": "Sales history",
+    "saleHistoryDescription": "Sales and their statuses for the past time",
+    "revenueFromSales": "Revenue from sales",
+    "revenueFromSalesDecription": "Revenues from sales for the past time",
   },
   "settingsScreen": {
     "title": "Settings",
