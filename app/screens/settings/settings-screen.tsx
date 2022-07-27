@@ -3,6 +3,7 @@ import { View, TouchableOpacity, TextStyle, ViewStyle, Dimensions } from "react-
 
 // State
 import { observer } from "mobx-react-lite"
+import { useStores } from "../../models"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
@@ -87,6 +88,8 @@ const LOGOUT_BUTTON: ViewStyle = {
 }
 
 export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">> = observer(function SettingsScreen() {
+  const { profileStore } = useStores()
+  const { profile, profileStats } = profileStore;
   // Pull in one of our MST stores
   // const { someStore, anotherStore } = useStores()
 
@@ -121,15 +124,15 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
           </View>
 
           <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.name"), "John")}
-            {renderInfoItem(translate("settingsScreen.surname"), "Doee")}
+            {renderInfoItem(translate("settingsScreen.name"), profile?.first_name)}
+            {renderInfoItem(translate("settingsScreen.surname"), profile?.last_name)}
           </View>
           <View style={PROFILE_INFO}>
             {renderInfoItem(translate("settingsScreen.company"), "SmartUp")}
-            {renderInfoItem(translate("settingsScreen.status"), "Level 2")}
+            {renderInfoItem(translate("settingsScreen.status"), profileStats?.leveling.current.title.toString())}
           </View>
           <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.email"), "head@smartup.com")}
+            {renderInfoItem(translate("settingsScreen.email"), profile?.email)}
           </View>
         </View>
 

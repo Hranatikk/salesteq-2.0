@@ -12,7 +12,6 @@
 import "./i18n"
 import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
-import { StatusBar } from "react-native"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
 import { initFonts } from "./theme/fonts" // expo
 import * as storage from "./utils/storage"

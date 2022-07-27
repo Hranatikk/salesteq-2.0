@@ -3,6 +3,7 @@ import { View, TextStyle, ViewStyle } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
+import { useStores } from "../../models"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
@@ -19,8 +20,6 @@ import {
 
 // Styles
 import { color, spacing } from "../../theme"
-
-import { useStores } from "../../models"
 
 const FULL: ViewStyle = {
   flex: 1,
