@@ -1,6 +1,6 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { ProfileModel, ProfileSnapshotOut } from "../profile/profile"
-import { CharacterApi } from "../../services/api/character-api"
+import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -13,19 +13,17 @@ export const ProfileStoreModel = types
   })
   .extend(withEnvironment)
   .actions((self) => ({
-    saveCharacters: (profileSnapshot: ProfileSnapshotOut) => {
-      console.log(profileSnapshot)
+    saveProfile: (profileSnapshot: ProfileSnapshotOut) => {
       self.profile = profileSnapshot
     },
   }))
   .actions((self) => ({
-    getCharacters: async (cb: () => void) => {
-      const characterApi = new CharacterApi()
-      const result = await characterApi.getCharacters()
+    getProfile: async (cb: () => void) => {
+      const profileApi = new ProfileApi()
+      const result = await profileApi.getProfile()
 
-      console.log(result)
       if (result.kind === "ok") {
-        self.saveCharacters(result.characters)
+        self.saveProfile(result.profile)
         cb()
       } else {
         __DEV__ && console.log(result.kind)

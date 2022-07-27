@@ -41,12 +41,12 @@ const HEADER_TITLE: TextStyle = {
 }
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
-  const { profileStore, characterStore: { characters } } = useStores()
+  const { profileStore } = useStores()
   const { profile } = profileStore
 
   useEffect(() => {
     async function fetchData() {
-      await profileStore.getCharacters(() => console.log(profile, profileStore, characters))
+      await profileStore.getProfile(() => console.log(profile, profileStore))
     }
 
     fetchData()

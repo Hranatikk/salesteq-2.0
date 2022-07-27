@@ -1,7 +1,7 @@
 import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle } from "react-native"
 import { observer } from "mobx-react-lite"
-import { color, typography, spacing } from "../../theme"
+import { spacing } from "../../theme"
 import { Text } from "../text/text"
 import { ComponentWrapper } from "../component-wrapper/component-wrapper"
 import { TextRow } from "../text-row/text-row"
@@ -10,6 +10,7 @@ import { TouchableRow } from "../touchable-row/touchable-row"
 import { BezierChart } from "../bezier-chart/bezier-chart"
 import { PieChart } from "../pie-chart/pie-chart"
 import { getColorByString } from "../../utils/get-color-by-string"
+import { Profile } from "../../models/profile/profile"
 
 const HEADER_TEXT: TextStyle = {
   marginHorizontal: spacing[4],
@@ -25,7 +26,7 @@ const CONTAINER_SUBTITLE: TextStyle = {
 }
 
 export interface UserAnalyticsProps {
-  profile?: any
+  profile?: Profile
 }
 
 const data = [
@@ -66,18 +67,27 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       key: `pie-${index}`,
     }));
   }
-  console.log(props.profile.toJSON())
-
+  
+  console.log(props.profile.toJSON().data.turnover)
+  const { profile } = props;
   return (
     <>
-      <Text preset="header" style={HEADER_TEXT}>{props.profile.first_name}</Text>
-      <Text preset="description" style={HEADER_TEXT}>head@smartup.com</Text>
+      <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile.last_name}</Text>
+      <Text preset="description" style={HEADER_TEXT}>{profile?.email}</Text>
 
-      <ComponentWrapper isTouchable={false}>
-        <TextRow leftText="leftText" rightText="rightText" isLast={false} />
-        <TextRow leftText="leftText" rightText="rightText" isLast={false} />
-        <TextRow leftText="leftText" rightText="rightText" isLast={true} />
-      </ComponentWrapper>
+      {(profile?.stats || profile?.data) ?(
+        <ComponentWrapper isTouchable={false}>
+          {profile?.stats
+            ? <TextRow leftText="leftText" rightText={profile?.stats.leveling.current.title} isLast={false} />
+            : null
+          }
+
+          {profile?.data
+            ? <TextRow leftText="leftText" rightText={`${profile?.data.turnover} BYN`} isLast={false} />
+            : null
+          }
+        </ComponentWrapper>
+      ) : null}
 
       <ComponentWrapper isTouchable={false}>
         <TextRow leftText="leftText" rightText="rightText" isLast={false} />
