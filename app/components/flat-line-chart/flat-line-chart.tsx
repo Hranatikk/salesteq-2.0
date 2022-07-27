@@ -48,9 +48,9 @@ export const FlatLineChart = observer(function FlatLineChart(props: FlatLineChar
   };
 
   return (
-    <View>
-      <TextRow leftText="left text" rightText="right text" isLast={true}/>
-      <Text preset="description" style={DESCRIPTION}>Description</Text>
+    <View style={{marginTop: spacing[3]}}>
+      <TextRow leftText={props.title} rightText={`${props.current}/${props.needed}`} isLast={true}/>
+      <Text preset="description" style={DESCRIPTION}>{props.description}</Text>
 
       <View style={[CONTAINER, props.isLast ? {} : {marginBottom: spacing[5]}]}>
         <View style={[CHART_LINE, {width: getWidth(props.current, props.needed)}]} />

@@ -1,5 +1,6 @@
 import * as React from "react"
 import { TextStyle } from "react-native"
+import dayjs from "dayjs"
 import { observer } from "mobx-react-lite"
 import { spacing } from "../../theme"
 import { Text } from "../text/text"
@@ -68,9 +69,21 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       key: `pie-${index}`,
     }));
   }
+
+  const getDateChartData = (data:any) => {
+    return {
+      labels: data.map(i => dayjs(new Date(i.datetime__date)).format('MMMM DD')),
+      datasets: [
+        {
+          data : data.map(i => Number(i.sum.toFixed(2))),
+          color: (opacity = 1) => `rgba(90, 84, 202, ${opacity})`,
+          strokeWidth: 2,
+        },
+      ],
+    };
+  }
   
   const { profile, profileStats } = props;
-  console.log(profile, profileStats.toJSON())
   return (
     <>
       <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile?.last_name}</Text>
@@ -90,29 +103,34 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
         </ComponentWrapper>
       ) : null}
 
-      <ComponentWrapper isTouchable={false}>
-        <TextRow leftText="leftText" rightText="rightText" isLast={false} />
-        <TextRow leftText="leftText" rightText="rightText" isLast={false} />
-        <TextRow leftText="leftText" rightText="rightText" isLast={true} />
-      </ComponentWrapper>
+      {profileStats?.general?.filter(i => i.type === 'simple').length > 0 ? (
+        <ComponentWrapper isTouchable={false}>
+          {profileStats?.general?.filter(i => i.type === 'simple').map((item, index) => (
+            <TextRow
+              key={`simple_line_${index}`}
+              leftText={item.title}
+              rightText={item.data.toFixed(2).toString()}
+              isLast={index+1 === profileStats?.general?.filter(i => i.type === 'simple').length}
+            />
+          ))}
+        </ComponentWrapper>
+      ): null}
 
-      <ComponentWrapper isTouchable={false}>
-        <Text preset="boldTitle" style={CONTAINER_TITLE}>Progress till next rank: Level 5</Text>
-        <FlatLineChart
-          current={70}
-          needed={100}
-          title="title"
-          description="description"
-          isLast={false}
-        />
-          <FlatLineChart
-          current={20}
-          needed={100}
-          title="title 2"
-          description="description 2"
-          isLast={true}
-        />
-      </ComponentWrapper>
+      {(profileStats?.leveling?.next) ? (
+        <ComponentWrapper isTouchable={false}>
+          <Text preset="boldTitle" style={CONTAINER_TITLE}>Progress till next rank: {profileStats?.leveling?.next.title}</Text>
+          {profileStats.leveling.next.conditions.map((i, index) => (
+            <FlatLineChart
+              key={`flat_chart_${index}`}
+              current={i.current}
+              needed={i.needed}
+              title={i.title}
+              description={i.description}
+              isLast={profileStats.leveling.next.conditions.length === index+1}
+            />
+          ))}
+        </ComponentWrapper>
+      ) : null}
 
       <ComponentWrapper isTouchable={false}>
         <TouchableRow
@@ -130,25 +148,32 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
           onPress={() => {}}
         />
       </ComponentWrapper>
+      
+      {profileStats?.general?.filter(i => i.type === 'stats_with_date' && i.data.length > 1).length > 0 ? (
+        <>
+          {profileStats?.general?.filter(i => i.type === 'stats_with_date' && i.data.length > 1).map((item, index) => (
+            <ComponentWrapper isTouchable={false} key={`bezier_chart_${index}`}>
+              <Text preset="boldTitle" style={CONTAINER_TITLE}>{item.title}</Text>
+              {item.description ? <Text preset="description" style={CONTAINER_SUBTITLE}>{item.description}</Text> : null}
+      
+              <BezierChart data={getDateChartData(item.data)} />
+            </ComponentWrapper>
+          ))}
+        </>
+      ) : null}
 
-      <ComponentWrapper isTouchable={false}>
-        <Text preset="boldTitle" style={CONTAINER_TITLE}>Graphic example</Text>
-        <Text preset="description" style={CONTAINER_SUBTITLE}>Progress till next rank: Level 5</Text>
-
-        <BezierChart
-          data={{
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [ { data: [25, 50, 33, 44, 10, 70, 88] } ]
-          }}
-        />
-      </ComponentWrapper>
-
-      <ComponentWrapper isTouchable={false}>
-        <Text preset="boldTitle" style={CONTAINER_TITLE}>PieChart example</Text>
-        <Text preset="description" style={CONTAINER_SUBTITLE}>Pie chart description</Text>
-
-        <PieChart data={getPieChartData(data)} showList={true} />
-      </ComponentWrapper>
+      {profileStats?.structure?.filter(i => i.type === 'stats_pie_chart' && i.data.length > 0).length > 0 ? (
+        <>
+          {profileStats?.structure?.filter(i => i.type === 'stats_pie_chart' && i.data.length > 0).map((item, index) => (
+            <ComponentWrapper isTouchable={false} key={`pie_chart_${index}`}>
+              <Text preset="boldTitle" style={CONTAINER_TITLE}>{item.title}</Text>
+              {item.description ? <Text preset="description" style={CONTAINER_SUBTITLE}>{item.description}</Text> : null}
+      
+              <PieChart data={getPieChartData(item.data)} showList={true} />
+            </ComponentWrapper>
+          ))}
+        </>
+      ) : null}
     </>
   )
 })
