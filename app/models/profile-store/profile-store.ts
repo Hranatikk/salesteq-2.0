@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileModel, ProfileSnapshotOut } from "../profile/profile"
+import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnlySnapshotOut } from "../profile/profile"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -10,6 +10,7 @@ export const ProfileStoreModel = types
   .model("ProfileStore")
   .props({
     profile: types.maybe(ProfileModel),
+    profileStats: types.maybe(ProfileStatsOnlyModel),
   })
   .extend(withEnvironment)
   .actions((self) => ({
@@ -18,13 +19,32 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    getProfile: async (cb: () => void) => {
+    saveProfileStats: (profileStatsSnapshot: ProfileStatsOnlySnapshotOut) => {
+      console.log(profileStatsSnapshot)
+      self.profileStats = profileStatsSnapshot
+    },
+  }))
+  .actions((self) => ({
+    getProfileStats: async () => {
+      const profileApi = new ProfileApi()
+      const result = await profileApi.getProfileStats(self.profile.id)
+
+      if (result.kind === "ok") {
+        console.log(result)
+        self.saveProfileStats(result.profileStats)
+      } else {
+        __DEV__ && console.log(result.kind)
+      }
+    },
+  }))
+  .actions((self) => ({
+    getProfile: async () => {
       const profileApi = new ProfileApi()
       const result = await profileApi.getProfile()
 
       if (result.kind === "ok") {
         self.saveProfile(result.profile)
-        cb()
+        self.getProfileStats()
       } else {
         __DEV__ && console.log(result.kind)
       }

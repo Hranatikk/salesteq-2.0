@@ -2,7 +2,7 @@
 // import { Api } from "./api"
 // import { getGeneralApiProblem } from "./api-problem"
 import API from '../api'
-import { GetProfileResult } from "./api.types"
+import { GetProfileResult, GetProfileStatsOnlyResult } from "./api.types"
 
 export class ProfileApi {
   // private api: Api
@@ -19,7 +19,7 @@ export class ProfileApi {
         },
         method: 'GET',
       })
-      console.log(response)
+
       // make the api call
       // const api = create({
       //   baseURL: 'http://46.22.223.113',
@@ -41,6 +41,22 @@ export class ProfileApi {
       // const characters = response.data.results
 
       return { kind: "ok", profile: response }
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getProfileStats(userId:number|string): Promise<GetProfileStatsOnlyResult> {
+    try {
+      const response = await API.callAPI(`http://46.22.223.113/api/user/${userId}/stats`, {
+        headers: {
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+        },
+        method: 'GET',
+      })
+
+      return { kind: "ok", profileStats: response.stats }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }

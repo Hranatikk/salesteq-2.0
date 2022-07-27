@@ -10,7 +10,7 @@ import { TouchableRow } from "../touchable-row/touchable-row"
 import { BezierChart } from "../bezier-chart/bezier-chart"
 import { PieChart } from "../pie-chart/pie-chart"
 import { getColorByString } from "../../utils/get-color-by-string"
-import { Profile } from "../../models/profile/profile"
+import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
 
 const HEADER_TEXT: TextStyle = {
   marginHorizontal: spacing[4],
@@ -26,7 +26,8 @@ const CONTAINER_SUBTITLE: TextStyle = {
 }
 
 export interface UserAnalyticsProps {
-  profile?: Profile
+  profile?: any
+  profileStats?: any
 }
 
 const data = [
@@ -68,22 +69,22 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
     }));
   }
   
-  console.log(props.profile.toJSON().data.turnover)
-  const { profile } = props;
+  const { profile, profileStats } = props;
+  console.log(profile, profileStats.toJSON())
   return (
     <>
-      <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile.last_name}</Text>
+      <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile?.last_name}</Text>
       <Text preset="description" style={HEADER_TEXT}>{profile?.email}</Text>
 
-      {(profile?.stats || profile?.data) ?(
+      {(profileStats?.stats || profile?.data) ?(
         <ComponentWrapper isTouchable={false}>
-          {profile?.stats
-            ? <TextRow leftText="leftText" rightText={profile?.stats.leveling.current.title} isLast={false} />
+          {profileStats
+            ? <TextRow leftText="leftText" rightText={profileStats?.leveling.current.title.toString()} isLast={false} />
             : null
           }
 
           {profile?.data
-            ? <TextRow leftText="leftText" rightText={`${profile?.data.turnover} BYN`} isLast={false} />
+            ? <TextRow leftText="leftText" rightText={`${profile?.data.turnover} BYN`} isLast={true} />
             : null
           }
         </ComponentWrapper>
