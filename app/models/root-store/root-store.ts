@@ -6,7 +6,9 @@ import { ProfileStoreModel } from "../profile-store/profile-store"
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
-  profileStore: types.optional(ProfileStoreModel, {} as any)
+  profileStore: types.optional(ProfileStoreModel, {
+    isProfileFetching: true,
+  } as any)
 })
 
 /**

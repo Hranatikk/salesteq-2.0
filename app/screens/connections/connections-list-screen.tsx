@@ -16,8 +16,7 @@ import {
   Button,
   Card,
   Text,
-  AutoImage,
-  ContentLoader
+  AutoImage
 } from "../../components"
 
 // Utils

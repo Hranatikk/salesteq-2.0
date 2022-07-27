@@ -11,6 +11,7 @@ export const ProfileStoreModel = types
   .props({
     profile: types.maybe(ProfileModel),
     profileStats: types.maybe(ProfileStatsOnlyModel),
+    isProfileFetching: types.boolean
   })
   .extend(withEnvironment)
   .actions((self) => ({
@@ -20,8 +21,8 @@ export const ProfileStoreModel = types
   }))
   .actions((self) => ({
     saveProfileStats: (profileStatsSnapshot: ProfileStatsOnlySnapshotOut) => {
-      console.log(profileStatsSnapshot)
       self.profileStats = profileStatsSnapshot
+      self.isProfileFetching = false
     },
   }))
   .actions((self) => ({
@@ -30,7 +31,6 @@ export const ProfileStoreModel = types
       const result = await profileApi.getProfileStats(self.profile.id)
 
       if (result.kind === "ok") {
-        console.log(result)
         self.saveProfileStats(result.profileStats)
       } else {
         __DEV__ && console.log(result.kind)

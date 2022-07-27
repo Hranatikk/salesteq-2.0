@@ -12,6 +12,7 @@ import { BezierChart } from "../bezier-chart/bezier-chart"
 import { PieChart } from "../pie-chart/pie-chart"
 import { getColorByString } from "../../utils/get-color-by-string"
 import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
+import { translate } from "../../i18n/"
 
 const HEADER_TEXT: TextStyle = {
   marginHorizontal: spacing[4],
@@ -30,29 +31,6 @@ export interface UserAnalyticsProps {
   profile?: any
   profileStats?: any
 }
-
-const data = [
-  {
-    title: 'Ivan Staver',
-    amount: 250
-  },
-  {
-    title: 'Hleb Skrypinski',
-    amount: 250
-  },
-  {
-    title: 'Nikita Zyl',
-    amount: 350
-  },
-  {
-    title: 'Andrei Shaban',
-    amount: 100
-  },
-  {
-    title: 'Zubr',
-    amount: 500
-  },
-]
 
 /**
  * User analytics component
@@ -92,12 +70,12 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       {(profileStats?.stats || profile?.data) ?(
         <ComponentWrapper isTouchable={false}>
           {profileStats
-            ? <TextRow leftText="leftText" rightText={profileStats?.leveling.current.title.toString()} isLast={false} />
+            ? <TextRow leftText={translate("analyticsScreen.rank")} rightText={profileStats?.leveling.current.title.toString()} isLast={false} />
             : null
           }
 
           {profile?.data
-            ? <TextRow leftText="leftText" rightText={`${profile?.data.turnover} BYN`} isLast={true} />
+            ? <TextRow leftText={translate("analyticsScreen.turnover")} rightText={`${profile?.data.turnover} BYN`} isLast={true} />
             : null
           }
         </ComponentWrapper>

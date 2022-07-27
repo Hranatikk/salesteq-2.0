@@ -14,6 +14,7 @@ import {
   SimpleBackground,
   Header,
   UserAnalytics,
+  ContentLoader
 } from "../../components"
 
 // Styles
@@ -42,7 +43,7 @@ const HEADER_TITLE: TextStyle = {
 
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
   const { profileStore } = useStores()
-  const { profile, profileStats } = profileStore
+  const { profile, profileStats, isProfileFetching } = profileStore
 
   useEffect(() => {
     async function fetchData() {
@@ -55,15 +56,20 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
   return (
     <View testID="AnalyticsScreen" style={FULL}>
       <SimpleBackground />
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        <Header
-          headerTx="analyticsScreen.title"
-          style={HEADER}
-          titleStyle={HEADER_TITLE}
-        />
+      {isProfileFetching
+        ? <ContentLoader />
+        : (
+          <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+            <Header
+              headerTx="analyticsScreen.title"
+              style={HEADER}
+              titleStyle={HEADER_TITLE}
+            />
 
-        <UserAnalytics profile={profile} profileStats={profileStats} />        
-      </Screen>
+            <UserAnalytics profile={profile} profileStats={profileStats} />
+          </Screen>
+        )
+      }
     </View>
   )
 })

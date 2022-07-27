@@ -11,7 +11,9 @@
     "title": "Demo List"
   },
   "analyticsScreen": {
-    "title": "Analytics"
+    "title": "Analytics",
+    "rank": "Rank",
+    "turnover": "Turnover"
   },
   "settingsScreen": {
     "title": "Settings",
