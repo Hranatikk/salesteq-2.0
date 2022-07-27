@@ -34,7 +34,7 @@ export const StatsLevelingModel = types.model("StatsLeveling")
     })),
     next: types.map(types.frozen({
       title: types.string,
-      conditions: types.array(types.frozen({
+      conditions: types.array(types.model({
         title: types.string,
         description: types.string,
         type: types.string,

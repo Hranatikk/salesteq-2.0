@@ -11,7 +11,6 @@ import { TouchableRow } from "../touchable-row/touchable-row"
 import { BezierChart } from "../bezier-chart/bezier-chart"
 import { PieChart } from "../pie-chart/pie-chart"
 import { getColorByString } from "../../utils/get-color-by-string"
-import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
 import { translate } from "../../i18n/"
 
 const HEADER_TEXT: TextStyle = {
@@ -67,7 +66,7 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile?.last_name}</Text>
       <Text preset="description" style={HEADER_TEXT}>{profile?.email}</Text>
 
-      {(profileStats?.stats || profile?.data) ?(
+      {(profileStats || profile?.data) ?(
         <ComponentWrapper isTouchable={false}>
           {profileStats
             ? <TextRow leftText={translate("analyticsScreen.rank")} rightText={profileStats?.leveling.current.title.toString()} isLast={false} />
@@ -87,7 +86,7 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
             <TextRow
               key={`simple_line_${index}`}
               leftText={item.title}
-              rightText={item.data.toFixed(2).toString()}
+              rightText={typeof item.data === "number" ? item.data.toFixed(2).toString() : ""}
               isLast={index+1 === profileStats?.general?.filter(i => i.type === 'simple').length}
             />
           ))}
@@ -127,9 +126,9 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
         />
       </ComponentWrapper>
       
-      {profileStats?.general?.filter(i => i.type === 'stats_with_date' && i.data.length > 1).length > 0 ? (
+      {profileStats?.general?.filter(i => i.type === 'stats_with_date' && typeof i.data === "object" && i.data.length > 1).length > 0 ? (
         <>
-          {profileStats?.general?.filter(i => i.type === 'stats_with_date' && i.data.length > 1).map((item, index) => (
+          {profileStats?.general?.filter(i => i.type === 'stats_with_date' && typeof i.data === "object" && i.data.length > 1).map((item, index) => (
             <ComponentWrapper isTouchable={false} key={`bezier_chart_${index}`}>
               <Text preset="boldTitle" style={CONTAINER_TITLE}>{item.title}</Text>
               {item.description ? <Text preset="description" style={CONTAINER_SUBTITLE}>{item.description}</Text> : null}
