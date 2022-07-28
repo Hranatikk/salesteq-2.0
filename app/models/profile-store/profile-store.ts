@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnlySnapshotOut } from "../profile/profile"
+import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnly } from "../profile/profile"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -9,8 +9,8 @@ import { withEnvironment } from "../extensions/with-environment"
 export const ProfileStoreModel = types
   .model("ProfileStore")
   .props({
-    profile: types.maybe(ProfileModel),
-    profileStats: types.maybe(ProfileStatsOnlyModel),
+    profile: types.maybeNull(ProfileModel),
+    profileStats: types.maybeNull(ProfileStatsOnlyModel),
     isProfileFetching: types.boolean
   })
   .extend(withEnvironment)
@@ -20,7 +20,7 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    saveProfileStats: (profileStatsSnapshot: ProfileStatsOnlySnapshotOut) => {
+    saveProfileStats: (profileStatsSnapshot: ProfileStatsOnly) => {
       self.profileStats = profileStatsSnapshot
       self.isProfileFetching = false
     },

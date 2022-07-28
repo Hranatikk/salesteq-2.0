@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { View, TouchableOpacity, TextStyle, ViewStyle, Dimensions } from "react-native"
 
 // State
@@ -39,6 +39,10 @@ const HEADER: TextStyle = {
 const HEADER_TITLE: TextStyle = {
   fontSize: 18,
   textAlign: "center",
+}
+
+const HEADER_DESCRIPTION: TextStyle = {
+  marginBottom: spacing[1]
 }
 
 const CONTAINER: ViewStyle = {
@@ -88,18 +92,22 @@ const LOGOUT_BUTTON: ViewStyle = {
 }
 
 export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">> = observer(function SettingsScreen() {
-  const { profileStore } = useStores()
+  const { profileStore, firmStore } = useStores()
   const { profile, profileStats } = profileStore;
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+  const { firm } = firmStore;
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  useEffect(() => {
+    async function fetchData() {
+      await firmStore.getFirm()
+    }
+
+    fetchData();
+  }, [])
 
   const renderInfoItem = (title:string, subtitle:string) => {
     return (
       <View style={PROFILE_INFO_CONTAINER}>
-        <Text preset="description">{title}</Text>
+        <Text preset="description" style={HEADER_DESCRIPTION}>{title}</Text>
         <Text preset="title">{subtitle}</Text>
       </View>
     );
@@ -128,7 +136,7 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
             {renderInfoItem(translate("settingsScreen.surname"), profile?.last_name)}
           </View>
           <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.company"), "SmartUp")}
+            {renderInfoItem(translate("settingsScreen.company"), firm?.title)}
             {renderInfoItem(translate("settingsScreen.status"), profileStats?.leveling.current.title.toString())}
           </View>
           <View style={PROFILE_INFO}>
