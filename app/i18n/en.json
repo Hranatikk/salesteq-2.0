@@ -18,6 +18,7 @@
     "saleHistoryDescription": "Sales and their statuses for the past time",
     "revenueFromSales": "Revenue from sales",
     "revenueFromSalesDecription": "Revenues from sales for the past time",
+    "analytics": "analytics"
   },
   "settingsScreen": {
     "title": "Settings",

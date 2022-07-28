@@ -122,7 +122,6 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
-            // headerTx="userConnectionsScreen.title"
             headerText={`${user?.first_name}'s ${translate("userConnectionsScreen.title")}`}
             style={HEADER}
             titleStyle={HEADER_TITLE}
@@ -130,7 +129,10 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
             onLeftPress={() => navigation.goBack()}
           />
 
-          <ComponentWrapper isTouchable={true} onPress={() => {}}>
+          <ComponentWrapper
+            isTouchable={true}
+            onPress={() => navigation.navigate("userAnalytics", {user: user})}
+          >
             <Text preset="title" style={COMPONENT_TITLE}>{user?.first_name} {user?.last_name}</Text>
             <Text preset="description" style={COMPONENT_SUBTITLE}>{translate("userConnectionsScreen.partnerDescription")}</Text>
             <STIcon
