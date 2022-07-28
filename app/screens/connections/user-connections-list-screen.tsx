@@ -3,7 +3,7 @@ import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "re
 
 // State
 import { observer } from "mobx-react-lite"
-import { useStores } from "../../models"
+import { Profile } from "../../models/profile/profile"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
@@ -17,10 +17,11 @@ import {
   Screen,
   SimpleBackground,
   Header,
-  Button,
+  ComponentWrapper,
   Card,
   Text,
-  AutoImage
+  AutoImage,
+  STIcon
 } from "../../components"
 
 // Utils
@@ -64,17 +65,28 @@ const EMPTY_TEXT: TextStyle = {
   marginTop: spacing[7]
 }
 
-const BUTTON_ADD: ViewStyle = {
-  marginTop: spacing[4],
-  width: Dimensions.get("window").width/1.5
+const COMPONENT_TITLE: TextStyle = {
+  fontSize: 16,
+  fontWeight: "bold",
+  marginBottom: spacing[3]
+}
+
+const COMPONENT_SUBTITLE: TextStyle = {
+  fontSize: 14,
+}
+
+const COMPONENT_ICON: ViewStyle = {
+  position: "absolute",
+  right: spacing[2],
+  top: spacing[2],
 }
 
 
 export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "userConnectionList">> = observer(
   ({ navigation, route }) =>  {
     const profileApi = new ProfileApi;
-    const [connections, setConnections] = useState([]);
-    const [user, setUser] = useState({});
+    const [connections, setConnections] = useState<Profile[]>([]);
+    const [user, setUser] = useState<Profile | null>(null);
     
     useEffect(() => {
       fetchData();
@@ -85,7 +97,8 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
       setUser(user ? user : {});
 
       if(user) {
-        profileApi.getProfileConnectionsByUserId(user.id).then(res => setConnections(res.connections))
+        const response = await profileApi.getProfileConnectionsByUserId(user.id);
+        setConnections(response.connections)
       }
     }
 
@@ -116,24 +129,28 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
             onLeftPress={() => navigation.goBack()}
           />
 
+          <ComponentWrapper isTouchable={true} onPress={() => {}}>
+            <Text preset="title" style={COMPONENT_TITLE}>{user?.first_name} {user?.last_name}</Text>
+            <Text preset="description" style={COMPONENT_SUBTITLE}>{translate("userConnectionsScreen.partnerDescription")}</Text>
+            <STIcon
+              icon="arrow_right_outline_28"
+              size={20}
+              color={color.palette.grey}
+              style={COMPONENT_ICON}
+            />
+          </ComponentWrapper>
+
           <FlatList
             keyExtractor={(item) => `event_${item.id}`}
             data={connections}
             renderItem={({item}) => renderItem(item)}
             refreshing={false}
             onRefresh={() => fetchData()}
-            contentContainerStyle={{ flexGrow: 1 }}
+            contentContainerStyle={{ flexGrow: 1, marginTop: spacing[4] }}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
                 <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("connectionsScreen.noConnectionsInOwnNetwork")}</Text>
-                <Button
-                  preset="primary"
-                  text={translate("connectionsScreen.addPartner")}
-                  onPress={() => console.log("e")}
-                  activeOpacity={0.8}
-                  style={BUTTON_ADD}
-                />
+                <Text preset="title" style={EMPTY_TEXT}>{translate("userConnectionsScreen.noConnectionsInNetwork")}</Text>
               </View>
             )}
           />        
