@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { FirmModel, Firm } from "../firm/firm"
+import { FirmModel, Firm, FirmProductModel, FirmProduct } from "../firm/firm"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -10,21 +10,45 @@ export const FirmStoreModel = types
   .model("FirmStore")
   .props({
     firm: types.maybeNull(FirmModel),
-    isFirmFetching: types.boolean
+    isFirmFetching: types.boolean,
+
+    firmProducts: types.optional(types.array(FirmProductModel), []),
+    isProductsFetching: types.boolean
   })
   .extend(withEnvironment)
   .actions((self) => ({
     saveFirm: (firmSnapshot: Firm) => {
       self.firm = firmSnapshot
+      self.isFirmFetching = false
+    },
+  }))
+  .actions((self) => ({
+    saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
+      self.firmProducts.replace(productsSnapshot)
+      self.isProductsFetching = false
     },
   }))
   .actions((self) => ({
     getFirm: async () => {
+      self.isFirmFetching = true
       const firmApi = new FirmApi()
       const result = await firmApi.getFirm()
 
       if (result.kind === "ok") {
         self.saveFirm(result.data)
+      } else {
+        __DEV__ && console.log(result.kind)
+      }
+    },
+  }))
+  .actions((self) => ({
+    getFirmProducts: async () => {
+      self.isProductsFetching = true
+      const firmApi = new FirmApi()
+      const result = await firmApi.getFirmProducts()
+
+      if (result.kind === "ok") {
+        self.saveFirmProducts(result.data)
       } else {
         __DEV__ && console.log(result.kind)
       }

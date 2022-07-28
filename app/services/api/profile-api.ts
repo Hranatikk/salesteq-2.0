@@ -15,7 +15,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI('http://46.22.223.113/api/user/me/', {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
         },
         method: 'GET',
       })
@@ -50,7 +50,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/user/${userId}/stats/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
         },
         method: 'GET',
       })
@@ -66,7 +66,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/my/users/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
         },
         method: 'GET',
       })
@@ -82,7 +82,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/supervisor/${userId}/users`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
         },
         method: 'GET',
       })

@@ -20,18 +20,12 @@
     "revenueFromSalesDecription": "Revenues from sales for the past time",
     "analytics": "analytics"
   },
-  "settingsScreen": {
-    "title": "Settings",
-    "name": "Name",
-    "surname": "Surname",
-    "company": "Company",
-    "status": "Status",
-    "email": "Email",
-    "language": "Language",
-    "logout": "Log out from account"
-  },
   "calendarScreen": {
     "title": "Calendar"
+  },
+  "productsScreen": {
+    "title": "Products",
+    "noProducts": "Your firm still don't have any products. Please, contact your administrator"
   },
   "connectionsScreen": {
     "title": "My connections",
@@ -49,6 +43,16 @@
     "revenueHistory": "Revenue history",
     "noSales": "For now you don't have any sales",
     "noRevenues": "For now you don't have any revenues"
+  },
+  "settingsScreen": {
+    "title": "Settings",
+    "name": "Name",
+    "surname": "Surname",
+    "company": "Company",
+    "status": "Status",
+    "email": "Email",
+    "language": "Language",
+    "logout": "Log out from account"
   },
   "errorScreen": {
     "title": "Something went wrong!",

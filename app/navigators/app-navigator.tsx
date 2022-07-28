@@ -18,7 +18,9 @@ import {
   ConnectionsScreen,
   UserConnectionListScreen,
   UserAnalyticsScreen,
-  UserSaleHistoryScreen, UserRevenueHistoryScreen
+  UserSaleHistoryScreen,
+  UserRevenueHistoryScreen,
+  ProductsListScreen
 } from "../screens"
 
 /**
@@ -42,6 +44,7 @@ export type NavigatorParamList = {
   userAnalytics: any
   userSaleHistory: any
   userRevenueHistory: any
+  productsList: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -71,6 +74,19 @@ const CalendarStack = () => {
       initialRouteName="calendar"
     >
       <Stack.Screen name="calendar" component={CalendarScreen} />
+    </Stack.Navigator>
+  )
+}
+
+const ProductsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="productsList"
+    >
+      <Stack.Screen name="productsList" component={ProductsListScreen} />
     </Stack.Navigator>
   )
 }
@@ -134,7 +150,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="productsStack"
-        component={AnalyticsStack}
+        component={ProductsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="add_square_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
