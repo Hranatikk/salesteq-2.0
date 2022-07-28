@@ -16,7 +16,8 @@ import {
   AnalyticsScreen,
   SettingsScreen,
   CalendarScreen,
-  ConnectionsScreen
+  ConnectionsScreen,
+  UserConnectionListScreen
 } from "../screens"
 
 /**
@@ -37,6 +38,7 @@ export type NavigatorParamList = {
   settings: undefined
   calendar: undefined
   connectionsList: undefined
+  userConnectionList: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -78,6 +80,7 @@ const ConnectionsStack = () => {
       initialRouteName="connectionsList"
     >
       <Stack.Screen name="connectionsList" component={ConnectionsScreen} />
+      <Stack.Screen name="userConnectionList" component={UserConnectionListScreen} />
     </Stack.Navigator>
   )
 }

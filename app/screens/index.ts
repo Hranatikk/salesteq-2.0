@@ -12,3 +12,4 @@ export * from "./calendar/calendar-screen"
 
 // CONNECTIONS
 export * from "./connections/connections-list-screen"
+export * from "./connections/user-connections-list-screen"

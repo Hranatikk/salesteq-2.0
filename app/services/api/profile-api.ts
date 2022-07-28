@@ -77,4 +77,20 @@ export class ProfileApi {
       return { kind: "bad-data" }
     }
   }
+
+  async getProfileConnectionsByUserId(userId:number|string): Promise<GetProfileConnectionsResult> {
+    try {
+      const response = await API.callAPI(`http://46.22.223.113/api/supervisor/${userId}/users`, {
+        headers: {
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+        },
+        method: 'GET',
+      })
+
+      return { kind: "ok", connections: response }
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
 }
