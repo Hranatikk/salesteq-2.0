@@ -11,6 +11,9 @@ export const RootStoreModel = types.model("RootStore").props({
     profile: null,
     profileStats: null,
     isProfileFetching: true,
+
+    profileConnections: [],
+    isConnectionsFetching: false,
   } as any),
   firmStore: types.optional(FirmStoreModel, {
     firm: null,

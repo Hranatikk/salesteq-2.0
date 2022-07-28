@@ -2,7 +2,7 @@
 // import { Api } from "./api"
 // import { getGeneralApiProblem } from "./api-problem"
 import API from '../api'
-import { GetProfileResult, GetProfileStatsOnlyResult } from "./api.types"
+import { GetProfileResult, GetProfileConnectionsResult, GetProfileStatsOnlyResult } from "./api.types"
 
 export class ProfileApi {
   // private api: Api
@@ -31,7 +31,6 @@ export class ProfileApi {
       // const response: ApiResponse<any> = await api.get(
       //   "/api/user/me",
       // )
-      //   console.log(response)
       // // the typical ways to die when calling an api
       // if (!response.ok) {
       //   const problem = getGeneralApiProblem(response)
@@ -49,7 +48,7 @@ export class ProfileApi {
 
   async getProfileStats(userId:number|string): Promise<GetProfileStatsOnlyResult> {
     try {
-      const response = await API.callAPI(`http://46.22.223.113/api/user/${userId}/stats`, {
+      const response = await API.callAPI(`http://46.22.223.113/api/user/${userId}/stats/`, {
         headers: {
           'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
         },
@@ -57,6 +56,22 @@ export class ProfileApi {
       })
 
       return { kind: "ok", profileStats: response.stats }
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getProfileConnections(): Promise<GetProfileConnectionsResult> {
+    try {
+      const response = await API.callAPI(`http://46.22.223.113/api/my/users/`, {
+        headers: {
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NTQwNjE5LCJqdGkiOiIzYmUxNTBmNGRkYzU0NDVjYWE5MjMxMDcxY2FlZjAxMCIsInVzZXJfaWQiOjJ9.Ja-OFfh7EMRB1egD-IHSj0rE4yy0divS0U8_P1AMS_o`
+        },
+        method: 'GET',
+      })
+
+      return { kind: "ok", connections: response }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }

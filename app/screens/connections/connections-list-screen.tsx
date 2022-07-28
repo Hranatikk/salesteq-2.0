@@ -1,8 +1,9 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
+import { useStores } from "../../models"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
@@ -65,20 +66,19 @@ const BUTTON_ADD: ViewStyle = {
   width: Dimensions.get("window").width/1.5
 }
 
-const fakeUsers = [
-  {
-    id: 0,
-    data: {
-      turnover: 100
-    },
-    first_name: "Gleb",
-    last_name: "Skrypinski",
-    email: "g.skripinsky@gmail.com",
-  },
-];
-
 
 export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connectionsList">> = observer(function ConnectionsScreen() {
+  const { profileStore } = useStores()
+  const { profileConnections, isConnectionsFetching } = profileStore
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  const fetchData = async () => {
+    await profileStore.getProfileConnections()
+  }
+
   const renderItem = (item) => {
     return (
       <Card
@@ -87,8 +87,8 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         onPress={() => {}}
         statusText="Status: Gold"
         statusTextColor={color.palette.green}
-        iconName="dollar_outline_28"
-        iconText={item.data?.turnover ? `${item.data.turnover} BYN` : "text"}
+        iconName={item.data.turnover ? "dollar_outline_28" : null}
+        iconText={item.data?.turnover ? `${item.data.turnover} BYN` : null}
         iconTextColor={color.palette.grey}
       />
     )
@@ -106,10 +106,10 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
 
         <FlatList
           keyExtractor={(item) => `event_${item.id}`}
-          data={[]}
+          data={profileConnections}
           renderItem={({item}) => renderItem(item)}
-          // refreshing={isFetching}
-          // onRefresh={() => this.loadInfo()}
+          refreshing={isConnectionsFetching}
+          onRefresh={() => fetchData()}
           contentContainerStyle={{ flexGrow: 1 }}
           ListEmptyComponent={() => (
             <View style={EMPTY_CONTAINER}>
