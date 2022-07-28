@@ -1,4 +1,3 @@
-export * from "./demo/demo-list-screen"
 export * from "./error/error-boundary"
 
 // ANALYTICS
@@ -14,3 +13,6 @@ export * from "./calendar/calendar-screen"
 export * from "./connections/connections-list-screen"
 export * from "./connections/user-connections-list-screen"
 export * from "./connections/user-analytics-screen"
+
+// PREFERENCES
+export * from "./preferences/user-sale-history-screen"

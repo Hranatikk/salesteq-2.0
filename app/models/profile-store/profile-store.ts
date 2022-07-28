@@ -40,7 +40,7 @@ export const ProfileStoreModel = types
       const result = await profileApi.getProfileStats(self.profile.id)
 
       if (result.kind === "ok") {
-        self.saveProfileStats(result.profileStats)
+        self.saveProfileStats(result.data)
       } else {
         __DEV__ && console.log(result.kind)
       }
@@ -52,7 +52,7 @@ export const ProfileStoreModel = types
       const result = await profileApi.getProfile()
 
       if (result.kind === "ok") {
-        self.saveProfile(result.profile)
+        self.saveProfile(result.data)
         self.getProfileStats()
       } else {
         __DEV__ && console.log(result.kind)
@@ -66,7 +66,7 @@ export const ProfileStoreModel = types
       const result = await profileApi.getProfileConnections()
 
       if (result.kind === "ok") {
-        self.saveProfileConnections(result.connections)
+        self.saveProfileConnections(result.data)
       } else {
         __DEV__ && console.log(result.kind)
       }

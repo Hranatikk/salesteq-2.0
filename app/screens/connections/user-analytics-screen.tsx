@@ -62,7 +62,7 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
       setUser(user ? user : {});
 
       const response = await profileApi.getProfileStats(user.id);
-      setUserStats(response.profileStats)
+      setUserStats(response.data)
       setUserStatsFetching(false)
     }
 

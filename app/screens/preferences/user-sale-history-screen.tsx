@@ -3,25 +3,22 @@ import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "re
 
 // State
 import { observer } from "mobx-react-lite"
-import { Profile } from "../../models/profile/profile"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // API
-import { ProfileApi } from "../../services/api/profile-api"
+import { FirmApi } from "../../services/api/firm-api"
 
 // Components
 import {
   Screen,
   SimpleBackground,
   Header,
-  ComponentWrapper,
   Card,
   Text,
-  AutoImage,
-  STIcon
+  AutoImage
 } from "../../components"
 
 // Utils
@@ -36,7 +33,7 @@ const FULL: ViewStyle = {
 
 const HEADER: TextStyle = {
   paddingBottom: spacing[5] - 1,
-  paddingHorizontal: spacing[1],
+  paddingHorizontal: spacing[0],
   paddingTop: spacing[3],
 }
 
@@ -65,41 +62,26 @@ const EMPTY_TEXT: TextStyle = {
   marginTop: spacing[7]
 }
 
-const COMPONENT_TITLE: TextStyle = {
-  fontSize: 16,
-  fontWeight: "bold",
-  marginBottom: spacing[3]
-}
 
-const COMPONENT_SUBTITLE: TextStyle = {
-  fontSize: 14,
-}
-
-const COMPONENT_ICON: ViewStyle = {
-  position: "absolute",
-  right: spacing[2],
-  top: spacing[2],
-}
-
-
-export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "userConnectionList">> = observer(
+export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userSaleHistory">> = observer(
   ({ navigation, route }) =>  {
-    const profileApi = new ProfileApi;
-    const [connections, setConnections] = useState<Profile[]>([]);
-    const [user, setUser] = useState<Profile | null>(null);
-    
+    const firmApi = new FirmApi;    
+    const [sales, setSales] = useState([])
+    const [salesWithStructure, setSalesWithStructure] = useState([]);
+    const [isFetching, setIsFetching] = useState<boolean>(true)
+
     useEffect(() => {
       fetchData();
     }, [])
 
     const fetchData = async () => {
       const { user } = route.params;
-      setUser(user ? user : {});
+      const sales = await firmApi.getUserSales(user.id, false)
+      const salesWithStructure = await firmApi.getUserSales(user.id, true)
 
-      if(user) {
-        const response = await profileApi.getProfileConnectionsByUserId(user.id);
-        setConnections(response.data)
-      }
+      setSales(sales.data)
+      setSalesWithStructure(salesWithStructure.data)
+      setIsFetching(false)
     }
 
     const renderItem = (item) => {
@@ -118,42 +100,28 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
     }
 
     return (
-      <View testID="UserConnectionListScreen" style={FULL}>
+      <View testID="UserSaleHistoryScreen" style={FULL}>
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
-            headerText={`${user?.first_name}'s ${translate("userConnectionsScreen.title")}`}
+            headerTx="userSaleHistory.title"
             style={HEADER}
             titleStyle={HEADER_TITLE}
             leftIcon="arrow_left_outline_28"
             onLeftPress={() => navigation.goBack()}
           />
 
-          <ComponentWrapper
-            isTouchable={true}
-            onPress={() => navigation.navigate("userAnalytics", {user: user})}
-          >
-            <Text preset="title" style={COMPONENT_TITLE}>{user?.first_name} {user?.last_name}</Text>
-            <Text preset="description" style={COMPONENT_SUBTITLE}>{translate("userConnectionsScreen.partnerDescription")}</Text>
-            <STIcon
-              icon="arrow_right_outline_28"
-              size={20}
-              color={color.palette.grey}
-              style={COMPONENT_ICON}
-            />
-          </ComponentWrapper>
-
           <FlatList
             keyExtractor={(item) => `event_${item.id}`}
-            data={connections}
+            data={[]}
             renderItem={({item}) => renderItem(item)}
             refreshing={false}
             onRefresh={() => fetchData()}
-            contentContainerStyle={{ marginTop: spacing[4] }}
+            contentContainerStyle={{ flexGrow: 1 }}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
                 <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("userConnectionsScreen.noConnectionsInNetwork")}</Text>
+                <Text preset="title" style={EMPTY_TEXT}>{translate("userSaleHistory.noSales")}</Text>
               </View>
             )}
           />        

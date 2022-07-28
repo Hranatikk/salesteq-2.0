@@ -1,6 +1,7 @@
 import * as React from "react"
 import { TextStyle } from "react-native"
 import dayjs from "dayjs"
+import { useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import { spacing } from "../../theme"
 import { Text } from "../text/text"
@@ -35,6 +36,7 @@ export interface UserAnalyticsProps {
  * User analytics component
  */
 export const UserAnalytics = observer(function UserAnalytics(props: UserAnalyticsProps) {
+  const navigation = useNavigation();
 
   const getPieChartData = (item) => {
     return item.map((i, index) => ({
@@ -115,14 +117,14 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
           title={translate("analyticsScreen.saleHistory")}
           description={translate("analyticsScreen.saleHistoryDescription")}
           isLast={false}
-          onPress={() => {}}
+          onPress={() => navigation.navigate("userSaleHistory", {user: profile})}
         />
         <TouchableRow
           icon="money_wad_outline_28"
           title={translate("analyticsScreen.revenueFromSales")}
           description={translate("analyticsScreen.revenueFromSalesDecription")}
           isLast={true}
-          onPress={() => {}}
+          onPress={() => navigation.navigate("userRevenueHistory", {user: profile})}
         />
       </ComponentWrapper>
       

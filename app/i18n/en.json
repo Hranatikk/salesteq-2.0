@@ -7,9 +7,6 @@
   "errors": {
     "invalidEmail": "Invalid email address."
   },
-  "demoListScreen": {
-    "title": "Demo List"
-  },
   "analyticsScreen": {
     "title": "Analytics",
     "rank": "Rank",
@@ -43,6 +40,10 @@
     "noConnectionsInNetwork": "Ooops... Looks like this user don't have any connections in his/her network",
     "addPartner": "Add partner",
     "partnerDescription": "Here you will see completed sales that this manager have made recently, salary and other info."
+  },
+  "userSaleHistory": {
+    "title": "Sale history",
+    "noSales": "For now you don't have any sales"
   },
   "errorScreen": {
     "title": "Something went wrong!",

@@ -39,10 +39,10 @@ export class ProfileApi {
 
       // const characters = response.data.results
 
-      return { kind: "ok", profile: response }
+      return { kind: "ok", data: response }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      return { kind: "bad-data", data: null }
     }
   }
 
@@ -55,10 +55,10 @@ export class ProfileApi {
         method: 'GET',
       })
 
-      return { kind: "ok", profileStats: response.stats }
+      return { kind: "ok", data: response.stats }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      return { kind: "bad-data", data: null }
     }
   }
 
@@ -71,10 +71,10 @@ export class ProfileApi {
         method: 'GET',
       })
 
-      return { kind: "ok", connections: response }
+      return { kind: "ok", data: response }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      return { kind: "bad-data", data: null }
     }
   }
 
@@ -87,10 +87,10 @@ export class ProfileApi {
         method: 'GET',
       })
 
-      return { kind: "ok", connections: response }
+      return { kind: "ok", data: response }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      return { kind: "bad-data", data: null }
     }
   }
 }

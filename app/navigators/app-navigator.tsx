@@ -12,13 +12,13 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { STIcon } from "../components";
 import { color } from "../theme"
 import {
-  DemoListScreen,
   AnalyticsScreen,
   SettingsScreen,
   CalendarScreen,
   ConnectionsScreen,
   UserConnectionListScreen,
-  UserAnalyticsScreen
+  UserAnalyticsScreen,
+  UserSaleHistoryScreen
 } from "../screens"
 
 /**
@@ -34,13 +34,13 @@ import {
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type NavigatorParamList = {
-  demoList: any
   analytics: any
   settings: any
   calendar: any
   connectionsList: any
   userConnectionList: any
   userAnalytics: any
+  userSaleHistory: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -55,7 +55,7 @@ const AnalyticsStack = () => {
       initialRouteName="analytics"
     >
       <Stack.Screen name="analytics" component={AnalyticsScreen} />
-      <Stack.Screen name="demoList" component={DemoListScreen} />
+      <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
     </Stack.Navigator>
   )
 }
@@ -84,6 +84,7 @@ const ConnectionsStack = () => {
       <Stack.Screen name="connectionsList" component={ConnectionsScreen} />
       <Stack.Screen name="userConnectionList" component={UserConnectionListScreen} />
       <Stack.Screen name="userAnalytics" component={UserAnalyticsScreen} />
+      <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
     </Stack.Navigator>
   )
 }
@@ -130,7 +131,7 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="demoStack2"
+        name="productsStack"
         component={AnalyticsStack}
         options={{
           tabBarIcon: ({focused}) => (

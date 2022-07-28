@@ -24,7 +24,7 @@ export const FirmStoreModel = types
       const result = await firmApi.getFirm()
 
       if (result.kind === "ok") {
-        self.saveFirm(result.firm)
+        self.saveFirm(result.data)
       } else {
         __DEV__ && console.log(result.kind)
       }
