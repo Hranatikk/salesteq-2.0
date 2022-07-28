@@ -85,7 +85,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         <Card
           title={`${item.first_name} ${item.last_name}`}
           subtitle={item.email}
-          onPress={() => navigation.navigate("userConnectionList", {user: item})}
+          onPress={() => navigation.push("userConnectionList", {user: item})}
           statusText="Status: Gold"
           statusTextColor={color.palette.green}
           iconName={item.data.turnover ? "money_wad_outline_28" : null}

@@ -107,7 +107,7 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
         <Card
           title={`${item.first_name} ${item.last_name}`}
           subtitle={item.email}
-          onPress={() => {}}
+          onPress={() => navigation.push("userConnectionList", {user: item})}
           statusText="Status: Gold"
           statusTextColor={color.palette.green}
           iconName={item.data.turnover ? "money_wad_outline_28" : null}
@@ -122,7 +122,8 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
-            headerTx="userConnectionsScreen.title"
+            // headerTx="userConnectionsScreen.title"
+            headerText={`${user?.first_name}'s ${translate("userConnectionsScreen.title")}`}
             style={HEADER}
             titleStyle={HEADER_TITLE}
             leftIcon="arrow_left_outline_28"
@@ -146,7 +147,7 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
             renderItem={({item}) => renderItem(item)}
             refreshing={false}
             onRefresh={() => fetchData()}
-            contentContainerStyle={{ flexGrow: 1, marginTop: spacing[4] }}
+            contentContainerStyle={{ marginTop: spacing[4] }}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
                 <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />

@@ -38,7 +38,7 @@
     "addPartner": "Add partner"
   },
   "userConnectionsScreen": {
-    "title": "User connections",
+    "title": "connections",
     "noConnectionsInNetwork": "Ooops... Looks like this user don't have any connections in his/her network",
     "addPartner": "Add partner",
     "partnerDescription": "Here you will see completed sales that this manager have made recently, salary and other info."
