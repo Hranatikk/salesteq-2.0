@@ -4,7 +4,7 @@ import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
- * Stroing user data
+ * Storing user data
  */
 export const ProfileStoreModel = types
   .model("ProfileStore")

@@ -87,7 +87,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         onPress={() => {}}
         statusText="Status: Gold"
         statusTextColor={color.palette.green}
-        iconName={item.data.turnover ? "dollar_outline_28" : null}
+        iconName={item.data.turnover ? "money_wad_outline_28" : null}
         iconText={item.data?.turnover ? `${item.data.turnover} BYN` : null}
         iconTextColor={color.palette.grey}
       />

@@ -25,6 +25,10 @@ const ICON_TEXT: TextStyle = {
   marginLeft: spacing[1]
 }
 
+const MAIN_CONTENT: ViewStyle = {
+  marginBottom: spacing[4]
+}
+
 export interface CardProps {
   title: string;
   subtitle?: string;
@@ -50,7 +54,7 @@ export const Card = observer(function Card(props: CardProps) {
         </>
       ) : null}
 
-      <View style={{marginBottom: 15}}>
+      <View style={props.iconName ? MAIN_CONTENT : {}}>
         <Text preset="title" style={[props.subtitle ? TITLE_TEXT : {}]}>{props.title}</Text>
         {props.subtitle ? <Text preset="description">{props.subtitle}</Text> : null}
       </View>
