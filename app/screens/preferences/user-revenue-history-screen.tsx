@@ -74,12 +74,12 @@ const EMPTY_TEXT: TextStyle = {
 }
 
 
-export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userSaleHistory">> = observer(
+export const UserRevenueHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userRevenueHistory">> = observer(
   ({ navigation, route }) =>  {
     const firmApi = new FirmApi;   
-    const [currentTab, setCurrentTab] = useState<"sale" | "sale_with_structure">("sale")
-    const [sales, setSales] = useState([])
-    const [salesWithStructure, setSalesWithStructure] = useState([]);
+    const [currentTab, setCurrentTab] = useState<"revenue" | "revenue_with_structure">("revenue")
+    const [revenues, setRevenues] = useState([])
+    const [revenuesWithStructure, setRevenuesWithStructure] = useState([]);
     const [isFetching, setIsFetching] = useState<boolean>(true)
 
     useEffect(() => {
@@ -88,35 +88,35 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
 
     const fetchData = async () => {
       const { user } = route.params;
-      const sales = await firmApi.getUserSales(user.id, false)
-      const salesWithStructure = await firmApi.getUserSales(user.id, true)
+      const revenues = await firmApi.getUserRevenues(user.id, false)
+      const revenuesWithStructure = await firmApi.getUserRevenues(user.id, true)
 
-      setSales(sales.data)
-      setSalesWithStructure(salesWithStructure.data)
+      setRevenues(revenues.data)
+      setRevenuesWithStructure(revenuesWithStructure.data)
       setIsFetching(false)
     }
 
     const renderItem = (item) => {
       return (
         <Card
-          title={`${item.product.title} ${currentTab === "sale" ? "" : `from ${item.user.first_name} ${item.user.last_name}`}`}
-          subtitle={`Sale #${item.id} at ${dayjs(item.datetime).format("DD MMMM YYYY hh:mm")}`}
+          title={`Revenue #${item.id} ${currentTab === "revenue" ? "" : `to ${item.user.first_name} ${item.user.last_name}`}`}
+          subtitle={`Revenue at ${dayjs(item.datetime).format("DD MMMM YYYY hh:mm")}`}
           onPress={() => {}}
-          statusText={`Sale #${item.id}`}
-          statusTextColor={color.palette.green}
+          statusText={`${item.status === "pending" ? "Status: Pending" : "Status: Processed"}`}
+          statusTextColor={item.status === "pending" ? color.palette.blue : color.palette.green}
           iconName="money_wad_outline_28"
-          iconText={`${item.price} BYN`}
+          iconText={`${item.amount.toFixed(2)} BYN`}
           iconTextColor={color.palette.grey}
         />
       )
     }
 
     return (
-      <View testID="UserSaleHistoryScreen" style={FULL}>
+      <View testID="UserRevenueHistoryScreen" style={FULL}>
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
-            headerTx="userSaleHistory.title"
+            headerTx="userSaleHistory.revenueHistory"
             style={HEADER}
             titleStyle={HEADER_TITLE}
             leftIcon="arrow_left_outline_28"
@@ -124,8 +124,8 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
           />
 
           <FlatList
-            keyExtractor={(item) => `sale_h_${item.id}`}
-            data={currentTab === "sale" ? sales : salesWithStructure}
+            keyExtractor={(item) => `revenue_h_${item.id}`}
+            data={currentTab === "revenue" ? revenues : revenuesWithStructure}
             renderItem={({item}) => renderItem(item)}
             refreshing={isFetching}
             onRefresh={() => fetchData()}
@@ -133,21 +133,21 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
             ListHeaderComponent={() => (
               <ScrollView horizontal={true} style={TAB_WRAPPER} showsHorizontalScrollIndicator={false}>
                 <Tab
-                  isActive={currentTab === "sale"}
-                  text={translate("analyticsScreen.saleHistory")}
-                  onPress={() => setCurrentTab("sale")}
+                  isActive={currentTab === "revenue"}
+                  text={translate("analyticsScreen.revenueHistory")}
+                  onPress={() => setCurrentTab("revenue")}
                 />
                 <Tab
-                  isActive={currentTab === "sale_with_structure"}
-                  text={translate("analyticsScreen.saleHistoryWithStructure")}
-                  onPress={() => setCurrentTab("sale_with_structure")}
+                  isActive={currentTab === "revenue_with_structure"}
+                  text={translate("analyticsScreen.revenueHistoryWithStructure")}
+                  onPress={() => setCurrentTab("revenue_with_structure")}
                 />
               </ScrollView>
             )}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
                 <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("userSaleHistory.noSales")}</Text>
+                <Text preset="title" style={EMPTY_TEXT}>{translate("userSaleHistory.noRevenues")}</Text>
               </View>
             )}
           />        

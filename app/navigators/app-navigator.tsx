@@ -18,7 +18,7 @@ import {
   ConnectionsScreen,
   UserConnectionListScreen,
   UserAnalyticsScreen,
-  UserSaleHistoryScreen
+  UserSaleHistoryScreen, UserRevenueHistoryScreen
 } from "../screens"
 
 /**
@@ -41,6 +41,7 @@ export type NavigatorParamList = {
   userConnectionList: any
   userAnalytics: any
   userSaleHistory: any
+  userRevenueHistory: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -56,6 +57,7 @@ const AnalyticsStack = () => {
     >
       <Stack.Screen name="analytics" component={AnalyticsScreen} />
       <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
+      <Stack.Screen name="userRevenueHistory" component={UserRevenueHistoryScreen} />
     </Stack.Navigator>
   )
 }

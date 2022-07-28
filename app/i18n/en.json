@@ -11,7 +11,10 @@
     "title": "Analytics",
     "rank": "Rank",
     "turnover": "Turnover",
+    "revenueHistory": "Revenues history",
+    "revenueHistoryWithStructure": "Revenues history with structure",
     "saleHistory": "Sales history",
+    "saleHistoryWithStructure": "Sales history with structure",
     "saleHistoryDescription": "Sales and their statuses for the past time",
     "revenueFromSales": "Revenue from sales",
     "revenueFromSalesDecription": "Revenues from sales for the past time",
@@ -43,7 +46,9 @@
   },
   "userSaleHistory": {
     "title": "Sale history",
-    "noSales": "For now you don't have any sales"
+    "revenueHistory": "Revenue history",
+    "noSales": "For now you don't have any sales",
+    "noRevenues": "For now you don't have any revenues"
   },
   "errorScreen": {
     "title": "Something went wrong!",
