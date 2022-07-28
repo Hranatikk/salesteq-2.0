@@ -16,7 +16,9 @@ import {
   AnalyticsScreen,
   SettingsScreen,
   CalendarScreen,
-  ConnectionsScreen
+  ConnectionsScreen,
+  UserConnectionListScreen,
+  UserAnalyticsScreen
 } from "../screens"
 
 /**
@@ -32,11 +34,13 @@ import {
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type NavigatorParamList = {
-  demoList: undefined
-  analytics: undefined
-  settings: undefined
-  calendar: undefined
-  connectionsList: undefined
+  demoList: any
+  analytics: any
+  settings: any
+  calendar: any
+  connectionsList: any
+  userConnectionList: any
+  userAnalytics: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -78,6 +82,8 @@ const ConnectionsStack = () => {
       initialRouteName="connectionsList"
     >
       <Stack.Screen name="connectionsList" component={ConnectionsScreen} />
+      <Stack.Screen name="userConnectionList" component={UserConnectionListScreen} />
+      <Stack.Screen name="userAnalytics" component={UserAnalyticsScreen} />
     </Stack.Navigator>
   )
 }

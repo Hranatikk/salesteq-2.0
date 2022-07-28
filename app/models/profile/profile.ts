@@ -60,7 +60,7 @@ export const ProfileModel = types
     first_name: types.maybeNull(types.string),
     last_name: types.maybeNull(types.string),
     patronymic: types.maybeNull(types.string),
-    supervisor: types.maybeNull(types.string),
+    supervisor: types.maybeNull(types.union(types.string, types.number)),
     data: types.maybeNull(types.frozen(ProfileDataModel)),
   })
 

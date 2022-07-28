@@ -1,17 +1,20 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnlySnapshotOut } from "../profile/profile"
+import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, Profile, ProfileStatsOnly } from "../profile/profile"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
- * Stroing user data
+ * Storing user data
  */
 export const ProfileStoreModel = types
   .model("ProfileStore")
   .props({
-    profile: types.maybe(ProfileModel),
-    profileStats: types.maybe(ProfileStatsOnlyModel),
-    isProfileFetching: types.boolean
+    profile: types.maybeNull(ProfileModel),
+    profileStats: types.maybeNull(ProfileStatsOnlyModel),
+    isProfileFetching: types.boolean,
+
+    profileConnections: types.optional(types.array(ProfileModel), []),
+    isConnectionsFetching: types.boolean
   })
   .extend(withEnvironment)
   .actions((self) => ({
@@ -20,9 +23,15 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    saveProfileStats: (profileStatsSnapshot: ProfileStatsOnlySnapshotOut) => {
+    saveProfileStats: (profileStatsSnapshot: ProfileStatsOnly) => {
       self.profileStats = profileStatsSnapshot
       self.isProfileFetching = false
+    },
+  }))
+  .actions((self) => ({
+    saveProfileConnections: (connections: ProfileSnapshotOut[]) => {
+      self.isConnectionsFetching = false
+      self.profileConnections.replace(connections)
     },
   }))
   .actions((self) => ({
@@ -45,6 +54,19 @@ export const ProfileStoreModel = types
       if (result.kind === "ok") {
         self.saveProfile(result.profile)
         self.getProfileStats()
+      } else {
+        __DEV__ && console.log(result.kind)
+      }
+    },
+  }))
+  .actions((self) => ({
+    getProfileConnections: async () => {
+      self.isConnectionsFetching = true
+      const profileApi = new ProfileApi()
+      const result = await profileApi.getProfileConnections()
+
+      if (result.kind === "ok") {
+        self.saveProfileConnections(result.connections)
       } else {
         __DEV__ && console.log(result.kind)
       }
