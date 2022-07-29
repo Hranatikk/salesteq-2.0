@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState, useRef } from "react"
 import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "react-native"
 
 // State
@@ -14,9 +14,11 @@ import {
   Screen,
   SimpleBackground,
   Header,
-  Card,
   Text,
-  AutoImage
+  AutoImage,
+  RadioButton,
+  HorizontalSlider,
+  Button
 } from "../../components"
 
 // Utils
@@ -55,13 +57,27 @@ const EMPTY_CONTAINER: ViewStyle = {
   alignItems: "center",
 }
 
+const BUTTON_SAVE: ViewStyle = {
+  position: "absolute",
+  bottom: 30,
+  left: spacing[4],
+  right: spacing[4]
+}
+
 const EMPTY_TEXT: TextStyle = {
   textAlign: "center",
   marginTop: spacing[7]
 }
 
+const LIST_CONTAINER: TextStyle = {
+  width: Dimensions.get("window").width,
+  paddingHorizontal: spacing[4]
+}
+
 export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "productsList">> = observer(
   ({ navigation }) =>  {
+    const [activeRadio, setActiveRadio] = useState<number|null>(null)
+    const sliderRef = useRef(null)
     const { firmStore } = useStores()
     const { firmProducts, isProductsFetching } = firmStore
 
@@ -75,10 +91,11 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
 
     const renderItem = (item) => {
       return (
-        <Card
-          title={`${item.title}`}
+        <RadioButton
+          title={item.title}
           subtitle={item.description}
-          onPress={() => {}}
+          isActive={activeRadio === item.id}
+          onPress={() => setActiveRadio(item.id)}
         />
       )
     }
@@ -93,20 +110,32 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
             titleStyle={HEADER_TITLE}
           />
 
-          <FlatList
-            keyExtractor={(item) => `radio_prod_${item.id}`}
-            data={firmProducts}
-            renderItem={({item}) => renderItem(item)}
-            refreshing={isProductsFetching}
-            onRefresh={() => fetchData()}
-            contentContainerStyle={{ flexGrow: 1 }}
-            ListEmptyComponent={() => (
-              <View style={EMPTY_CONTAINER}>
-                <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("productsScreen.noProducts")}</Text>
-              </View>
-            )}
-          />        
+          <HorizontalSlider innerRef={sliderRef}>
+            <FlatList
+              keyExtractor={(item) => `radio_prod_${item.id}`}
+              data={firmProducts}
+              renderItem={({item}) => renderItem(item)}
+              refreshing={isProductsFetching}
+              contentContainerStyle={LIST_CONTAINER}
+              ListEmptyComponent={() => (
+                <View style={EMPTY_CONTAINER}>
+                  <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
+                  <Text preset="title" style={EMPTY_TEXT}>{translate("productsScreen.noProducts")}</Text>
+                </View>
+              )}
+            />
+
+            <View style={{ width: Dimensions.get("window").width }}>
+              <Text>'asdasd</Text>
+            </View>
+          </HorizontalSlider>
+
+          <Button
+            text={translate("common.save")}
+            preset="primary"
+            style={BUTTON_SAVE}
+            activeOpacity={0.8}
+          />
         </Screen>
       </View>
     )
