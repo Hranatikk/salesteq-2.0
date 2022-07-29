@@ -57,11 +57,24 @@ const EMPTY_CONTAINER: ViewStyle = {
   alignItems: "center",
 }
 
+const INPUT_CONTAINER: ViewStyle = {
+  width: Dimensions.get("window").width,
+  paddingHorizontal: spacing[4]
+}
+
 const BUTTON_SAVE: ViewStyle = {
   position: "absolute",
   bottom: 30,
   left: spacing[4],
   right: spacing[4]
+}
+
+const BUTTON_SAVE_INACTIVE: ViewStyle = {
+  position: "absolute",
+  bottom: 30,
+  left: spacing[4],
+  right: spacing[4],
+  opacity: 0.7
 }
 
 const EMPTY_TEXT: TextStyle = {
@@ -77,6 +90,7 @@ const LIST_CONTAINER: TextStyle = {
 export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "productsList">> = observer(
   ({ navigation }) =>  {
     const [activeRadio, setActiveRadio] = useState<number|null>(null)
+    const [currentStep, setStep] = useState<number>(1)
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
     const { firmProducts, isProductsFetching } = firmStore
@@ -100,6 +114,14 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
       )
     }
 
+    const onSavePress = () => {
+      if(currentStep === 1) {
+        setStep(2);
+        sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
+      }
+    }
+
+    const BUTTON_STYLE = activeRadio === null ? BUTTON_SAVE_INACTIVE : BUTTON_SAVE
     return (
       <View testID="ProductsListScreen" style={FULL}>
         <SimpleBackground />
@@ -125,16 +147,18 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
               )}
             />
 
-            <View style={{ width: Dimensions.get("window").width }}>
+            <View style={INPUT_CONTAINER}>
               <Text>'asdasd</Text>
             </View>
           </HorizontalSlider>
 
           <Button
-            text={translate("common.save")}
+            text={translate((activeRadio === 4 || activeRadio === 5) ? "common.save" : "common.nextStep")}
             preset="primary"
-            style={BUTTON_SAVE}
+            style={BUTTON_STYLE}
             activeOpacity={0.8}
+            onPress={() => activeRadio === null ? onSavePress() : {}}
+            isDisabled={activeRadio == null}
           />
         </Screen>
       </View>

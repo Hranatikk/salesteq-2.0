@@ -3,7 +3,8 @@
     "ok": "OK!",
     "cancel": "Cancel",
     "back": "Back",
-    "save": "Save"
+    "save": "Save",
+    "nextStep": "Next step"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
