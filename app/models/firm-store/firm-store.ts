@@ -17,6 +17,16 @@ export const FirmStoreModel = types
     isProductsFetching: types.boolean
   })
   .extend(withEnvironment)
+  .actions(() => ({
+    showErrorMessage: (message: string) => {
+      showMessage({
+        message: message,
+        type: "danger",
+        icon: "danger",
+        position: "bottom",
+      })
+    },
+  }))
   .actions((self) => ({
     saveFirm: (firmSnapshot: Firm) => {
       self.firm = firmSnapshot
@@ -24,9 +34,21 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
+    errorGetFirm: () => {
+      self.isFirmFetching = false
+      self.showErrorMessage("Can't load firm details")
+    },
+  }))
+  .actions((self) => ({
     saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
       self.firmProducts.replace(productsSnapshot)
       self.isProductsFetching = false
+    },
+  }))
+  .actions((self) => ({
+    errorGetFirmProducts: () => {
+      self.isProductsFetching = false
+      self.showErrorMessage("Can't load firm's products")
     },
   }))
   .actions((self) => ({
@@ -38,8 +60,8 @@ export const FirmStoreModel = types
       if (result.kind === "ok") {
         self.saveFirm(result.data)
       } else {
+        self.errorGetFirm()
         __DEV__ && console.log(result.kind)
-
       }
     },
   }))
@@ -52,12 +74,7 @@ export const FirmStoreModel = types
       if (result.kind === "ok") {
         self.saveFirmProducts(result.data)
       } else {
-        showMessage({
-          message: "Something went wrong",
-          type: "danger",
-          icon: "danger",
-          position: "bottom",
-        })
+        self.errorGetFirmProducts()
         __DEV__ && console.log(result.kind)
       }
     },
