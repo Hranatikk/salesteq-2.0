@@ -18,11 +18,11 @@ export const FirmStoreModel = types
   })
   .extend(withEnvironment)
   .actions(() => ({
-    showErrorMessage: (message: string) => {
+    showMessage: (message: string, type: "danger" | "success") => {
       showMessage({
         message: message,
-        type: "danger",
-        icon: "danger",
+        type: type,
+        icon: type,
         position: "bottom",
       })
     },
@@ -36,7 +36,7 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirm: () => {
       self.isFirmFetching = false
-      self.showErrorMessage("Can't load firm details")
+      self.showMessage("Can't load firm details", "danger")
     },
   }))
   .actions((self) => ({
@@ -48,7 +48,19 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirmProducts: () => {
       self.isProductsFetching = false
-      self.showErrorMessage("Can't load firm's products")
+      self.showMessage("Can't load firm's products", "danger")
+    },
+  }))
+  .actions((self) => ({
+    successSellProduct: () => {
+      self.isProductsFetching = false
+      self.showMessage("Product successfully added", "success")
+    },
+  }))
+  .actions((self) => ({
+    errorSellProduct: () => {
+      self.isProductsFetching = false
+      self.showMessage("Can't add product", "danger")
     },
   }))
   .actions((self) => ({
@@ -80,14 +92,16 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
-    sellProduct: async () => {
+    sellProduct: async (productId: number, price: number) => {
+      const {profileStore: { profile }} = getParent(self)
       self.isProductsFetching = true
       const firmApi = new FirmApi()
-      const result = await firmApi.sellProduct()
+      const result = await firmApi.sellProduct(productId, profile.id, price)
 
       if (result.kind === "ok") {
-        // self.saveFirm(result.data)
+        self.successSellProduct()
       } else {
+        self.errorSellProduct()
         __DEV__ && console.log(result.kind)
 
       }

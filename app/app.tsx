@@ -18,8 +18,8 @@ const MESSAGE_CONTAINER:ViewStyle = {
   width: Dimensions.get("window").width-spacing[6],
   height: spacing[8],
   borderRadius: spacing[2],
-  marginHorizontal: spacing[3],
-  marginBottom: 100,
+  marginHorizontal: spacing[4],
+  marginBottom: 108,
   paddingVertical: spacing[1],
   paddingHorizontal: spacing[2],
   justifyContent: "center"

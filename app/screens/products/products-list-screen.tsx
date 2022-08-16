@@ -132,7 +132,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
 
     const onSavePress = () => {
       if(currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
-        // actions.addProduct({ locale, product: selectedProduct, onSuccess: () => this.setState({ activeRadio: null }) });
+        firmStore.sellProduct(activeRadio, firmProducts.filter(i => i.id === activeRadio)[0].price)
       }
 
       if(currentStep === 1 && activeRadio !== 4 && activeRadio !== 5) {
@@ -140,7 +140,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
         sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
       }
       if(currentStep === 2) {
-        firmStore.sellProduct()
+        firmStore.sellProduct(activeRadio, firmProducts.filter(i => i.id === activeRadio)[0].price)
       }
     }
 

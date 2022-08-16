@@ -32,11 +32,11 @@ export class FirmApi {
     return {kind: "ok", data: response.data}
   }
 
-  async sellProduct(): Promise<GetFirmSingleProductsResult> {
+  async sellProduct(productId: number, userId: number, price: number): Promise<GetFirmSingleProductsResult> {
     const response: ApiResponse<any> = await this.api.post(`/api/sale/create/`, {
-      product: 4,
-      user: 2,
-      price: 2499,
+      product: productId,
+      user: userId,
+      price: price,
     })
 
     if (!response.ok) {
