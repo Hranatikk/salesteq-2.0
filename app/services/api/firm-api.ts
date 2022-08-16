@@ -1,20 +1,49 @@
-import API from '../api'
-import { GetFirmResult } from "./api.types"
+import { ApiResponse, create } from "apisauce"
+import { getGeneralApiProblem } from "./api-problem"
+import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } from "./api.types"
 
 export class FirmApi {
-  async getFirm(): Promise<GetFirmResult> {
-    try {
-      const response = await API.callAPI(`http://46.22.223.113/api/firm/my/`, {
-        headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjE4MDU4LCJqdGkiOiI1NzY1NGY3YzhkN2E0YjRkYTVjMjFkYzljZmI0YWJkZCIsInVzZXJfaWQiOjJ9.n8awtkDzIbxLVozRFELJ_NLemEromHzgBsG7IdbQuJo`
-        },
-        method: 'GET',
-      })
+  api = create({
+    baseURL: 'http://46.22.223.113',
+    headers: {
+      'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
+    },
+  })
 
-      return { kind: "ok", firm: response }
-    } catch (e) {
-      __DEV__ && console.log(e.message)
-      return { kind: "bad-data" }
+  async getFirm(): Promise<GetFirmResult> {
+    const response: ApiResponse<any> = await this.api.get("/api/firm/my/")
+    console.log(response)
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
     }
+
+    return {kind: "ok", data: response.data}
+  }
+
+  async getFirmProducts(): Promise<GetFirmProductsResult> {
+    const response: ApiResponse<any> = await this.api.get("/api/products")
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return {kind: "ok", data: response.data}
+  }
+
+  async sellProduct(productId: number, userId: number, price: number): Promise<GetFirmSingleProductsResult> {
+    const response: ApiResponse<any> = await this.api.post(`/api/sale/create/`, {
+      product: productId,
+      user: userId,
+      price: price,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return {kind: "ok", data: response.data}
   }
 }

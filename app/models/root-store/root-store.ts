@@ -17,7 +17,10 @@ export const RootStoreModel = types.model("RootStore").props({
   } as any),
   firmStore: types.optional(FirmStoreModel, {
     firm: null,
-    isFirmFetching: false
+    isFirmFetching: false,
+
+    firmProducts: [],
+    isProductsFetching: false,
   } as any)
 })
 

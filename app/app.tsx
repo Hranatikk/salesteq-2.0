@@ -1,34 +1,53 @@
-/**
- * Welcome to the main entry point of the app. In this file, we'll
- * be kicking off our app.
- *
- * Most of this file is boilerplate and you shouldn't need to modify
- * it very often. But take some time to look through and understand
- * what is going on here.
- *
- * The app navigation resides in ./app/navigators, so head over there
- * if you're interested in adding screens and navigators.
- */
 import "./i18n"
 import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
+import { View, ViewStyle, TextStyle, Dimensions, Text } from "react-native"
+import FlashMessage from "react-native-flash-message"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
-import { initFonts } from "./theme/fonts" // expo
 import * as storage from "./utils/storage"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
-
-// This puts screens in a native ViewController or Activity. If you want fully native
-// stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
-// https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
+import { STIcon } from "./components"
+import { spacing, color,  } from "./theme"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
-/**
- * This is the root component of our app.
- */
+const MESSAGE_CONTAINER:ViewStyle = {
+  width: Dimensions.get("window").width-spacing[6],
+  height: spacing[8],
+  borderRadius: spacing[2],
+  marginHorizontal: spacing[4],
+  marginBottom: 108,
+  paddingVertical: spacing[1],
+  paddingHorizontal: spacing[2],
+  justifyContent: "center"
+}
+
+const MESSAGE_CONTENT:ViewStyle = {
+  flexDirection: "row"
+}
+
+const MESSAGE_TEXT:TextStyle = {
+  color: color.palette.white,
+  fontSize: 16,
+}
+
+const MESSAGE_DANGER:ViewStyle = {
+  backgroundColor: color.error
+}
+
+const MESSAGE_SUCCESS:ViewStyle = {
+  backgroundColor: color.palette.green
+}
+
+const ICON_CONTAINER: ViewStyle = {
+  marginRight: spacing[1],
+  width: spacing[5],
+  height: spacing[5],
+}
+
 function App() {
   const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
   const {
@@ -40,20 +59,27 @@ function App() {
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
     ;(async () => {
-      await initFonts() // expo
       setupRootStore().then(setRootStore)
     })()
   }, [])
 
-  // Before we show the app, we have to wait for our state to be ready.
-  // In the meantime, don't render anything. This will be the background
-  // color set in native by rootView's background color.
-  // In iOS: application:didFinishLaunchingWithOptions:
-  // In Android: https://stackoverflow.com/a/45838109/204044
-  // You can replace with your own loading component if you wish.
+  const renderFlashMessage = (props) => {
+    return (
+      <View style={[MESSAGE_CONTAINER, props.icon.icon === "danger" && MESSAGE_DANGER, props.icon.icon === "success" && MESSAGE_SUCCESS]}>
+        <View style={MESSAGE_CONTENT}>
+          {props.icon ? (
+            <View style={ICON_CONTAINER}>
+              <STIcon icon={props.icon.icon === "danger" ? "error_outline_28" : "check_circle_outline_28"} color={color.palette.white} size={spacing[5]} />
+            </View>
+          ) : null}
+          <Text style={MESSAGE_TEXT}>{props.message.message}</Text>
+        </View>
+      </View>
+    )
+  }
+
   if (!rootStore || !isNavigationStateRestored) return null
 
-  // otherwise, we're ready to render the app
   return (
     <ToggleStorybook>
       <RootStoreProvider value={rootStore}>
@@ -63,6 +89,8 @@ function App() {
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
+
+            <FlashMessage MessageComponent={renderFlashMessage}/>
           </ErrorBoundary>
         </SafeAreaProvider>
       </RootStoreProvider>

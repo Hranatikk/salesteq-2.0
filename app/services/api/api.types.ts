@@ -1,9 +1,17 @@
 import { GeneralApiProblem } from "./api-problem"
 import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
-import { Firm } from "../../models/firm/firm"
+import { Firm, FirmProduct } from "../../models/firm/firm"
 
-export type GetProfileResult = { kind: "ok"; profile: Profile } | GeneralApiProblem
-export type GetProfileConnectionsResult = { kind: "ok"; connections: Profile[] } | GeneralApiProblem
-export type GetProfileStatsOnlyResult = { kind: "ok"; profileStats: ProfileStatsOnly } | GeneralApiProblem
 
-export type GetFirmResult = { kind: "ok"; firm: Firm } | GeneralApiProblem
+// PROFILE
+export type GetProfileResult = { kind: "ok"; data: Profile } | GeneralApiProblem
+export type GetProfileConnectionsResult = { kind: "ok"; data: Profile[] } | GeneralApiProblem
+export type GetProfileStatsOnlyResult = { kind: "ok"; data: ProfileStatsOnly } | GeneralApiProblem
+
+// SALE_HISTORY
+export type GetSaleHistoryResult = { kind: "ok"; data: any } | GeneralApiProblem
+
+// FIRM
+export type GetFirmResult = { kind: "ok"; data: Firm } | GeneralApiProblem
+export type GetFirmProductsResult = { kind: "ok"; data: FirmProduct[] } | GeneralApiProblem
+export type GetFirmSingleProductsResult = { kind: "ok"; data: FirmProduct } | GeneralApiProblem

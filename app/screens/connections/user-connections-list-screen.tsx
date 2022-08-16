@@ -98,7 +98,7 @@ export const UserConnectionListScreen: FC<StackScreenProps<NavigatorParamList, "
 
       if(user) {
         const response = await profileApi.getProfileConnectionsByUserId(user.id);
-        setConnections(response.connections)
+        setConnections(response.data)
       }
     }
 

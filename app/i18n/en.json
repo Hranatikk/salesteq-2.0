@@ -2,36 +2,33 @@
   "common": {
     "ok": "OK!",
     "cancel": "Cancel",
-    "back": "Back"
+    "back": "Back",
+    "save": "Save",
+    "nextStep": "Next step"
   },
   "errors": {
     "invalidEmail": "Invalid email address."
-  },
-  "demoListScreen": {
-    "title": "Demo List"
   },
   "analyticsScreen": {
     "title": "Analytics",
     "rank": "Rank",
     "turnover": "Turnover",
+    "revenueHistory": "Revenues history",
+    "revenueHistoryWithStructure": "Revenues history with structure",
     "saleHistory": "Sales history",
+    "saleHistoryWithStructure": "Sales history with structure",
     "saleHistoryDescription": "Sales and their statuses for the past time",
     "revenueFromSales": "Revenue from sales",
     "revenueFromSalesDecription": "Revenues from sales for the past time",
     "analytics": "analytics"
   },
-  "settingsScreen": {
-    "title": "Settings",
-    "name": "Name",
-    "surname": "Surname",
-    "company": "Company",
-    "status": "Status",
-    "email": "Email",
-    "language": "Language",
-    "logout": "Log out from account"
-  },
   "calendarScreen": {
     "title": "Calendar"
+  },
+  "productsScreen": {
+    "title": "Products",
+    "noProducts": "Your firm still don't have any products. Please, contact your administrator",
+    "inviteUser": "Please, type email of the user which you want to invite"
   },
   "connectionsScreen": {
     "title": "My connections",
@@ -43,6 +40,22 @@
     "noConnectionsInNetwork": "Ooops... Looks like this user don't have any connections in his/her network",
     "addPartner": "Add partner",
     "partnerDescription": "Here you will see completed sales that this manager have made recently, salary and other info."
+  },
+  "userSaleHistory": {
+    "title": "Sale history",
+    "revenueHistory": "Revenue history",
+    "noSales": "For now you don't have any sales",
+    "noRevenues": "For now you don't have any revenues"
+  },
+  "settingsScreen": {
+    "title": "Settings",
+    "name": "Name",
+    "surname": "Surname",
+    "company": "Company",
+    "status": "Status",
+    "email": "Email",
+    "language": "Language",
+    "logout": "Log out from account"
   },
   "errorScreen": {
     "title": "Something went wrong!",

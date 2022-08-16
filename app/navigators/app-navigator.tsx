@@ -12,13 +12,15 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
 import { STIcon } from "../components";
 import { color } from "../theme"
 import {
-  DemoListScreen,
   AnalyticsScreen,
   SettingsScreen,
   CalendarScreen,
   ConnectionsScreen,
   UserConnectionListScreen,
-  UserAnalyticsScreen
+  UserAnalyticsScreen,
+  UserSaleHistoryScreen,
+  UserRevenueHistoryScreen,
+  ProductsListScreen
 } from "../screens"
 
 /**
@@ -34,13 +36,15 @@ import {
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type NavigatorParamList = {
-  demoList: any
   analytics: any
   settings: any
   calendar: any
   connectionsList: any
   userConnectionList: any
   userAnalytics: any
+  userSaleHistory: any
+  userRevenueHistory: any
+  productsList: any
 }
 
 const Stack = createNativeStackNavigator<NavigatorParamList>();
@@ -55,7 +59,8 @@ const AnalyticsStack = () => {
       initialRouteName="analytics"
     >
       <Stack.Screen name="analytics" component={AnalyticsScreen} />
-      <Stack.Screen name="demoList" component={DemoListScreen} />
+      <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
+      <Stack.Screen name="userRevenueHistory" component={UserRevenueHistoryScreen} />
     </Stack.Navigator>
   )
 }
@@ -73,6 +78,19 @@ const CalendarStack = () => {
   )
 }
 
+const ProductsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="productsList"
+    >
+      <Stack.Screen name="productsList" component={ProductsListScreen} />
+    </Stack.Navigator>
+  )
+}
+
 const ConnectionsStack = () => {
   return (
     <Stack.Navigator
@@ -84,6 +102,8 @@ const ConnectionsStack = () => {
       <Stack.Screen name="connectionsList" component={ConnectionsScreen} />
       <Stack.Screen name="userConnectionList" component={UserConnectionListScreen} />
       <Stack.Screen name="userAnalytics" component={UserAnalyticsScreen} />
+      <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
+      <Stack.Screen name="userRevenueHistory" component={UserRevenueHistoryScreen} />
     </Stack.Navigator>
   )
 }
@@ -130,8 +150,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="demoStack2"
-        component={AnalyticsStack}
+        name="productsStack"
+        component={ProductsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <STIcon icon="add_square_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
