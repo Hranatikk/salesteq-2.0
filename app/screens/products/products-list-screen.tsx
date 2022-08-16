@@ -18,7 +18,8 @@ import {
   AutoImage,
   RadioButton,
   HorizontalSlider,
-  Button
+  Button,
+  STIcon
 } from "../../components"
 
 // Utils
@@ -46,6 +47,19 @@ const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
 }
 
+const BACK_BUTTON: ViewStyle = {
+  position: "absolute",
+  width: 50,
+  height: 50,
+  backgroundColor: color.palette.grey,
+  borderRadius: 25,
+  top: spacing[7],
+  left: spacing[4],
+  marginHorizontal: spacing[0],
+  justifyContent: "center",
+  alignItems: "center"
+}
+
 const EMPTY_IMAGE: ImageStyle = {
   height: Dimensions.get("window").height/4,
   width: (Dimensions.get("window").height/4)*1.5
@@ -59,7 +73,8 @@ const EMPTY_CONTAINER: ViewStyle = {
 
 const INPUT_CONTAINER: ViewStyle = {
   width: Dimensions.get("window").width,
-  paddingHorizontal: spacing[4]
+  paddingHorizontal: spacing[4],
+  marginTop: spacing[5]
 }
 
 const BUTTON_SAVE: ViewStyle = {
@@ -69,7 +84,7 @@ const BUTTON_SAVE: ViewStyle = {
   right: spacing[4]
 }
 
-const BUTTON_SAVE_INACTIVE: ViewStyle = {
+const BUTTON_SAVE_DISABLED: ViewStyle = {
   position: "absolute",
   bottom: 30,
   left: spacing[4],
@@ -115,13 +130,21 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     }
 
     const onSavePress = () => {
-      if(currentStep === 1) {
+      if(activeRadio === 4 || activeRadio === 5) {
+
+      } else {
         setStep(2);
         sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
       }
     }
 
-    const BUTTON_STYLE = activeRadio === null ? BUTTON_SAVE_INACTIVE : BUTTON_SAVE
+    const handleBack = () => {
+      setStep(1);
+      sliderRef.current.scrollTo({ x: 0 })
+    }
+
+    const BUTTON_STYLE = activeRadio === null ? BUTTON_SAVE_DISABLED : BUTTON_SAVE
+
     return (
       <View testID="ProductsListScreen" style={FULL}>
         <SimpleBackground />
@@ -131,6 +154,16 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
             style={HEADER}
             titleStyle={HEADER_TITLE}
           />
+
+          {currentStep === 2 ? (
+            <Button
+              activeOpacity={0.8}
+              onPress={() => handleBack()}
+              style={BACK_BUTTON}
+            >
+              <STIcon icon="chevron_back_28" color={color.palette.white} size={25} />
+            </Button>
+          ) : null}
 
           <HorizontalSlider innerRef={sliderRef}>
             <FlatList
@@ -153,12 +186,13 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           </HorizontalSlider>
 
           <Button
-            text={translate((activeRadio === 4 || activeRadio === 5) ? "common.save" : "common.nextStep")}
+            text={translate(
+              (activeRadio === 4 || activeRadio === 5 || currentStep === 2) ? "common.save" : "common.nextStep"
+            )}
             preset="primary"
             style={BUTTON_STYLE}
             activeOpacity={0.8}
-            onPress={() => activeRadio === null ? onSavePress() : {}}
-            isDisabled={activeRadio == null}
+            onPress={() => activeRadio === null ? {} : onSavePress()}
           />
         </Screen>
       </View>

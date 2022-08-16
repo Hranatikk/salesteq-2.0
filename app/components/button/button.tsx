@@ -18,7 +18,6 @@ export function Button(props: ButtonProps) {
     style: styleOverride,
     textStyle: textStyleOverride,
     children,
-    isDisabled,
     ...rest
   } = props
 
@@ -28,9 +27,8 @@ export function Button(props: ButtonProps) {
   const textStyles = [textStyle, textStyleOverride]
 
   const content = children || <Text tx={tx} text={text} style={textStyles} />
-
   return (
-    <TouchableOpacity style={[viewStyles, isDisabled ? {opacity: 0.7} : {}]} {...rest}>
+    <TouchableOpacity {...rest} style={viewStyles}>
       {content}
     </TouchableOpacity>
   )
