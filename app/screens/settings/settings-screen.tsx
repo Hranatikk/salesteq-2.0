@@ -126,8 +126,8 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
 
         <View style={PROFILE_WRAPPER}>
           <View style={PROFILE_AVATAR_WRAPPER}>
-            <View style={[PROFILE_AVATAR_CONTAINER, { backgroundColor: getColorByString("John Doee") }]}>
-              <Text preset="header" style={{color: color.palette.white}}>{"John".slice(0, 1)} {"Doee".slice(0, 1)}</Text>
+            <View style={[PROFILE_AVATAR_CONTAINER, { backgroundColor: getColorByString(`${profile?.first_name} ${profile?.last_name}`) }]}>
+              <Text preset="header" style={{color: color.palette.white}}>{profile?.first_name.slice(0, 1)} {profile?.last_name.slice(0, 1)}</Text>
             </View>
           </View>
 

@@ -13,4 +13,5 @@ export type GetSaleHistoryResult = { kind: "ok"; data: any } | GeneralApiProblem
 
 // FIRM
 export type GetFirmResult = { kind: "ok"; data: Firm } | GeneralApiProblem
-export type GetFirmRProductsResult = { kind: "ok"; data: FirmProduct[] } | GeneralApiProblem
+export type GetFirmProductsResult = { kind: "ok"; data: FirmProduct[] } | GeneralApiProblem
+export type GetFirmSingleProductsResult = { kind: "ok"; data: FirmProduct } | GeneralApiProblem

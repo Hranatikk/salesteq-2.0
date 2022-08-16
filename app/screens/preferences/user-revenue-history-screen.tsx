@@ -12,7 +12,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // API
-import { FirmApi } from "../../services/api/firm-api"
+import { ProfileApi } from "../../services/api/profile-api"
 
 // Components
 import {
@@ -76,7 +76,7 @@ const EMPTY_TEXT: TextStyle = {
 
 export const UserRevenueHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userRevenueHistory">> = observer(
   ({ navigation, route }) =>  {
-    const firmApi = new FirmApi;   
+    const profileApi = new ProfileApi;
     const [currentTab, setCurrentTab] = useState<"revenue" | "revenue_with_structure">("revenue")
     const [revenues, setRevenues] = useState([])
     const [revenuesWithStructure, setRevenuesWithStructure] = useState([]);
@@ -88,8 +88,8 @@ export const UserRevenueHistoryScreen: FC<StackScreenProps<NavigatorParamList, "
 
     const fetchData = async () => {
       const { user } = route.params;
-      const revenues = await firmApi.getUserRevenues(user.id, false)
-      const revenuesWithStructure = await firmApi.getUserRevenues(user.id, true)
+      const revenues = await profileApi.getUserRevenues(user.id, false)
+      const revenuesWithStructure = await profileApi.getUserRevenues(user.id, true)
 
       setRevenues(revenues.data)
       setRevenuesWithStructure(revenuesWithStructure.data)

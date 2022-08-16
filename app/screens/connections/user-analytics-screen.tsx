@@ -50,7 +50,7 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
   ({ navigation, route }) => {
     const profileApi = new ProfileApi;
     const [user, setUser] = useState<Profile | null>(null);
-    const [userStats, setUserStats] = useState<ProfileStatsOnly | null>(null)
+    const [userStats, setUserStats] = useState(null)
     const [isUserStatsFetching, setUserStatsFetching] = useState<boolean>(true)
 
     useEffect(() => {  

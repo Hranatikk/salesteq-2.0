@@ -1,8 +1,8 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, types, getParent } from "mobx-state-tree"
 import { FirmModel, Firm, FirmProductModel, FirmProduct } from "../firm/firm"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
 
 /**
  * Stroing user data
@@ -59,6 +59,20 @@ export const FirmStoreModel = types
           position: "bottom",
         })
         __DEV__ && console.log(result.kind)
+      }
+    },
+  }))
+  .actions((self) => ({
+    sellProduct: async () => {
+      self.isProductsFetching = true
+      const firmApi = new FirmApi()
+      const result = await firmApi.sellProduct()
+
+      if (result.kind === "ok") {
+        // self.saveFirm(result.data)
+      } else {
+        __DEV__ && console.log(result.kind)
+
       }
     },
   }))

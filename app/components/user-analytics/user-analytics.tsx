@@ -63,6 +63,7 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
   }
   
   const { profile, profileStats } = props;
+
   return (
     <>
       <Text preset="header" style={HEADER_TEXT}>{profile?.first_name} {profile?.last_name}</Text>
@@ -71,12 +72,12 @@ export const UserAnalytics = observer(function UserAnalytics(props: UserAnalytic
       {(profileStats || profile?.data) ?(
         <ComponentWrapper isTouchable={false}>
           {profileStats
-            ? <TextRow leftText={translate("analyticsScreen.rank")} rightText={profileStats?.leveling.current.title.toString()} isLast={false} />
+            ? <TextRow leftText={translate("analyticsScreen.rank")} rightText={profileStats?.leveling?.current?.title.toString()} isLast={false} />
             : null
           }
 
           {profile?.data
-            ? <TextRow leftText={translate("analyticsScreen.turnover")} rightText={`${profile?.data.turnover} BYN`} isLast={true} />
+            ? <TextRow leftText={translate("analyticsScreen.turnover")} rightText={`${profile?.data?.turnover} BYN`} isLast={true} />
             : null
           }
         </ComponentWrapper>

@@ -1,68 +1,49 @@
-import API from '../api'
-import { GetFirmResult, GetFirmRProductsResult, GetSaleHistoryResult } from "./api.types"
+import { ApiResponse, create } from "apisauce"
+import { getGeneralApiProblem } from "./api-problem"
+import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } from "./api.types"
 
 export class FirmApi {
+  api = create({
+    baseURL: 'http://46.22.223.113',
+    headers: {
+      'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
+    },
+  })
+
   async getFirm(): Promise<GetFirmResult> {
-    try {
-      const response = await API.callAPI(`http://46.22.223.113/api/firm/my/`, {
-        headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
-        },
-        method: 'GET',
-      })
-
-      return { kind: "ok", data: response }
-    } catch (e) {
-      __DEV__ && console.log(e.message)
-      return { kind: "bad-data", data: null }
+    const response: ApiResponse<any> = await this.api.get("/api/firm/my/")
+    console.log(response)
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
     }
+
+    return {kind: "ok", data: response.data}
   }
 
-  async getFirmProducts(): Promise<GetFirmRProductsResult> {
-    try {
-      const response = await API.callAPI(`http://46.22.223.113/api/products/`, {
-        headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
-        },
-        method: 'GET',
-      })
+  async getFirmProducts(): Promise<GetFirmProductsResult> {
+    const response: ApiResponse<any> = await this.api.get("/api/products")
 
-      return { kind: "ok", data: response }
-    } catch (e) {
-      __DEV__ && console.log(e.message)
-      return { kind: "bad-data", data: e.message }
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
     }
+
+    return {kind: "ok", data: response.data}
   }
 
-  async getUserSales(userId:number|string, withStructure:boolean): Promise<GetSaleHistoryResult> {
-    try {
-      const response = await API.callAPI(`http://46.22.223.113/api/sale?${withStructure ? `for_user_id_with_structure` : `for_user_id`}=${userId}`, {
-        headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
-        },
-        method: 'GET',
-      })
+  async sellProduct(): Promise<GetFirmSingleProductsResult> {
+    const response: ApiResponse<any> = await this.api.post(`/api/sale/create/`, {
+      product: 4,
+      user: 2,
+      price: 2499,
+    })
 
-      return { kind: "ok", data: response }
-    } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data", data: null }
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
     }
-  }
 
-  async getUserRevenues(userId:number|string, withStructure:boolean): Promise<GetSaleHistoryResult> {
-    try {
-      const response = await API.callAPI(`http://46.22.223.113/api/revenue?${withStructure ? `for_user_id_with_structure` : `for_user_id`}=${userId}`, {
-        headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
-        },
-        method: 'GET',
-      })
-
-      return { kind: "ok", data: response }
-    } catch (e) {
-      __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data", data: null }
-    }
+    return {kind: "ok", data: response.data}
   }
 }

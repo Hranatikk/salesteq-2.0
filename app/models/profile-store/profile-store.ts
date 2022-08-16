@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, Profile, ProfileStatsOnly } from "../profile/profile"
+import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnly } from "../profile/profile"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
 

@@ -103,6 +103,7 @@ const ConnectionsStack = () => {
       <Stack.Screen name="userConnectionList" component={UserConnectionListScreen} />
       <Stack.Screen name="userAnalytics" component={UserAnalyticsScreen} />
       <Stack.Screen name="userSaleHistory" component={UserSaleHistoryScreen} />
+      <Stack.Screen name="userRevenueHistory" component={UserRevenueHistoryScreen} />
     </Stack.Navigator>
   )
 }
