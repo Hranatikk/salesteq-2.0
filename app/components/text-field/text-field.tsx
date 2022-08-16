@@ -3,22 +3,41 @@ import { StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from
 import { color, spacing, typography } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
+import { STIcon } from "../st-icon/st-icon"
 
-// the base styling for the container
 const CONTAINER: ViewStyle = {
-  paddingVertical: spacing[3],
+  marginHorizontal: spacing[4],
+  marginBottom: spacing[2]
 }
 
-// the base styling for the TextInput
+const INPUT_CONTAINER: ViewStyle = {
+  backgroundColor: color.palette.white,
+  borderRadius: 9,
+  paddingVertical: spacing[1],
+  paddingHorizontal: spacing[1],
+}
+
+const DESCRIPTION: TextStyle = {
+  marginBottom: spacing[2],
+}
+
 const INPUT: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
-  minHeight: 44,
+  minHeight: 40,
   fontSize: 18,
-  backgroundColor: color.palette.white,
 }
 
-// currently we have no presets, but that changes quickly when you build your app.
+const INPUT_WITH_ICON = {
+  marginLeft: spacing[7]
+}
+
+const ICON: ViewStyle = {
+  position: "absolute",
+  left: spacing[2],
+  top: spacing[2]
+}
+
 const PRESETS: { [name: string]: ViewStyle } = {
   default: {},
 }
@@ -59,7 +78,10 @@ export interface TextFieldProps extends TextInputProps {
    */
   preset?: keyof typeof PRESETS
 
-  forwardedRef?: any
+   /**
+   * Icon for text field
+   */
+  icon?: string
 }
 
 /**
@@ -72,27 +94,30 @@ export function TextField(props: TextFieldProps) {
     labelTx,
     label,
     preset = "default",
+    icon,
     style: styleOverride,
     inputStyle: inputStyleOverride,
-    forwardedRef,
     ...rest
   } = props
 
   const containerStyles = [CONTAINER, PRESETS[preset], styleOverride]
-  const inputStyles = [INPUT, inputStyleOverride]
+  const inputStyles = [INPUT, inputStyleOverride, icon && INPUT_WITH_ICON]
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
 
   return (
     <View style={containerStyles}>
-      <Text preset="fieldLabel" tx={labelTx} text={label} />
-      <TextInput
-        placeholder={actualPlaceholder}
-        placeholderTextColor={color.palette.lighterGrey}
-        underlineColorAndroid={color.transparent}
-        {...rest}
-        style={inputStyles}
-        ref={forwardedRef}
-      />
+      <Text preset="fieldLabel" tx={labelTx} text={label} style={DESCRIPTION} />
+
+      <View style={INPUT_CONTAINER}>
+        {icon ? <STIcon icon={icon} color={color.primary} size={30} style={ICON} /> : null}
+        <TextInput
+          placeholder={actualPlaceholder}
+          placeholderTextColor={color.palette.lighterGrey}
+          underlineColorAndroid={color.transparent}
+          {...rest}
+          style={inputStyles}
+        />
+      </View>
     </View>
   )
 }

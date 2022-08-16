@@ -27,7 +27,8 @@
   },
   "productsScreen": {
     "title": "Products",
-    "noProducts": "Your firm still don't have any products. Please, contact your administrator"
+    "noProducts": "Your firm still don't have any products. Please, contact your administrator",
+    "inviteUser": "Please, type email of the user which you want to invite"
   },
   "connectionsScreen": {
     "title": "My connections",

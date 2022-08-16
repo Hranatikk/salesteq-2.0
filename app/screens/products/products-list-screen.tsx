@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState, useRef } from "react"
-import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "react-native"
+import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions, Keyboard } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -19,7 +19,8 @@ import {
   RadioButton,
   HorizontalSlider,
   Button,
-  STIcon
+  STIcon,
+  TextField
 } from "../../components"
 
 // Utils
@@ -73,22 +74,21 @@ const EMPTY_CONTAINER: ViewStyle = {
 
 const INPUT_CONTAINER: ViewStyle = {
   width: Dimensions.get("window").width,
-  paddingHorizontal: spacing[4],
   marginTop: spacing[5]
 }
 
 const BUTTON_SAVE: ViewStyle = {
   position: "absolute",
   bottom: 30,
-  left: spacing[4],
-  right: spacing[4]
+  left: spacing[0],
+  right: spacing[0]
 }
 
 const BUTTON_SAVE_DISABLED: ViewStyle = {
   position: "absolute",
   bottom: 30,
-  left: spacing[4],
-  right: spacing[4],
+  left: spacing[0],
+  right: spacing[0],
   opacity: 0.7
 }
 
@@ -106,6 +106,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
   ({ navigation }) =>  {
     const [activeRadio, setActiveRadio] = useState<number|null>(null)
     const [currentStep, setStep] = useState<number>(1)
+    const [invitedMail, changeInvitedMail] = useState<string>('')
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
     const { firmProducts, isProductsFetching } = firmStore
@@ -141,6 +142,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     const handleBack = () => {
       setStep(1);
       sliderRef.current.scrollTo({ x: 0 })
+      Keyboard.dismiss()
     }
 
     const BUTTON_STYLE = activeRadio === null ? BUTTON_SAVE_DISABLED : BUTTON_SAVE
@@ -181,7 +183,15 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
             />
 
             <View style={INPUT_CONTAINER}>
-              <Text>'asdasd</Text>
+              <TextField
+                placeholder={translate("settingsScreen.email")}
+                label={translate("productsScreen.inviteUser")}
+                value={invitedMail}
+                onChangeText={(text:string) => changeInvitedMail(text)}
+                icon="mail_outline_28"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
             </View>
           </HorizontalSlider>
 
