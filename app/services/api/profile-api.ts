@@ -50,7 +50,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/user/${userId}/stats/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
@@ -66,7 +66,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/my/users/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
@@ -82,7 +82,7 @@ export class ProfileApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/supervisor/${userId}/users`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })

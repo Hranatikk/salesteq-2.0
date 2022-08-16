@@ -2,6 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { FirmModel, Firm, FirmProductModel, FirmProduct } from "../firm/firm"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 /**
  * Stroing user data
@@ -38,6 +39,7 @@ export const FirmStoreModel = types
         self.saveFirm(result.data)
       } else {
         __DEV__ && console.log(result.kind)
+
       }
     },
   }))
@@ -50,6 +52,12 @@ export const FirmStoreModel = types
       if (result.kind === "ok") {
         self.saveFirmProducts(result.data)
       } else {
+        showMessage({
+          message: "Something went wrong",
+          type: "danger",
+          icon: "danger",
+          position: "bottom",
+        })
         __DEV__ && console.log(result.kind)
       }
     },

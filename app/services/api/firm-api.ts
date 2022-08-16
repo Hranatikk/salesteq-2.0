@@ -6,7 +6,7 @@ export class FirmApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/firm/my/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
@@ -22,7 +22,7 @@ export class FirmApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/products/`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
@@ -30,7 +30,7 @@ export class FirmApi {
       return { kind: "ok", data: response }
     } catch (e) {
       __DEV__ && console.log(e.message)
-      return { kind: "bad-data", data: null }
+      return { kind: "bad-data", data: e.message }
     }
   }
 
@@ -38,7 +38,7 @@ export class FirmApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/sale?${withStructure ? `for_user_id_with_structure` : `for_user_id`}=${userId}`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
@@ -54,7 +54,7 @@ export class FirmApi {
     try {
       const response = await API.callAPI(`http://46.22.223.113/api/revenue?${withStructure ? `for_user_id_with_structure` : `for_user_id`}=${userId}`, {
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU5NjM0NzM5LCJqdGkiOiJlZjM2M2Q0MTNmNDY0MmZlYWY1MmZhMjBmNmIwMjk1OCIsInVzZXJfaWQiOjJ9.ryNvgHmILb1I4-qkpBHX8hbf1y8ICkX0kMRG4TiYngI`
+          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
         },
         method: 'GET',
       })
