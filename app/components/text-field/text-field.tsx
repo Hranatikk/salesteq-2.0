@@ -38,6 +38,10 @@ const ICON: ViewStyle = {
   top: spacing[2]
 }
 
+const ERROR_TEXT: TextStyle = {
+  marginTop: spacing[2],
+}
+
 const PRESETS: { [name: string]: ViewStyle } = {
   default: {},
 }
@@ -78,10 +82,15 @@ export interface TextFieldProps extends TextInputProps {
    */
   preset?: keyof typeof PRESETS
 
-   /**
+  /**
    * Icon for text field
    */
   icon?: string
+
+  /**
+   * Error text for field
+   */
+  error?: string
 }
 
 /**
@@ -97,6 +106,7 @@ export function TextField(props: TextFieldProps) {
     icon,
     style: styleOverride,
     inputStyle: inputStyleOverride,
+    error,
     ...rest
   } = props
 
@@ -118,6 +128,8 @@ export function TextField(props: TextFieldProps) {
           style={inputStyles}
         />
       </View>
+
+      {error ? <Text preset="error" style={ERROR_TEXT}>{error}</Text> : null}
     </View>
   )
 }

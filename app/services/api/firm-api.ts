@@ -46,4 +46,17 @@ export class FirmApi {
 
     return {kind: "ok", data: response.data}
   }
+
+  async inviteUserToNetwork(userEmail: string): Promise<GetFirmSingleProductsResult> {
+    const response: ApiResponse<any> = await this.api.post(`/api/invite/`, {
+      email: userEmail,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+    console.log(response)
+    return {kind: "ok", data: response.data}
+  }
 }

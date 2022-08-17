@@ -64,6 +64,12 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
+    errorInviteUser: () => {
+      self.isProductsFetching = false
+      self.showMessage("Can't invite this user to network", "danger")
+    },
+  }))
+  .actions((self) => ({
     getFirm: async () => {
       self.isFirmFetching = true
       const firmApi = new FirmApi()
@@ -92,7 +98,7 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
-    sellProduct: async (productId: number, price: number) => {
+    sellProduct: async (productId: number, price: number, onSuccess?: () => void) => {
       const {profileStore: { profile }} = getParent(self)
       self.isProductsFetching = true
       const firmApi = new FirmApi()
@@ -100,6 +106,22 @@ export const FirmStoreModel = types
 
       if (result.kind === "ok") {
         self.successSellProduct()
+        onSuccess && onSuccess()
+      } else {
+        self.errorSellProduct()
+        __DEV__ && console.log(result.kind)
+
+      }
+    },
+  }))
+  .actions((self) => ({
+    inviteUserToNetwork: async (userEmail: string, onSuccess?: () => void) => {
+      self.isProductsFetching = true
+      const firmApi = new FirmApi()
+      const result = await firmApi.inviteUserToNetwork(userEmail)
+
+      if (result.kind === "ok") {
+        onSuccess && onSuccess()
       } else {
         self.errorSellProduct()
         __DEV__ && console.log(result.kind)
