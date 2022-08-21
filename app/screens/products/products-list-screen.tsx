@@ -144,7 +144,8 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
             () => firmStore.sellProduct(
               activeRadio,
               firmProducts.filter(i => i.id === activeRadio)[0].price,
-              () => onSuccessfullSave()
+              () => onSuccessfullSave(),
+              "User successfully invited to your network"
             )
           )
         } else {

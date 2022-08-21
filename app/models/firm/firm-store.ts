@@ -53,9 +53,9 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
-    successSellProduct: () => {
+    successSellProduct: (text?: string) => {
       self.isProductSaving = false
-      self.showMessage("Product successfully added", "success")
+      self.showMessage(text ? text : "Product successfully added", "success")
     },
   }))
   .actions((self) => ({
@@ -99,14 +99,14 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
-    sellProduct: async (productId: number, price: number, onSuccess?: () => void) => {
+    sellProduct: async (productId: number, price: number, onSuccess?: () => void, successText?: string) => {
       const {profileStore: { profile }} = getParent(self)
       self.isProductSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.sellProduct(productId, profile.id, price)
 
       if (result.kind === "ok") {
-        self.successSellProduct()
+        self.successSellProduct(successText)
         onSuccess && onSuccess()
       } else {
         self.errorSellProduct()
