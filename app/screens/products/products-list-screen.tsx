@@ -23,7 +23,8 @@ import {
   HorizontalSlider,
   Button,
   STIcon,
-  TextField
+  TextField,
+  Loader
 } from "../../components"
 
 // Utils
@@ -112,7 +113,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     const [invitedMail, changeInvitedMail] = useState<string>('')
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
-    const { firmProducts, isProductsFetching } = firmStore
+    const { firmProducts, isProductsFetching, isProductSaving } = firmStore
 
     useEffect(() => {
       fetchData();
@@ -151,15 +152,16 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
             message: "Please, enter a vaild user email",
             type: "danger",
             icon: "danger",
-            position: "bottom",
+            position: "bottom"
           })
         }
       }
     }
 
     const onSuccessfullSave = () => {
-      onBackPress();
+      onBackPress()
       setActiveRadio(null)
+      changeInvitedMail("")
     }
 
     const onBackPress = () => {
@@ -183,6 +185,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
 
     return (
       <View testID="ProductsListScreen" style={FULL}>
+        {isProductSaving ? <Loader /> : null}
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header

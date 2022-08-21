@@ -1,6 +1,6 @@
 import { GeneralApiProblem } from "./api-problem"
-import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
-import { Firm, FirmProduct, SendedUserInvitation } from "../../models/firm/firm"
+import { Profile, ProfileStatsOnly } from "../../models/profile/profile-model"
+import { Firm, FirmProduct, SendedUserInvitation } from "../../models/firm/firm-model"
 
 
 // PROFILE

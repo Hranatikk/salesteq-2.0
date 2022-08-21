@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from "react"
-import { View, TextStyle, ViewStyle } from "react-native"
+import { View, TextStyle, ViewStyle, FlatList } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
-import { Profile, ProfileStatsOnly } from "../../models/profile/profile"
+import { Profile } from "../../models/profile/profile-model"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
@@ -67,12 +67,12 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
     }
 
     return (
-      <View testID="AnalyticsScreen" style={FULL}>
+      <View testID="UserAnalyticsScreen" style={FULL}>
         <SimpleBackground />
         {isUserStatsFetching
           ? <ContentLoader />
           : (
-            <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+            <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
               <Header
                 headerText={`${user.first_name}'s ${translate("analyticsScreen.analytics")}`}
                 style={HEADER}
@@ -80,8 +80,18 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
                 leftIcon="arrow_left_outline_28"
                 onLeftPress={() => navigation.goBack()}
               />
-
-              <UserAnalytics profile={user} profileStats={userStats} />
+              
+              <FlatList
+                keyExtractor={(item) => `event_${item.id}`}
+                data={[]}
+                renderItem={({item}) => (<></>)}
+                refreshing={isUserStatsFetching}
+                onRefresh={() => fetchData()}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListHeaderComponent={() => (
+                  <UserAnalytics profile={user} profileStats={userStats} />
+                )}
+              />
             </Screen>
           )
         }

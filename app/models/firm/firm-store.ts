@@ -1,5 +1,5 @@
 import { Instance, SnapshotIn, SnapshotOut, types, getParent } from "mobx-state-tree"
-import { FirmModel, Firm, FirmProductModel, FirmProduct } from "../firm/firm"
+import { FirmModel, Firm, FirmProductModel, FirmProduct } from "./firm-model"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { showMessage } from "react-native-flash-message";
@@ -14,7 +14,8 @@ export const FirmStoreModel = types
     isFirmFetching: types.boolean,
 
     firmProducts: types.optional(types.array(FirmProductModel), []),
-    isProductsFetching: types.boolean
+    isProductsFetching: types.boolean,
+    isProductSaving: types.boolean
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -53,19 +54,19 @@ export const FirmStoreModel = types
   }))
   .actions((self) => ({
     successSellProduct: () => {
-      self.isProductsFetching = false
+      self.isProductSaving = false
       self.showMessage("Product successfully added", "success")
     },
   }))
   .actions((self) => ({
-    errorSellProduct: () => {
-      self.isProductsFetching = false
-      self.showMessage("Can't add product", "danger")
+    errorSellProduct: (text?: string) => {
+      self.isProductSaving = false
+      self.showMessage(text ? text : "Can't add product", "danger")
     },
   }))
   .actions((self) => ({
     errorInviteUser: () => {
-      self.isProductsFetching = false
+      self.isProductSaving = false
       self.showMessage("Can't invite this user to network", "danger")
     },
   }))
@@ -100,7 +101,7 @@ export const FirmStoreModel = types
   .actions((self) => ({
     sellProduct: async (productId: number, price: number, onSuccess?: () => void) => {
       const {profileStore: { profile }} = getParent(self)
-      self.isProductsFetching = true
+      self.isProductSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.sellProduct(productId, profile.id, price)
 
@@ -116,14 +117,14 @@ export const FirmStoreModel = types
   }))
   .actions((self) => ({
     inviteUserToNetwork: async (userEmail: string, onSuccess?: () => void) => {
-      self.isProductsFetching = true
+      self.isProductSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.inviteUserToNetwork(userEmail)
 
       if (result.kind === "ok") {
         onSuccess && onSuccess()
       } else {
-        self.errorSellProduct()
+        self.errorSellProduct("Can't invite this user to network")
         __DEV__ && console.log(result.kind)
 
       }

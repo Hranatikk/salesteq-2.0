@@ -1,5 +1,5 @@
 import { Instance, SnapshotOut, SnapshotIn, types } from "mobx-state-tree"
-import { ProfileModel } from "../profile/profile"
+import { ProfileModel } from "../profile/profile-model"
 
 /**
  * Firm model
@@ -28,7 +28,7 @@ export const FirmProductModel = types
   })
 
 export const SendedUserInvitationModel = types
-  .model("ProfileStatsOnly")
+  .model("SendedUserInvitation")
   .props({
     id: types.identifierNumber,
     email: types.string,

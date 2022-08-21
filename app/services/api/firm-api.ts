@@ -12,7 +12,6 @@ export class FirmApi {
 
   async getFirm(): Promise<GetFirmResult> {
     const response: ApiResponse<any> = await this.api.get("/api/firm/my/")
-    console.log(response)
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
@@ -56,7 +55,6 @@ export class FirmApi {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
-    console.log(response)
     return {kind: "ok", data: response.data}
   }
 }
