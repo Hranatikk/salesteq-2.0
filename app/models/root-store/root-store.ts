@@ -1,6 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileStoreModel } from "../profile-store/profile-store"
-import { FirmStoreModel } from "../firm-store/firm-store"
+import { ProfileStoreModel } from "../profile/profile-store"
+import { FirmStoreModel } from "../firm/firm-store"
 
 /**
  * A RootStore model.
@@ -21,6 +21,7 @@ export const RootStoreModel = types.model("RootStore").props({
 
     firmProducts: [],
     isProductsFetching: false,
+    isProductSaving: false
   } as any)
 })
 

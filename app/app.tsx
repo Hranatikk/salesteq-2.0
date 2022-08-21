@@ -3,6 +3,7 @@ import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
 import { View, ViewStyle, TextStyle, Dimensions, Text } from "react-native"
 import FlashMessage from "react-native-flash-message"
+import { PortalProvider } from "@gorhom/portal"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
 import * as storage from "./utils/storage"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
@@ -84,14 +85,16 @@ function App() {
     <ToggleStorybook>
       <RootStoreProvider value={rootStore}>
         <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <ErrorBoundary catchErrors={"always"}>
-            <AppNavigator
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
+          <PortalProvider>
+            <ErrorBoundary catchErrors={"always"}>
+              <AppNavigator
+                initialState={initialNavigationState}
+                onStateChange={onNavigationStateChange}
+              />
 
-            <FlashMessage MessageComponent={renderFlashMessage}/>
-          </ErrorBoundary>
+              <FlashMessage MessageComponent={renderFlashMessage}/>
+            </ErrorBoundary>
+          </PortalProvider>
         </SafeAreaProvider>
       </RootStoreProvider>
     </ToggleStorybook>

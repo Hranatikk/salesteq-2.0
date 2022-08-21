@@ -127,7 +127,7 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: { backgroundColor: color.background, },
+        tabBarStyle: { backgroundColor: color.background, }
       }}
       initialRouteName=''
     >

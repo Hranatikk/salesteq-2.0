@@ -125,7 +125,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
                 />
               </View>
             )}
-          />        
+          />
         </Screen>
       </View>
     )

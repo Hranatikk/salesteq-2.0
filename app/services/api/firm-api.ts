@@ -12,7 +12,6 @@ export class FirmApi {
 
   async getFirm(): Promise<GetFirmResult> {
     const response: ApiResponse<any> = await this.api.get("/api/firm/my/")
-    console.log(response)
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
@@ -44,6 +43,18 @@ export class FirmApi {
       if (problem) return problem
     }
 
+    return {kind: "ok", data: response.data}
+  }
+
+  async inviteUserToNetwork(userEmail: string): Promise<GetFirmSingleProductsResult> {
+    const response: ApiResponse<any> = await this.api.post(`/api/invite/`, {
+      email: userEmail,
+    })
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
     return {kind: "ok", data: response.data}
   }
 }

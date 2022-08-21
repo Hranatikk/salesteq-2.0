@@ -52,6 +52,11 @@ export const presets = {
   fieldLabel: { ...BASE, fontSize: 15, color: color.dim } as TextStyle,
 
   /**
+   * Field labels that appear on forms above the inputs.
+   */
+  error: { ...BASE, fontSize: 15, color: color.error } as TextStyle,
+
+  /**
    * A smaller piece of secondary information.
    */
   secondary: { ...BASE, fontSize: 9, color: color.dim } as TextStyle,

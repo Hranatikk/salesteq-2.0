@@ -1,6 +1,9 @@
 import React, { FC, useEffect, useState, useRef } from "react"
 import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions, Keyboard } from "react-native"
 
+// Libs
+import { showMessage } from "react-native-flash-message";
+
 // State
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../models"
@@ -20,7 +23,8 @@ import {
   HorizontalSlider,
   Button,
   STIcon,
-  TextField
+  TextField,
+  Loader
 } from "../../components"
 
 // Utils
@@ -109,7 +113,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     const [invitedMail, changeInvitedMail] = useState<string>('')
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
-    const { firmProducts, isProductsFetching } = firmStore
+    const { firmProducts, isProductsFetching, isProductSaving } = firmStore
 
     useEffect(() => {
       fetchData();
@@ -117,6 +121,54 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
 
     const fetchData = async () => {
       await firmStore.getFirmProducts()
+    }
+
+    const onSavePress = () => {
+      if(currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
+        firmStore.sellProduct(
+          activeRadio,
+          firmProducts.filter(i => i.id === activeRadio)[0].price,
+          () => onSuccessfullSave()
+        )
+      }
+      if(currentStep === 1 && activeRadio !== 4 && activeRadio !== 5) {
+        setStep(2);
+        sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
+      }
+      if(currentStep === 2) {
+        const isMailVaild = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(invitedMail);
+
+        if(isMailVaild) {
+          firmStore.inviteUserToNetwork(
+            invitedMail,
+            () => firmStore.sellProduct(
+              activeRadio,
+              firmProducts.filter(i => i.id === activeRadio)[0].price,
+              () => onSuccessfullSave(),
+              "User successfully invited to your network"
+            )
+          )
+        } else {
+          showMessage({
+            message: "Please, enter a vaild user email",
+            type: "danger",
+            icon: "danger",
+            position: "bottom"
+          })
+        }
+      }
+    }
+
+    const onSuccessfullSave = () => {
+      onBackPress()
+      setActiveRadio(null)
+      changeInvitedMail("")
+    }
+
+    const onBackPress = () => {
+      setStep(1);
+      sliderRef.current.scrollTo({ x: 0 })
+      Keyboard.dismiss()
     }
 
     const renderItem = (item) => {
@@ -130,30 +182,11 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
       )
     }
 
-    const onSavePress = () => {
-      if(currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
-        firmStore.sellProduct(activeRadio, firmProducts.filter(i => i.id === activeRadio)[0].price)
-      }
-
-      if(currentStep === 1 && activeRadio !== 4 && activeRadio !== 5) {
-        setStep(2);
-        sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
-      }
-      if(currentStep === 2) {
-        firmStore.sellProduct(activeRadio, firmProducts.filter(i => i.id === activeRadio)[0].price)
-      }
-    }
-
-    const handleBack = () => {
-      setStep(1);
-      sliderRef.current.scrollTo({ x: 0 })
-      Keyboard.dismiss()
-    }
-
-    const BUTTON_STYLE = activeRadio === null ? BUTTON_SAVE_DISABLED : BUTTON_SAVE
+    const isButtonDisabled = activeRadio === null ||( activeRadio !== 4 && activeRadio !== 5 && currentStep === 2 && invitedMail.length <= 0)
 
     return (
       <View testID="ProductsListScreen" style={FULL}>
+        {isProductSaving ? <Loader /> : null}
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header
@@ -165,7 +198,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           {currentStep === 2 ? (
             <Button
               activeOpacity={0.8}
-              onPress={() => handleBack()}
+              onPress={() => onBackPress()}
               style={BACK_BUTTON}
             >
               <STIcon icon="chevron_back_28" color={color.palette.white} size={25} />
@@ -201,13 +234,15 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           </HorizontalSlider>
 
           <Button
+            key={`button_save_${isButtonDisabled ? 'disabled' : 'enabled'}`}
             text={translate(
               (activeRadio === 4 || activeRadio === 5 || currentStep === 2) ? "common.save" : "common.nextStep"
             )}
             preset="primary"
-            style={BUTTON_STYLE}
+            style={isButtonDisabled ? BUTTON_SAVE_DISABLED : BUTTON_SAVE}
             activeOpacity={0.8}
-            onPress={() => activeRadio === null ? {} : onSavePress()}
+            disabled={isButtonDisabled}
+            onPress={() => isButtonDisabled ? {} : onSavePress()}
           />
         </Screen>
       </View>

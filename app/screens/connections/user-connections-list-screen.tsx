@@ -3,7 +3,7 @@ import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "re
 
 // State
 import { observer } from "mobx-react-lite"
-import { Profile } from "../../models/profile/profile"
+import { Profile } from "../../models/profile/profile-model"
 
 // Navigation
 import { StackScreenProps } from "@react-navigation/stack"
