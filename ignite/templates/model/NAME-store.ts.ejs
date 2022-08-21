@@ -1,0 +1,21 @@
+import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { withEnvironment } from "../extensions/with-environment"
+
+/**
+ * Custom description for store
+ */
+
+export const <%= props.pascalCaseName %>StoreModel = types
+  .model("<%= props.pascalCaseName %>Store")
+  .props({
+  })
+  .extend(withEnvironment)
+  .actions((self) => ({
+    example: () => {
+    },
+  }))
+
+export interface <%= props.pascalCaseName %>Store extends Instance<typeof <%= props.pascalCaseName %>StoreModel> {}
+export interface <%= props.pascalCaseName %>StoreSnapshotOut extends SnapshotOut<typeof <%= props.pascalCaseName %>StoreModel> {}
+export interface <%= props.pascalCaseName %>StoreSnapshotIn extends SnapshotIn<typeof <%= props.pascalCaseName %>StoreModel> {}
+export const create<%= props.pascalCaseName %>StoreDefaultModel = () => types.optional(<%= props.pascalCaseName %>StoreModel, {})

@@ -5,7 +5,7 @@ import { withEnvironment } from "../extensions/with-environment"
 import { showMessage } from "react-native-flash-message";
 
 /**
- * Stroing user data
+ * Store firm data
  */
 export const FirmStoreModel = types
   .model("FirmStore")
