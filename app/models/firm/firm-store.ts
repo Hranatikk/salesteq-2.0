@@ -2,7 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, types, getParent } from "mobx-state-
 import { FirmModel, Firm, FirmProductModel, FirmProduct } from "./firm-model"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { showMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message"
 
 /**
  * Store firm data
@@ -15,7 +15,7 @@ export const FirmStoreModel = types
 
     firmProducts: types.optional(types.array(FirmProductModel), []),
     isProductsFetching: types.boolean,
-    isProductSaving: types.boolean
+    isProductSaving: types.boolean,
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -99,8 +99,15 @@ export const FirmStoreModel = types
     },
   }))
   .actions((self) => ({
-    sellProduct: async (productId: number, price: number, onSuccess?: () => void, successText?: string) => {
-      const {profileStore: { profile }} = getParent(self)
+    sellProduct: async (
+      productId: number,
+      price: number,
+      onSuccess?: () => void,
+      successText?: string,
+    ) => {
+      const {
+        profileStore: { profile },
+      } = getParent(self)
       self.isProductSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.sellProduct(productId, profile.id, price)
@@ -111,7 +118,6 @@ export const FirmStoreModel = types
       } else {
         self.errorSellProduct()
         __DEV__ && console.log(result.kind)
-
       }
     },
   }))
@@ -126,12 +132,11 @@ export const FirmStoreModel = types
       } else {
         self.errorSellProduct("Can't invite this user to network")
         __DEV__ && console.log(result.kind)
-
       }
     },
   }))
 
-export interface FirmStore extends Instance<typeof FirmStoreModel> {}
-export interface FirmStoreSnapshotOut extends SnapshotOut<typeof FirmStoreModel> {}
-export interface FirmStoreSnapshotIn extends SnapshotIn<typeof FirmStoreModel> {}
+export type FirmStore = Instance<typeof FirmStoreModel>
+export type FirmStoreSnapshotOut = SnapshotOut<typeof FirmStoreModel>
+export type FirmStoreSnapshotIn = SnapshotIn<typeof FirmStoreModel>
 export const createFirmStoreDefaultModel = () => types.optional(FirmStoreModel, {})

@@ -9,7 +9,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
-import { STIcon } from "../components";
+import { STIcon } from "../components"
 import { color } from "../theme"
 import {
   AnalyticsScreen,
@@ -20,7 +20,7 @@ import {
   UserAnalyticsScreen,
   UserSaleHistoryScreen,
   UserRevenueHistoryScreen,
-  ProductsListScreen
+  ProductsListScreen,
 } from "../screens"
 
 /**
@@ -47,8 +47,8 @@ export type NavigatorParamList = {
   productsList: any
 }
 
-const Stack = createNativeStackNavigator<NavigatorParamList>();
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<NavigatorParamList>()
+const Tab = createBottomTabNavigator()
 
 const AnalyticsStack = () => {
   return (
@@ -127,16 +127,20 @@ const TabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: { backgroundColor: color.background, }
+        tabBarStyle: { backgroundColor: color.background },
       }}
-      initialRouteName=''
+      initialRouteName=""
     >
       <Tab.Screen
         name="analyticsStack"
         component={AnalyticsStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <STIcon icon="statistics_outline_28" color={focused ? color.palette.black : color.palette.grey} size={focused ? 30 : 29} />
+          tabBarIcon: ({ focused }) => (
+            <STIcon
+              icon="statistics_outline_28"
+              color={focused ? color.palette.black : color.palette.grey}
+              size={focused ? 30 : 29}
+            />
           ),
         }}
       />
@@ -144,8 +148,12 @@ const TabNavigator = () => {
         name="calendarStack"
         component={CalendarStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <STIcon icon="calendar_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
+          tabBarIcon: ({ focused }) => (
+            <STIcon
+              icon="calendar_outline_28"
+              color={focused ? color.palette.black : color.palette.grey}
+              size={30}
+            />
           ),
         }}
       />
@@ -153,8 +161,12 @@ const TabNavigator = () => {
         name="productsStack"
         component={ProductsStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <STIcon icon="add_square_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
+          tabBarIcon: ({ focused }) => (
+            <STIcon
+              icon="add_square_outline_28"
+              color={focused ? color.palette.black : color.palette.grey}
+              size={30}
+            />
           ),
         }}
       />
@@ -162,8 +174,12 @@ const TabNavigator = () => {
         name="connections"
         component={ConnectionsStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <STIcon icon="users_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
+          tabBarIcon: ({ focused }) => (
+            <STIcon
+              icon="users_outline_28"
+              color={focused ? color.palette.black : color.palette.grey}
+              size={30}
+            />
           ),
         }}
       />
@@ -171,24 +187,25 @@ const TabNavigator = () => {
         name="settingsStack"
         component={SettingsStack}
         options={{
-          tabBarIcon: ({focused}) => (
-            <STIcon icon="settings_outline_28" color={focused ? color.palette.black : color.palette.grey} size={30} />
+          tabBarIcon: ({ focused }) => (
+            <STIcon
+              icon="settings_outline_28"
+              color={focused ? color.palette.black : color.palette.grey}
+              size={30}
+            />
           ),
         }}
       />
     </Tab.Navigator>
-  );
+  )
 }
 
-interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
 
 export const AppNavigator = (props: NavigationProps) => {
   useBackButtonHandler(canExit)
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      {...props}
-    >
+    <NavigationContainer ref={navigationRef} {...props}>
       <TabNavigator />
     </NavigationContainer>
   )

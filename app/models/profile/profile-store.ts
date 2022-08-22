@@ -1,8 +1,13 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { ProfileModel, ProfileStatsOnlyModel, ProfileSnapshotOut, ProfileStatsOnly } from "./profile-model"
+import {
+  ProfileModel,
+  ProfileStatsOnlyModel,
+  ProfileSnapshotOut,
+  ProfileStatsOnly,
+} from "./profile-model"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { showMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message"
 
 /**
  * Storing user data
@@ -15,7 +20,7 @@ export const ProfileStoreModel = types
     isProfileFetching: types.boolean,
 
     profileConnections: types.optional(types.array(ProfileModel), []),
-    isConnectionsFetching: types.boolean
+    isConnectionsFetching: types.boolean,
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -105,7 +110,7 @@ export const ProfileStoreModel = types
     },
   }))
 
-export interface ProfileStore extends Instance<typeof ProfileStoreModel> {}
-export interface ProfileStoreSnapshotOut extends SnapshotOut<typeof ProfileStoreModel> {}
-export interface ProfileStoreSnapshotIn extends SnapshotIn<typeof ProfileStoreModel> {}
+export type ProfileStore = Instance<typeof ProfileStoreModel>
+export type ProfileStoreSnapshotOut = SnapshotOut<typeof ProfileStoreModel>
+export type ProfileStoreSnapshotIn = SnapshotIn<typeof ProfileStoreModel>
 export const createProfileStoreDefaultModel = () => types.optional(ProfileStoreModel, {})

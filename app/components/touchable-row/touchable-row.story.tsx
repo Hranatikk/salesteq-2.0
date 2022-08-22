@@ -8,13 +8,7 @@ storiesOf("TouchableRow", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="TouchableRow" usage="Touchable row.">
-        <TouchableRow
-          icon="icon"
-          title="title"
-          description="description"
-          isLast={false}
-          onPress={() => {}}
-        />
+        <TouchableRow icon="icon" title="title" description="description" isLast={false} />
       </UseCase>
     </Story>
   ))

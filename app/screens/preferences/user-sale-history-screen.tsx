@@ -1,5 +1,13 @@
 import React, { FC, useEffect, useState } from "react"
-import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions, ScrollView } from "react-native"
+import {
+  View,
+  FlatList,
+  TextStyle,
+  ViewStyle,
+  ImageStyle,
+  Dimensions,
+  ScrollView,
+} from "react-native"
 
 // Libs
 import dayjs from "dayjs"
@@ -15,15 +23,7 @@ import { NavigatorParamList } from "../../navigators"
 import { ProfileApi } from "../../services/api/profile-api"
 
 // Components
-import {
-  Screen,
-  SimpleBackground,
-  Header,
-  Card,
-  Text,
-  AutoImage,
-  Tab
-} from "../../components"
+import { Screen, SimpleBackground, Header, Card, Text, AutoImage, Tab } from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -54,12 +54,12 @@ const TAB_WRAPPER: ViewStyle = {
   backgroundColor: color.transparent,
   flexDirection: "row",
   marginHorizontal: spacing[4],
-  marginBottom: spacing[5]
+  marginBottom: spacing[5],
 }
 
 const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height/4,
-  width: (Dimensions.get("window").height/4)*1.5
+  height: Dimensions.get("window").height / 4,
+  width: (Dimensions.get("window").height / 4) * 1.5,
 }
 
 const EMPTY_CONTAINER: ViewStyle = {
@@ -70,24 +70,23 @@ const EMPTY_CONTAINER: ViewStyle = {
 
 const EMPTY_TEXT: TextStyle = {
   textAlign: "center",
-  marginTop: spacing[7]
+  marginTop: spacing[7],
 }
 
-
-export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userSaleHistory">> = observer(
-  ({ navigation, route }) =>  {
-    const profileApi = new ProfileApi;   
+export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userSaleHistory">> =
+  observer(({ navigation, route }) => {
+    const profileApi = new ProfileApi()
     const [currentTab, setCurrentTab] = useState<"sale" | "sale_with_structure">("sale")
     const [sales, setSales] = useState([])
-    const [salesWithStructure, setSalesWithStructure] = useState([]);
+    const [salesWithStructure, setSalesWithStructure] = useState([])
     const [isFetching, setIsFetching] = useState<boolean>(true)
 
     useEffect(() => {
-      fetchData();
+      fetchData()
     }, [])
 
     const fetchData = async () => {
-      const { user } = route.params;
+      const { user } = route.params
       const sales = await profileApi.getUserSales(user.id, false)
       const salesWithStructure = await profileApi.getUserSales(user.id, true)
 
@@ -99,9 +98,10 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
     const renderItem = (item) => {
       return (
         <Card
-          title={`${item.product.title} ${currentTab === "sale" ? "" : `from ${item.user.first_name} ${item.user.last_name}`}`}
+          title={`${item.product.title} ${
+            currentTab === "sale" ? "" : `from ${item.user.first_name} ${item.user.last_name}`
+          }`}
           subtitle={`Sale #${item.id} at ${dayjs(item.datetime).format("DD MMMM YYYY hh:mm")}`}
-          onPress={() => {}}
           statusText={`Sale #${item.id}`}
           statusTextColor={color.palette.green}
           iconName="money_wad_outline_28"
@@ -126,12 +126,16 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
           <FlatList
             keyExtractor={(item) => `sale_h_${item.id}`}
             data={currentTab === "sale" ? sales : salesWithStructure}
-            renderItem={({item}) => renderItem(item)}
+            renderItem={({ item }) => renderItem(item)}
             refreshing={isFetching}
             onRefresh={() => fetchData()}
             contentContainerStyle={{ flexGrow: 1 }}
             ListHeaderComponent={() => (
-              <ScrollView horizontal={true} style={TAB_WRAPPER} showsHorizontalScrollIndicator={false}>
+              <ScrollView
+                horizontal={true}
+                style={TAB_WRAPPER}
+                showsHorizontalScrollIndicator={false}
+              >
                 <Tab
                   isActive={currentTab === "sale"}
                   text={translate("analyticsScreen.saleHistory")}
@@ -146,13 +150,17 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
             )}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
-                <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("userSaleHistory.noSales")}</Text>
+                <AutoImage
+                  source={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  style={EMPTY_IMAGE}
+                />
+                <Text preset="title" style={EMPTY_TEXT}>
+                  {translate("userSaleHistory.noSales")}
+                </Text>
               </View>
             )}
-          />        
+          />
         </Screen>
       </View>
     )
-  }
-)
+  })

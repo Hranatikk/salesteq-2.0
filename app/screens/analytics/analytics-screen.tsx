@@ -10,13 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import {
-  Screen,
-  SimpleBackground,
-  Header,
-  UserAnalytics,
-  ContentLoader
-} from "../../components"
+import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader } from "../../components"
 
 // Styles
 import { color, spacing } from "../../theme"
@@ -40,35 +34,32 @@ const HEADER_TITLE: TextStyle = {
   textAlign: "center",
 }
 
-export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
-  const { profileStore } = useStores()
-  const { profile, profileStats, isProfileFetching } = profileStore
+export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(
+  function AnalyticsScreen() {
+    const { profileStore } = useStores()
+    const { profile, profileStats, isProfileFetching } = profileStore
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+    useEffect(() => {
+      fetchData()
+    }, [])
 
-  const fetchData = async () => {
-    await profileStore.getProfile()
-  }
+    const fetchData = async () => {
+      await profileStore.getProfile()
+    }
 
-  return (
-    <View testID="AnalyticsScreen" style={FULL}>
-      <SimpleBackground />
-      {isProfileFetching
-        ? <ContentLoader />
-        : (
+    return (
+      <View testID="AnalyticsScreen" style={FULL}>
+        <SimpleBackground />
+        {isProfileFetching ? (
+          <ContentLoader />
+        ) : (
           <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
-            <Header
-              headerTx="analyticsScreen.title"
-              style={HEADER}
-              titleStyle={HEADER_TITLE}
-            />
-            
+            <Header headerTx="analyticsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
+
             <FlatList
               keyExtractor={(item) => `event_${item.id}`}
               data={[]}
-              renderItem={({item}) => (<></>)}
+              renderItem={() => <></>}
               refreshing={isProfileFetching}
               onRefresh={() => fetchData()}
               contentContainerStyle={{ flexGrow: 1 }}
@@ -77,8 +68,8 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
               )}
             />
           </Screen>
-        )
-      }
-    </View>
-  )
-})
+        )}
+      </View>
+    )
+  },
+)

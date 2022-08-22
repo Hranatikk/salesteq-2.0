@@ -11,36 +11,36 @@ import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
 import { STIcon } from "./components"
-import { spacing, color,  } from "./theme"
+import { spacing, color } from "./theme"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
-const MESSAGE_CONTAINER:ViewStyle = {
-  width: Dimensions.get("window").width-spacing[6],
+const MESSAGE_CONTAINER: ViewStyle = {
+  width: Dimensions.get("window").width - spacing[6],
   height: spacing[8],
   borderRadius: spacing[2],
   marginHorizontal: spacing[4],
   marginBottom: 108,
   paddingVertical: spacing[1],
   paddingHorizontal: spacing[2],
-  justifyContent: "center"
+  justifyContent: "center",
 }
 
-const MESSAGE_CONTENT:ViewStyle = {
-  flexDirection: "row"
+const MESSAGE_CONTENT: ViewStyle = {
+  flexDirection: "row",
 }
 
-const MESSAGE_TEXT:TextStyle = {
+const MESSAGE_TEXT: TextStyle = {
   color: color.palette.white,
   fontSize: 16,
 }
 
-const MESSAGE_DANGER:ViewStyle = {
-  backgroundColor: color.error
+const MESSAGE_DANGER: ViewStyle = {
+  backgroundColor: color.error,
 }
 
-const MESSAGE_SUCCESS:ViewStyle = {
-  backgroundColor: color.palette.green
+const MESSAGE_SUCCESS: ViewStyle = {
+  backgroundColor: color.palette.green,
 }
 
 const ICON_CONTAINER: ViewStyle = {
@@ -59,18 +59,28 @@ function App() {
 
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
-    ;(async () => {
-      setupRootStore().then(setRootStore)
+    (async () => {
+      setupRootStore().then(setRootStore);
     })()
   }, [])
 
   const renderFlashMessage = (props) => {
     return (
-      <View style={[MESSAGE_CONTAINER, props.icon.icon === "danger" && MESSAGE_DANGER, props.icon.icon === "success" && MESSAGE_SUCCESS]}>
+      <View
+        style={[
+          MESSAGE_CONTAINER,
+          props.icon.icon === "danger" && MESSAGE_DANGER,
+          props.icon.icon === "success" && MESSAGE_SUCCESS,
+        ]}
+      >
         <View style={MESSAGE_CONTENT}>
           {props.icon ? (
             <View style={ICON_CONTAINER}>
-              <STIcon icon={props.icon.icon === "danger" ? "error_outline_28" : "check_circle_outline_28"} color={color.palette.white} size={spacing[5]} />
+              <STIcon
+                icon={props.icon.icon === "danger" ? "error_outline_28" : "check_circle_outline_28"}
+                color={color.palette.white}
+                size={spacing[5]}
+              />
             </View>
           ) : null}
           <Text style={MESSAGE_TEXT}>{props.message.message}</Text>
@@ -92,7 +102,7 @@ function App() {
                 onStateChange={onNavigationStateChange}
               />
 
-              <FlashMessage MessageComponent={renderFlashMessage}/>
+              <FlashMessage MessageComponent={renderFlashMessage} />
             </ErrorBoundary>
           </PortalProvider>
         </SafeAreaProvider>

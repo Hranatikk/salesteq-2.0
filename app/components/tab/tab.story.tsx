@@ -1,7 +1,6 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { color } from "../../theme"
 import { Tab } from "./tab"
 
 storiesOf("Tab", module)
@@ -9,7 +8,7 @@ storiesOf("Tab", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Tab" usage="Tab component.">
-        <Tab isActive={false} text="Text" onPress={() => {}} />
+        <Tab isActive={false} text="Text" />
       </UseCase>
     </Story>
   ))

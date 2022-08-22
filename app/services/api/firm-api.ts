@@ -4,9 +4,10 @@ import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } fro
 
 export class FirmApi {
   api = create({
-    baseURL: 'http://46.22.223.113',
+    baseURL: "http://46.22.223.113",
     headers: {
-      'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70`
+      Authorization:
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMjQ4NTkwLCJqdGkiOiJkMWRkODA3YWUzNjY0NGIyYmJhYTc2YzUyOWY0YTJjOSIsInVzZXJfaWQiOjJ9.tBiHy3drWoXtWoEDUlnKsRCWQbOADQZL8ANl4rik_70",
     },
   })
 
@@ -17,7 +18,7 @@ export class FirmApi {
       if (problem) return problem
     }
 
-    return {kind: "ok", data: response.data}
+    return { kind: "ok", data: response.data }
   }
 
   async getFirmProducts(): Promise<GetFirmProductsResult> {
@@ -28,11 +29,15 @@ export class FirmApi {
       if (problem) return problem
     }
 
-    return {kind: "ok", data: response.data}
+    return { kind: "ok", data: response.data }
   }
 
-  async sellProduct(productId: number, userId: number, price: number): Promise<GetFirmSingleProductsResult> {
-    const response: ApiResponse<any> = await this.api.post(`/api/sale/create/`, {
+  async sellProduct(
+    productId: number,
+    userId: number,
+    price: number,
+  ): Promise<GetFirmSingleProductsResult> {
+    const response: ApiResponse<any> = await this.api.post("/api/sale/create/", {
       product: productId,
       user: userId,
       price: price,
@@ -43,11 +48,11 @@ export class FirmApi {
       if (problem) return problem
     }
 
-    return {kind: "ok", data: response.data}
+    return { kind: "ok", data: response.data }
   }
 
   async inviteUserToNetwork(userEmail: string): Promise<GetFirmSingleProductsResult> {
-    const response: ApiResponse<any> = await this.api.post(`/api/invite/`, {
+    const response: ApiResponse<any> = await this.api.post("/api/invite/", {
       email: userEmail,
     })
 
@@ -55,6 +60,6 @@ export class FirmApi {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
-    return {kind: "ok", data: response.data}
+    return { kind: "ok", data: response.data }
   }
 }

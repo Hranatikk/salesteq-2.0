@@ -8,7 +8,7 @@ storiesOf("Loader", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Loader" usage="Loader component">
-        <Loader/>
+        <Loader />
       </UseCase>
     </Story>
   ))

@@ -1,0 +1,102 @@
+{
+    "extends": [
+      "tslint-react-recommended",
+      "tslint-react",
+      "tslint-config-airbnb",
+      "tslint-config-prettier"
+    ],
+    "linterOptions": {
+      "exclude": [
+          "./App/node_modules/**"
+      ]
+    },
+    "jsRules": {
+      "no-empty": true
+    },
+    "defaultSeverity": "error",
+    "rules": {
+      "max-line-length": {
+        "options": [150]
+      },
+      "no-object-literal-type-assertion": false,
+      "no-bitwise": true,
+      "no-duplicate-super": true,
+      "no-async-without-await": true,
+      "no-var-keyword": true,
+      "no-unused-variable": true,
+      "no-submodule-imports": false,
+      "no-implicit-dependencies": false,
+      "no-constant-condition": false,
+      "no-duplicate-imports": true,
+      "no-trailing-whitespace": [
+        true,
+        "ignore-comments",
+        "ignore-jsdoc",
+        "ignore-template-strings",
+        "ignore-blank-lines"
+      ],
+      "no-console": {
+        "severity": "warning",
+        "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+      },
+      "no-empty": [true,
+        "allow-empty-catch",
+        "allow-empty-functions"
+      ],
+      "variable-name": false,
+      "import-name": false,
+      "new-parens": true,
+      "import-spacing": true,
+      "class-name": true,
+      "unnecessary-constructor": true,
+      "interface-name": true,
+      "eofline": true,
+      "object-literal-sort-keys": false,
+      "whitespace": [true, "check-module"],
+      "ordered-imports": [
+        false
+      ],
+      "quotemark": [
+        true,
+        "single",
+        "jsx-double",
+        "avoid-escape"
+      ],
+      "member-access": [
+        false
+      ],
+      "member-ordering": [
+        false
+      ],
+      "trailing-comma": [
+        true,
+        {
+          "singleline": "never",
+          "multiline": "always"
+        }
+      ],
+      "semicolon": {
+        "options": ["always"]
+      },
+      "triple-equals": [
+        true,
+        "allow-undefined-check"
+      ],
+      "indent": [true, "spaces", 2],
+      "ter-indent": [
+        true,
+        2,
+        {
+          "SwitchCase": 1
+        }
+      ],
+      "prefer-array-literal": true,
+      "jsx-alignment": true,
+      "jsx-no-bind": true,
+      "jsx-self-close": true,
+      "jsx-wrap-multiline": true,
+      "jsx-equals-spacing": ["always"],
+      "jsx-no-lambda": false
+    }
+  }
+  

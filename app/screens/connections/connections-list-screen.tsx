@@ -10,15 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import {
-  Screen,
-  SimpleBackground,
-  Header,
-  Button,
-  Card,
-  Text,
-  AutoImage
-} from "../../components"
+import { Screen, SimpleBackground, Header, Button, Card, Text, AutoImage } from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -46,8 +38,8 @@ const CONTAINER: ViewStyle = {
 }
 
 const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height/4,
-  width: (Dimensions.get("window").height/4)*1.5
+  height: Dimensions.get("window").height / 4,
+  width: (Dimensions.get("window").height / 4) * 1.5,
 }
 
 const EMPTY_CONTAINER: ViewStyle = {
@@ -58,22 +50,21 @@ const EMPTY_CONTAINER: ViewStyle = {
 
 const EMPTY_TEXT: TextStyle = {
   textAlign: "center",
-  marginTop: spacing[7]
+  marginTop: spacing[7],
 }
 
 const BUTTON_ADD: ViewStyle = {
   marginTop: spacing[4],
-  width: Dimensions.get("window").width/1.5
+  width: Dimensions.get("window").width / 1.5,
 }
 
-
-export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connectionsList">> = observer(
-  ({ navigation }) =>  {
+export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connectionsList">> =
+  observer(({ navigation }) => {
     const { profileStore } = useStores()
     const { profileConnections, isConnectionsFetching } = profileStore
 
     useEffect(() => {
-      fetchData();
+      fetchData()
     }, [])
 
     const fetchData = async () => {
@@ -85,7 +76,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         <Card
           title={`${item.first_name} ${item.last_name}`}
           subtitle={item.email}
-          onPress={() => navigation.push("userConnectionList", {user: item})}
+          onPress={() => navigation.push("userConnectionList", { user: item })}
           statusText="Status: Gold"
           statusTextColor={color.palette.green}
           iconName={item.data.turnover ? "money_wad_outline_28" : null}
@@ -99,23 +90,24 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
       <View testID="ConnectionsScreen" style={FULL}>
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
-          <Header
-            headerTx="connectionsScreen.title"
-            style={HEADER}
-            titleStyle={HEADER_TITLE}
-          />
+          <Header headerTx="connectionsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
           <FlatList
             keyExtractor={(item) => `event_${item.id}`}
             data={profileConnections}
-            renderItem={({item}) => renderItem(item)}
+            renderItem={({ item }) => renderItem(item)}
             refreshing={isConnectionsFetching}
             onRefresh={() => fetchData()}
             contentContainerStyle={{ flexGrow: 1 }}
             ListEmptyComponent={() => (
               <View style={EMPTY_CONTAINER}>
-                <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                <Text preset="title" style={EMPTY_TEXT}>{translate("connectionsScreen.noConnectionsInOwnNetwork")}</Text>
+                <AutoImage
+                  source={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  style={EMPTY_IMAGE}
+                />
+                <Text preset="title" style={EMPTY_TEXT}>
+                  {translate("connectionsScreen.noConnectionsInOwnNetwork")}
+                </Text>
                 <Button
                   preset="primary"
                   text={translate("connectionsScreen.addPartner")}
@@ -129,5 +121,4 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         </Screen>
       </View>
     )
-  }
-)
+  })

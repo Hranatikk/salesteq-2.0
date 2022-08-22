@@ -2,7 +2,6 @@ import { GeneralApiProblem } from "./api-problem"
 import { Profile, ProfileStatsOnly } from "../../models/profile/profile-model"
 import { Firm, FirmProduct, SendedUserInvitation } from "../../models/firm/firm-model"
 
-
 // PROFILE
 export type GetProfileResult = { kind: "ok"; data: Profile } | GeneralApiProblem
 export type GetProfileConnectionsResult = { kind: "ok"; data: Profile[] } | GeneralApiProblem
