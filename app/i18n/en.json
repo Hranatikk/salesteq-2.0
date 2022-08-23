@@ -7,7 +7,16 @@
     "nextStep": "Next step"
   },
   "errors": {
-    "invalidEmail": "Invalid email address."
+    "invalidEmail": "Invalid email address.",
+    "sessionExpired": "Your session has expired"
+  },
+  "authScreen": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "enterEmail": "Enter email",
+    "enterPassword": "Enter password",
+    "alreadyHaveAnAccount": "Already have an account?",
+    "haveAnInvitationCode": "Recieve an invitation code?"
   },
   "analyticsScreen": {
     "title": "Analytics",

@@ -20,3 +20,6 @@ export * from "./settings/settings-screen"
 // PREFERENCES
 export * from "./preferences/user-sale-history-screen"
 export * from "./preferences/user-revenue-history-screen"
+
+// AUTH
+export * from "./auth/sign-in-screen"

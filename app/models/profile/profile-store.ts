@@ -21,6 +21,10 @@ export const ProfileStoreModel = types
 
     profileConnections: types.optional(types.array(ProfileModel), []),
     isConnectionsFetching: types.boolean,
+
+    isTokenFetching: types.boolean,
+    accessToken: types.maybeNull(types.string),
+    errorGetAccessToken: types.maybeNull(types.string),
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -69,6 +73,19 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
+    saveAccessToken: (accessToken: string) => {
+      self.isTokenFetching = false
+      self.accessToken = accessToken
+    },
+  }))
+  .actions((self) => ({
+    errorFetchAccessToken: (error: string) => {
+      self.isTokenFetching = false
+      self.accessToken = null
+      self.errorGetAccessToken = error
+    },
+  }))
+  .actions((self) => ({
     getProfileStats: async () => {
       const profileApi = new ProfileApi()
       const result = await profileApi.getProfileStats(self.profile.id)
@@ -83,6 +100,7 @@ export const ProfileStoreModel = types
   }))
   .actions((self) => ({
     getProfile: async () => {
+      self.isProfileFetching = true
       const profileApi = new ProfileApi()
       const result = await profileApi.getProfile()
 
@@ -107,6 +125,31 @@ export const ProfileStoreModel = types
         self.errorGetProfileConnections()
         __DEV__ && console.log(result.kind)
       }
+    },
+  }))
+  .actions((self) => ({
+    signIn: async (email: string, password: string) => {
+      self.isConnectionsFetching = true
+      self.errorGetAccessToken = null
+      const profileApi = new ProfileApi()
+      const result = await profileApi.signIn(email, password)
+
+      if (result.kind === "ok") {
+        self.saveAccessToken(result.data.access)
+      } else {
+        self.errorFetchAccessToken("no such user")
+        __DEV__ && console.log(result.kind)
+      }
+    },
+  }))
+  .actions((self) => ({
+    logout: async () => {
+      self.isTokenFetching = false
+      self.accessToken = null
+      self.errorGetAccessToken = null
+
+      const profileApi = new ProfileApi()
+      await profileApi.logout()
     },
   }))
 

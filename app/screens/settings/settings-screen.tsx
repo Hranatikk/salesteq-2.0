@@ -109,6 +109,10 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
       )
     }
 
+    const logout = async () => {
+      profileStore.logout()
+    }
+
     return (
       <View testID="SettingsScreen" style={FULL}>
         <SimpleBackground />
@@ -163,7 +167,7 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
               isLast={false}
             />
 
-            <TouchableOpacity activeOpacity={0.8} style={LOGOUT_BUTTON}>
+            <TouchableOpacity activeOpacity={0.8} style={LOGOUT_BUTTON} onPress={() => logout()}>
               <Text preset="title" style={{ color: color.palette.lightRed }}>
                 {translate("settingsScreen.logout")}
               </Text>

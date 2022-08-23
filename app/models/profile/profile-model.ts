@@ -77,6 +77,11 @@ export const ProfileStatsOnlyModel = types.model("ProfileStatsOnly").props({
   structure: types.array(StatsStructureModel),
 })
 
+export const SignInResultModel = types.model("SignInResult").props({
+  refresh: types.string,
+  access: types.string,
+})
+
 export type Profile = Instance<typeof ProfileModel>
 export type ProfileSnapshotOut = SnapshotOut<typeof ProfileModel>
 export type ProfileSnapshotIn = SnapshotIn<typeof ProfileModel>
@@ -86,3 +91,8 @@ export type ProfileStatsOnly = Instance<typeof ProfileStatsOnlyModel>
 export type ProfileStatsOnlySnapshotOut = SnapshotOut<typeof ProfileStatsOnlyModel>
 export type ProfileStatsOnlySnapshotIn = SnapshotIn<typeof ProfileStatsOnlyModel>
 export const createProfileStatsOnlyDefaultModel = () => types.optional(ProfileStatsOnlyModel, {})
+
+export type SignInResult = Instance<typeof SignInResultModel>
+export type SignInResultSnapshotOut = SnapshotOut<typeof SignInResultModel>
+export type SignInResultSnapshotIn = SnapshotIn<typeof SignInResultModel>
+export const createSignInResultDefaultModel = () => types.optional(SignInResultModel, {})

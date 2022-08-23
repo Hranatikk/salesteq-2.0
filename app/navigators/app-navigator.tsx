@@ -1,15 +1,15 @@
-/**
- * The app navigator (formerly "AppNavigator" and "MainNavigator") is used for the primary
- * navigation flows of your app.
- * Generally speaking, it will contain an auth flow (registration, login, forgot password)
- * and a "main" flow which the user will use once logged in.
- */
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { observer } from "mobx-react-lite"
+import { showMessage } from "react-native-flash-message"
+import * as storage from "../utils/storage"
+import { useStores } from "../models"
+import { translate } from "../i18n"
+import { ProfileApi } from "../services/api/profile-api"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
-import { STIcon } from "../components"
+import { STIcon, Loader } from "../components"
 import { color } from "../theme"
 import {
   AnalyticsScreen,
@@ -21,20 +21,9 @@ import {
   UserSaleHistoryScreen,
   UserRevenueHistoryScreen,
   ProductsListScreen,
+  SignInScreen
 } from "../screens"
 
-/**
- * This type allows TypeScript to know what routes are defined in this navigator
- * as well as what properties (if any) they might take when navigating to them.
- *
- * If no params are allowed, pass through `undefined`. Generally speaking, we
- * recommend using your MobX-State-Tree store(s) to keep application state
- * rather than passing state through navigation params.
- *
- * For more information, see this documentation:
- *   https://reactnavigation.org/docs/params/
- *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
- */
 export type NavigatorParamList = {
   analytics: any
   settings: any
@@ -45,10 +34,26 @@ export type NavigatorParamList = {
   userSaleHistory: any
   userRevenueHistory: any
   productsList: any
+  signIn: any
 }
 
+const ACCESS_TOKEN_KEY = "@access_token"
+const REFRESH_TOKEN_KEY = "@refresh_token"
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 const Tab = createBottomTabNavigator()
+
+const AuthStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="signIn"
+    >
+      <Stack.Screen name="signIn" component={SignInScreen} />
+    </Stack.Navigator>
+  )
+}
 
 const AnalyticsStack = () => {
   return (
@@ -139,7 +144,7 @@ const TabNavigator = () => {
             <STIcon
               icon="statistics_outline_28"
               color={focused ? color.palette.black : color.palette.grey}
-              size={focused ? 30 : 29}
+              size={30}
             />
           ),
         }}
@@ -202,14 +207,55 @@ const TabNavigator = () => {
 
 type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
 
-export const AppNavigator = (props: NavigationProps) => {
-  useBackButtonHandler(canExit)
-  return (
-    <NavigationContainer ref={navigationRef} {...props}>
-      <TabNavigator />
-    </NavigationContainer>
+export const AppNavigator = observer(
+  function AppNavigator(props:NavigationProps) {
+    const [isContentLoading, setIsContentLoading] = useState<boolean>(true)
+    const { profileStore } = useStores()
+    const profileApi = new ProfileApi
+
+    useEffect(() => {
+      checkUserCredentials()
+    }, [])
+
+    const checkUserCredentials = async () => {
+      const authToken = await storage.load(ACCESS_TOKEN_KEY)
+      if(authToken !== null && authToken !== "") {
+        const refreshToken = await storage.load(REFRESH_TOKEN_KEY)
+        const refreshingResult = await profileApi.refreshToken(refreshToken)
+
+        if(refreshingResult.data.access) {
+          setIsContentLoading(false)
+          storage.save(ACCESS_TOKEN_KEY, refreshingResult.data.access)
+          await profileStore.saveAccessToken(refreshingResult.data.access)
+        } else {
+          setIsContentLoading(false)
+          storage.remove(ACCESS_TOKEN_KEY)
+          storage.remove(REFRESH_TOKEN_KEY)
+          showMessage({
+            message: translate("errors.sessionExpired"),
+            type: "danger",
+            icon: "danger",
+            position: "bottom",
+          })
+        }
+      } else {
+        setIsContentLoading(false)
+      }
+    }
+
+    useBackButtonHandler(canExit)
+    return (
+      <NavigationContainer ref={navigationRef} {...props}>
+        {profileStore.accessToken === null
+          ? <AuthStack />
+          : <TabNavigator />
+        }
+
+        {isContentLoading ? <Loader /> : null}
+      </NavigationContainer>
   )
-}
+  }
+)
 
 AppNavigator.displayName = "AppNavigator"
 
@@ -220,7 +266,6 @@ AppNavigator.displayName = "AppNavigator"
  * Anything not on this list will be a standard `back` action in
  * react-navigation.
  *
- * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
  */
 const exitRoutes = ["analytics"]
 export const canExit = (routeName: string) => exitRoutes.includes(routeName)
