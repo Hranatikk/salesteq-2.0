@@ -7,7 +7,7 @@ import {
   GetProfileStatsOnlyResult,
   GetSaleHistoryResult,
   GetSignInResult,
-  GetLogOutResult
+  GetLogOutResult,
 } from "./api.types"
 
 export class ProfileApi {
@@ -152,9 +152,7 @@ export class ProfileApi {
    *
    * @param refreshToken refresh token for getting new access token
    */
-  async refreshToken(
-    refreshToken: string,
-  ): Promise<GetSignInResult> {
+  async refreshToken(refreshToken: string): Promise<GetSignInResult> {
     const response: ApiResponse<any> = await this.api.post("auth_djoser/jwt/refresh", {
       refresh: refreshToken,
     })
@@ -177,10 +175,7 @@ export class ProfileApi {
    * @param email user email
    * @param password user password
    */
-   async signIn(
-    email: string,
-    password: string,
-  ): Promise<GetSignInResult> {
+  async signIn(email: string, password: string): Promise<GetSignInResult> {
     const response: ApiResponse<any> = await this.api.post("auth_djoser/jwt/create", {
       email,
       password,
@@ -202,7 +197,7 @@ export class ProfileApi {
   /**
    * User log out
    */
-   async logout(): Promise<GetLogOutResult> {
+  async logout(): Promise<GetLogOutResult> {
     await storage.remove("@access_token")
     await storage.remove("@refresh_token")
     return { kind: "ok", data: "success" }

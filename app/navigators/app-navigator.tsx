@@ -21,7 +21,7 @@ import {
   UserSaleHistoryScreen,
   UserRevenueHistoryScreen,
   ProductsListScreen,
-  SignInScreen
+  SignInScreen,
 } from "../screens"
 
 export type NavigatorParamList = {
@@ -207,55 +207,50 @@ const TabNavigator = () => {
 
 type NavigationProps = Partial<React.ComponentProps<typeof NavigationContainer>>
 
-export const AppNavigator = observer(
-  function AppNavigator(props:NavigationProps) {
-    const [isContentLoading, setIsContentLoading] = useState<boolean>(true)
-    const { profileStore } = useStores()
-    const profileApi = new ProfileApi
+export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
+  const [isContentLoading, setIsContentLoading] = useState<boolean>(true)
+  const { profileStore } = useStores()
+  const profileApi = new ProfileApi()
 
-    useEffect(() => {
-      checkUserCredentials()
-    }, [])
+  useEffect(() => {
+    checkUserCredentials()
+  }, [])
 
-    const checkUserCredentials = async () => {
-      const authToken = await storage.load(ACCESS_TOKEN_KEY)
-      if(authToken !== null && authToken !== "") {
-        const refreshToken = await storage.load(REFRESH_TOKEN_KEY)
-        const refreshingResult = await profileApi.refreshToken(refreshToken)
+  const checkUserCredentials = async () => {
+    const authToken = await storage.load(ACCESS_TOKEN_KEY)
+    if (authToken !== null && authToken !== "") {
+      const refreshToken = await storage.load(REFRESH_TOKEN_KEY)
+      const refreshingResult = await profileApi.refreshToken(refreshToken)
 
-        if(refreshingResult.data.access) {
-          setIsContentLoading(false)
-          storage.save(ACCESS_TOKEN_KEY, refreshingResult.data.access)
-          await profileStore.saveAccessToken(refreshingResult.data.access)
-        } else {
-          setIsContentLoading(false)
-          storage.remove(ACCESS_TOKEN_KEY)
-          storage.remove(REFRESH_TOKEN_KEY)
-          showMessage({
-            message: translate("errors.sessionExpired"),
-            type: "danger",
-            icon: "danger",
-            position: "bottom",
-          })
-        }
+      if (refreshingResult.data.access) {
+        setIsContentLoading(false)
+        storage.save(ACCESS_TOKEN_KEY, refreshingResult.data.access)
+        await profileStore.saveAccessToken(refreshingResult.data.access)
       } else {
         setIsContentLoading(false)
+        storage.remove(ACCESS_TOKEN_KEY)
+        storage.remove(REFRESH_TOKEN_KEY)
+        showMessage({
+          message: translate("errors.sessionExpired"),
+          type: "danger",
+          icon: "danger",
+          position: "bottom",
+        })
       }
+    } else {
+      setIsContentLoading(false)
     }
-
-    useBackButtonHandler(canExit)
-    return (
-      <NavigationContainer ref={navigationRef} {...props}>
-        {profileStore.accessToken === null
-          ? <AuthStack />
-          : <TabNavigator />
-        }
-
-        {isContentLoading ? <Loader /> : null}
-      </NavigationContainer>
-  )
   }
-)
+
+  useBackButtonHandler(canExit)
+  return (
+    <NavigationContainer ref={navigationRef} {...props}>
+      {profileStore.accessToken === null ? <AuthStack /> : <TabNavigator />}
+
+      {isContentLoading ? <Loader /> : null}
+    </NavigationContainer>
+  )
+})
 
 AppNavigator.displayName = "AppNavigator"
 

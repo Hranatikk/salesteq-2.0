@@ -17,7 +17,7 @@ import {
   TextField,
   AutoImage,
   Text,
-  Loader
+  Loader,
 } from "../../components"
 
 // Utils
@@ -32,7 +32,7 @@ const FULL: ViewStyle = {
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
-  flex: 1
+  flex: 1,
 }
 
 const BUTTON_SIGN_IN: ViewStyle = {
@@ -43,13 +43,13 @@ const BUTTON_SIGN_IN: ViewStyle = {
 }
 
 const LOGO: ImageStyle = {
-  height: Dimensions.get("window").height/5,
-  width: (Dimensions.get("window").height/5)*1.16,
-  alignSelf: "center"
+  height: Dimensions.get("window").height / 5,
+  width: (Dimensions.get("window").height / 5) * 1.16,
+  alignSelf: "center",
 }
 
 const INPUT: ViewStyle = {
-  marginTop: 0
+  marginTop: 0,
 }
 
 const SIGN_UP_TEXT_CONTAINER: ViewStyle = {
@@ -64,12 +64,12 @@ const SIGN_UP_TEXT_CONTAINER: ViewStyle = {
 const SIGN_UP_BUTTON: ViewStyle = {
   marginLeft: spacing[2],
   marginTop: spacing[1],
-  paddingBottom: spacing[0]
+  paddingBottom: spacing[0],
 }
 
 const SIGN_UP_BUTTON_TEXT: TextStyle = {
   color: color.primary,
-  fontSize: 16
+  fontSize: 16,
 }
 
 export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = observer(
@@ -112,17 +112,19 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
             style={INPUT}
           />
 
-        <View style={SIGN_UP_TEXT_CONTAINER}>
-          <Text preset="description" style={{marginTop: 5}}>{translate("authScreen.haveAnInvitationCode")}</Text>
+          <View style={SIGN_UP_TEXT_CONTAINER}>
+            <Text preset="description" style={{ marginTop: 5 }}>
+              {translate("authScreen.haveAnInvitationCode")}
+            </Text>
 
-          <TouchableOpacity
-            onPress={() => navigation.navigate("settings")}
-            style={SIGN_UP_BUTTON}
-            activeOpacity={0.8}
-          >
-            <Text style={SIGN_UP_BUTTON_TEXT}>{translate("authScreen.signUp")}</Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("settings")}
+              style={SIGN_UP_BUTTON}
+              activeOpacity={0.8}
+            >
+              <Text style={SIGN_UP_BUTTON_TEXT}>{translate("authScreen.signUp")}</Text>
+            </TouchableOpacity>
+          </View>
 
           <Button
             text={translate("authScreen.signIn")}

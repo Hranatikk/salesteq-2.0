@@ -3,7 +3,6 @@ import { ApisauceInstance, create } from "apisauce" //ApiResponse
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 // import * as Types from "./api.types"
 
-
 export class Api {
   apisauce: ApisauceInstance
   config: ApiConfig

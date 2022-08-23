@@ -1,11 +1,7 @@
 import { ApiResponse, create } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import * as storage from "../../utils/storage"
-import {
-  GetFirmResult,
-  GetFirmProductsResult,
-  GetFirmSingleProductsResult
-} from "./api.types"
+import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } from "./api.types"
 
 export class FirmApi {
   api = create({
