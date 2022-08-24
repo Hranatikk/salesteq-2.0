@@ -5,7 +5,7 @@ import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } fro
 
 export class FirmApi {
   api = create({
-    baseURL: "http://46.22.223.113",
+    baseURL: "http://salesteq.info",
   })
 
   /**

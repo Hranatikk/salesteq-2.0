@@ -12,7 +12,7 @@ import {
 
 export class ProfileApi {
   api = create({
-    baseURL: "http://46.22.223.113",
+    baseURL: "http://salesteq.info",
   })
 
   /**
