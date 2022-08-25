@@ -7,6 +7,7 @@ import {
 } from "./profile-model"
 import { ProfileApi } from "../../services/api/profile-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { translate } from "../../i18n/"
 import { showMessage } from "react-native-flash-message"
 
 /**
@@ -28,11 +29,11 @@ export const ProfileStoreModel = types
   })
   .extend(withEnvironment)
   .actions(() => ({
-    showErrorMessage: (message: string) => {
+    showErrorMessage: (message: string, type: "danger" | "success") => {
       showMessage({
         message: message,
-        type: "danger",
-        icon: "danger",
+        type: type,
+        icon: type,
         position: "bottom",
       })
     },
@@ -43,9 +44,9 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    errorGetProfile: () => {
+    failGetProfile: () => {
       self.isProfileFetching = false
-      self.showErrorMessage("Can't load profile information")
+      self.showErrorMessage(translate("errors.cantLoadProfileInfo"), "danger")
     },
   }))
   .actions((self) => ({
@@ -55,9 +56,9 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    errorGetProfileStats: () => {
+    failGetProfileStats: () => {
       self.isProfileFetching = false
-      self.showErrorMessage("Can't load profile statistics")
+      self.showErrorMessage(translate("errors.cantLoadProfileStats"), "danger")
     },
   }))
   .actions((self) => ({
@@ -67,9 +68,9 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    errorGetProfileConnections: () => {
+    failGetProfileConnections: () => {
       self.isConnectionsFetching = false
-      self.showErrorMessage("Can't load your network")
+      self.showErrorMessage(translate("errors.cantLoadYourNetwork"), "danger")
     },
   }))
   .actions((self) => ({
@@ -79,7 +80,7 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
-    errorFetchAccessToken: (error: string) => {
+    failFetchAccessToken: (error: string) => {
       self.isTokenFetching = false
       self.accessToken = null
       self.errorGetAccessToken = error
@@ -93,7 +94,7 @@ export const ProfileStoreModel = types
       if (result.kind === "ok") {
         self.saveProfileStats(result.data)
       } else {
-        self.errorGetProfileStats()
+        self.failGetProfileStats()
         __DEV__ && console.log(result.kind)
       }
     },
@@ -108,7 +109,7 @@ export const ProfileStoreModel = types
         self.saveProfile(result.data)
         self.getProfileStats()
       } else {
-        self.errorGetProfile()
+        self.failGetProfile()
         __DEV__ && console.log(result.kind)
       }
     },
@@ -122,14 +123,14 @@ export const ProfileStoreModel = types
       if (result.kind === "ok") {
         self.saveProfileConnections(result.data)
       } else {
-        self.errorGetProfileConnections()
+        self.failGetProfileConnections()
         __DEV__ && console.log(result.kind)
       }
     },
   }))
   .actions((self) => ({
     signIn: async (email: string, password: string) => {
-      self.isConnectionsFetching = true
+      self.isTokenFetching = true
       self.errorGetAccessToken = null
       const profileApi = new ProfileApi()
       const result = await profileApi.signIn(email, password)
@@ -137,7 +138,7 @@ export const ProfileStoreModel = types
       if (result.kind === "ok") {
         self.saveAccessToken(result.data.access)
       } else {
-        self.errorFetchAccessToken("no such user")
+        self.failFetchAccessToken(translate("errors.cantFindUserWithCredentials"))
         __DEV__ && console.log(result.kind)
       }
     },

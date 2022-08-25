@@ -8,7 +8,18 @@
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
-    "sessionExpired": "Your session has expired"
+    "sessionExpired": "Your session has expired",
+    "cantInviteUser": "Can't invite this user to network",
+    "cantAddProduct": "Can't add product",
+    "cantLoadFirmProducts": "Can't load firm's products",
+    "cantLoadFirmDetails": "Can't load firm details",
+    "cantLoadProfileInfo": "Can't load profile information",
+    "cantLoadProfileStats": "Can't load profile statistics",
+    "cantLoadYourNetwork": "Can't load your network",
+    "cantFindUserWithCredentials": "Can't find user with given credentials"
+  },
+  "success": {
+    "productAdded": "Product successfully added"
   },
   "authScreen": {
     "signIn": "Sign in",

@@ -2,6 +2,7 @@ import { Instance, SnapshotIn, SnapshotOut, types, getParent } from "mobx-state-
 import { FirmModel, Firm, FirmProductModel, FirmProduct } from "./firm-model"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { translate } from "../../i18n/"
 import { showMessage } from "react-native-flash-message"
 
 /**
@@ -37,7 +38,7 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirm: () => {
       self.isFirmFetching = false
-      self.showMessage("Can't load firm details", "danger")
+      self.showMessage(translate("errors.cantLoadFirmDetails"), "danger")
     },
   }))
   .actions((self) => ({
@@ -49,25 +50,25 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirmProducts: () => {
       self.isProductsFetching = false
-      self.showMessage("Can't load firm's products", "danger")
+      self.showMessage(translate("errors.cantLoadFirmProducts"), "danger")
     },
   }))
   .actions((self) => ({
     successSellProduct: (text?: string) => {
       self.isProductSaving = false
-      self.showMessage(text ? text : "Product successfully added", "success")
+      self.showMessage(text ? text : translate("success.productAdded"), "success")
     },
   }))
   .actions((self) => ({
     errorSellProduct: (text?: string) => {
       self.isProductSaving = false
-      self.showMessage(text ? text : "Can't add product", "danger")
+      self.showMessage(text ? text : translate("errors.cantAddProduct"), "danger")
     },
   }))
   .actions((self) => ({
     errorInviteUser: () => {
       self.isProductSaving = false
-      self.showMessage("Can't invite this user to network", "danger")
+      self.showMessage(translate("errors.cantInviteUser"), "danger")
     },
   }))
   .actions((self) => ({
@@ -130,7 +131,7 @@ export const FirmStoreModel = types
       if (result.kind === "ok") {
         onSuccess && onSuccess()
       } else {
-        self.errorSellProduct("Can't invite this user to network")
+        self.errorSellProduct(translate("errors.cantInviteUser"))
         __DEV__ && console.log(result.kind)
       }
     },

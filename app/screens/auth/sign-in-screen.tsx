@@ -72,6 +72,10 @@ const SIGN_UP_BUTTON_TEXT: TextStyle = {
   fontSize: 16,
 }
 
+const ERROR_MESSAGE: TextStyle = {
+  marginHorizontal: spacing[4]
+}
+
 export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = observer(
   function SignInScreen({ navigation }) {
     const [email, changeEmail] = useState<string>("")
@@ -111,6 +115,7 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
             textContentType="password"
             style={INPUT}
           />
+          {profileStore.errorGetAccessToken !== null ? <Text preset="error" style={ERROR_MESSAGE}>{profileStore.errorGetAccessToken}</Text> : null}
 
           <View style={SIGN_UP_TEXT_CONTAINER}>
             <Text preset="description" style={{ marginTop: 5 }}>
