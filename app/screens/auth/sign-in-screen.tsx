@@ -115,7 +115,7 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
             textContentType="password"
             style={INPUT}
           />
-          
+
           {profileStore.errorGetAccessToken !== null ? (
             <Text preset="error" style={ERROR_MESSAGE}>
               {profileStore.errorGetAccessToken}

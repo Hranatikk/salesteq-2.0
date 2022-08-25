@@ -71,36 +71,32 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header headerTx="connectionsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
-          {errorGetConnections !== null
-            ? (
-              <EmptyContent
-                  title={translate("errors.somethingWentWrong")}
-                  subtitle={errorGetConnections}
-                  imageURI={require("../../../assets/images/mascot/mascot-404.png")}
-                  primaryButtonText={translate("common.tryAgain")}
-                  onPrimaryButtonClick={() => fetchData()}
+          {errorGetConnections !== null ? (
+            <EmptyContent
+              title={translate("errors.somethingWentWrong")}
+              subtitle={errorGetConnections}
+              imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+              primaryButtonText={translate("common.tryAgain")}
+              onPrimaryButtonClick={() => fetchData()}
+            />
+          ) : (
+            <FlatList
+              keyExtractor={(item) => `event_${item.id}`}
+              data={profileConnections}
+              renderItem={({ item }) => renderItem(item)}
+              refreshing={isConnectionsFetching}
+              onRefresh={() => fetchData()}
+              contentContainerStyle={{ flexGrow: 1 }}
+              ListEmptyComponent={() => (
+                <EmptyContent
+                  title={translate("connectionsScreen.noConnectionsInOwnNetwork")}
+                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  primaryButtonText={translate("connectionsScreen.addPartner")}
+                  onPrimaryButtonClick={() => navigation.navigate("productsList")}
                 />
-            )
-            : (
-              <FlatList
-                keyExtractor={(item) => `event_${item.id}`}
-                data={profileConnections}
-                renderItem={({ item }) => renderItem(item)}
-                refreshing={isConnectionsFetching}
-                onRefresh={() => fetchData()}
-                contentContainerStyle={{ flexGrow: 1 }}
-                ListEmptyComponent={() => (
-                  <EmptyContent
-                    title={translate("connectionsScreen.noConnectionsInOwnNetwork")}
-                    imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
-                    primaryButtonText={translate("connectionsScreen.addPartner")}
-                    onPrimaryButtonClick={() => navigation.navigate("productsList")}
-                  />
-                )}
-              />
-            )
-          }
-          
+              )}
+            />
+          )}
         </Screen>
       </View>
     )

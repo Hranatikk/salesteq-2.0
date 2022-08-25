@@ -56,6 +56,7 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
     const [sales, setSales] = useState([])
     const [salesWithStructure, setSalesWithStructure] = useState([])
     const [isFetching, setIsFetching] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
       fetchData()
@@ -63,12 +64,22 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
 
     const fetchData = async () => {
       const { user } = route.params
-      const sales = await profileApi.getUserSales(user.id, false)
-      const salesWithStructure = await profileApi.getUserSales(user.id, true)
 
-      setSales(sales.data)
-      setSalesWithStructure(salesWithStructure.data)
-      setIsFetching(false)
+      if(user) {
+        const sales = await profileApi.getUserSales(user.id, false)
+        const salesWithStructure = await profileApi.getUserSales(user.id, true)
+  
+        if(sales.kind === "ok" && salesWithStructure.kind === "ok") {
+          setSales(sales.data)
+          setSalesWithStructure(salesWithStructure.data)
+        } else {
+          setError(translate("errors.errorOccured", {name: translate("common.userSalesLoading", {name: user?.first_name})}))
+        }
+        setIsFetching(false)
+      } else {
+        setIsFetching(false)
+        setError(translate("errors.errorOccured", {name: translate("common.userSalesLoading")}))
+      }
     }
 
     const renderItem = (item) => {
@@ -99,38 +110,51 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
             onLeftPress={() => navigation.goBack()}
           />
 
-          <FlatList
-            keyExtractor={(item) => `sale_h_${item.id}`}
-            data={currentTab === "sale" ? sales : salesWithStructure}
-            renderItem={({ item }) => renderItem(item)}
-            refreshing={isFetching}
-            onRefresh={() => fetchData()}
-            contentContainerStyle={{ flexGrow: 1 }}
-            ListHeaderComponent={() => (
-              <ScrollView
-                horizontal={true}
-                style={TAB_WRAPPER}
-                showsHorizontalScrollIndicator={false}
-              >
-                <Tab
-                  isActive={currentTab === "sale"}
-                  text={translate("analyticsScreen.saleHistory")}
-                  onPress={() => setCurrentTab("sale")}
-                />
-                <Tab
-                  isActive={currentTab === "sale_with_structure"}
-                  text={translate("analyticsScreen.saleHistoryWithStructure")}
-                  onPress={() => setCurrentTab("sale_with_structure")}
-                />
-              </ScrollView>
-            )}
-            ListEmptyComponent={() => (
+          {error !== null
+            ? (
               <EmptyContent
-                title={translate("userSaleHistory.noSales")}
-                imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                title={translate("errors.somethingWentWrong")}
+                subtitle={error}
+                imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                primaryButtonText={translate("common.tryAgain")}
+                onPrimaryButtonClick={() => fetchData()}
               />
-            )}
-          />
+            )
+            : (
+              <FlatList
+                keyExtractor={(item) => `sale_h_${item.id}`}
+                data={currentTab === "sale" ? sales : salesWithStructure}
+                renderItem={({ item }) => renderItem(item)}
+                refreshing={isFetching}
+                onRefresh={() => fetchData()}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListHeaderComponent={() => (
+                  <ScrollView
+                    horizontal={true}
+                    style={TAB_WRAPPER}
+                    showsHorizontalScrollIndicator={false}
+                  >
+                    <Tab
+                      isActive={currentTab === "sale"}
+                      text={translate("analyticsScreen.saleHistory")}
+                      onPress={() => setCurrentTab("sale")}
+                    />
+                    <Tab
+                      isActive={currentTab === "sale_with_structure"}
+                      text={translate("analyticsScreen.saleHistoryWithStructure")}
+                      onPress={() => setCurrentTab("sale_with_structure")}
+                    />
+                  </ScrollView>
+                )}
+                ListEmptyComponent={() => (
+                  <EmptyContent
+                    title={translate("userSaleHistory.noSales")}
+                    imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  />
+                )}
+              />
+            )
+          }
         </Screen>
       </View>
     )

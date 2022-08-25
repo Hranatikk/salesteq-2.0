@@ -53,7 +53,9 @@ export const ProfileStoreModel = types
   .actions((self) => ({
     failGetProfileStats: () => {
       self.isProfileFetching = false
-      self.errorGetProfile = translate("errors.errorOccured", {name: translate("common.profileStatsLoading")}) 
+      self.errorGetProfile = translate("errors.errorOccured", {
+        name: translate("common.profileStatsLoading"),
+      })
       self.showErrorMessage(translate("errors.loadProfileStats"), "danger")
     },
   }))
@@ -81,7 +83,9 @@ export const ProfileStoreModel = types
   .actions((self) => ({
     failGetProfile: () => {
       self.isProfileFetching = false
-      self.errorGetProfile = translate("errors.errorOccured", {name: translate("common.profileInfoLoading")}) 
+      self.errorGetProfile = translate("errors.errorOccured", {
+        name: translate("common.profileInfoLoading"),
+      })
       self.showErrorMessage(translate("errors.loadProfileInfo"), "danger")
     },
   }))
@@ -114,7 +118,9 @@ export const ProfileStoreModel = types
   .actions((self) => ({
     failGetProfileConnections: () => {
       self.isConnectionsFetching = false
-      self.errorGetConnections = translate("errors.errorOccured", {name: translate("common.connectionsFetching")})
+      self.errorGetConnections = translate("errors.errorOccured", {
+        name: translate("common.connectionsFetching"),
+      })
       self.showErrorMessage(translate("errors.loadYourNetwork"), "danger")
     },
   }))

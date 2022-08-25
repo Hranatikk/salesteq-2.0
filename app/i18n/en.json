@@ -8,7 +8,11 @@
     "tryAgain": "Try again",
     "connectionsFetching": "connections fetching",
     "profileInfoLoading": "profile information loading",
-    "profileStatsLoading": "profile statistics loading"
+    "profileStatsLoading": "profile statistics loading",
+    "userConnectionsLoading": "loading %{name} connections",
+    "userProfileStatsLoading": "loading %{name} profile statistics",
+    "userRevenueLoading": "loading %{name} revenue history",
+    "userSalesLoading": "loading %{name} sales history"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
@@ -62,7 +66,7 @@
     "addPartner": "Add partner"
   },
   "userConnectionsScreen": {
-    "title": "connections",
+    "title": "%{name}'s connections",
     "noConnectionsInNetwork": "Ooops... Looks like this user don't have any connections in his/her network",
     "addPartner": "Add partner",
     "partnerDescription": "Here you will see completed sales that this manager have made recently, salary and other info."

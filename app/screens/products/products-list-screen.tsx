@@ -1,12 +1,5 @@
 import React, { FC, useEffect, useState, useRef } from "react"
-import {
-  View,
-  FlatList,
-  TextStyle,
-  ViewStyle,
-  Dimensions,
-  Keyboard,
-} from "react-native"
+import { View, FlatList, TextStyle, ViewStyle, Dimensions, Keyboard } from "react-native"
 
 // Libs
 import { showMessage } from "react-native-flash-message"
@@ -30,7 +23,7 @@ import {
   STIcon,
   TextField,
   Loader,
-  EmptyContent
+  EmptyContent,
 } from "../../components"
 
 // Utils

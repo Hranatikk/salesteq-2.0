@@ -20,13 +20,13 @@ const IMAGE: ImageStyle = {
 const TITLE: TextStyle = {
   textAlign: "center",
   marginTop: spacing[7],
-  marginHorizontal: spacing[4]
+  marginHorizontal: spacing[4],
 }
 
 const SUBTITLE: TextStyle = {
   textAlign: "center",
   marginTop: spacing[4],
-  marginHorizontal: spacing[4]
+  marginHorizontal: spacing[4],
 }
 
 const PRIMARY_BUTTON: ViewStyle = {
@@ -50,27 +50,26 @@ export const EmptyContent = observer(function EmptyContent(props: EmptyContentPr
 
   return (
     <View style={CONTAINER}>
-      {imageURI
-        ? <AutoImage source={imageURI} style={IMAGE} />
-        : null
-      }
+      {imageURI ? <AutoImage source={imageURI} style={IMAGE} /> : null}
 
+      <Text preset="title" style={TITLE}>
+        {title}
+      </Text>
+      {subtitle ? (
+        <Text preset="description" style={SUBTITLE}>
+          {subtitle}
+        </Text>
+      ) : null}
 
-      <Text preset="title" style={TITLE}>{title}</Text>
-      {subtitle ? <Text preset="description" style={SUBTITLE}>{subtitle}</Text> : null}
-
-      {primaryButtonText
-        ? (
-          <Button
-            text={primaryButtonText}
-            preset="primary"
-            style={PRIMARY_BUTTON}
-            activeOpacity={0.8}
-            onPress={() => onPrimaryButtonClick()}
-          />
-        )
-        : null
-      }
+      {primaryButtonText ? (
+        <Button
+          text={primaryButtonText}
+          preset="primary"
+          style={PRIMARY_BUTTON}
+          activeOpacity={0.8}
+          onPress={() => onPrimaryButtonClick()}
+        />
+      ) : null}
     </View>
   )
 })

@@ -13,7 +13,7 @@ import { NavigatorParamList } from "../../navigators"
 import { ProfileApi } from "../../services/api/profile-api"
 
 // Components
-import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader } from "../../components"
+import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader, EmptyContent } from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -46,6 +46,7 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
     const [user, setUser] = useState<Profile | null>(null)
     const [userStats, setUserStats] = useState(null)
     const [isUserStatsFetching, setUserStatsFetching] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
       fetchData()
@@ -55,9 +56,19 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
       const { user } = route.params
       setUser(user ? user : {})
 
-      const response = await profileApi.getProfileStats(user.id)
-      setUserStats(response.data)
-      setUserStatsFetching(false)
+      if(user) {
+        const response = await profileApi.getProfileStats(user.id)
+
+        if(response.kind === "ok") {
+          setUserStats(response.data)
+        } else {
+          setError(translate("errors.errorOccured", {name: translate("common.userProfileStatsLoading", {name: user?.first_name})}))
+        }
+        setUserStatsFetching(false)
+      } else {
+        setError(translate("errors.errorOccured", {name: translate("common.userProfileStatsLoading")}))
+        setUserStatsFetching(false)
+      }
     }
 
     return (
@@ -75,15 +86,27 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
               onLeftPress={() => navigation.goBack()}
             />
 
-            <FlatList
-              keyExtractor={(item) => `event_${item.id}`}
-              data={[]}
-              renderItem={() => <></>}
-              refreshing={isUserStatsFetching}
-              onRefresh={() => fetchData()}
-              contentContainerStyle={{ flexGrow: 1 }}
-              ListHeaderComponent={() => <UserAnalytics profile={user} profileStats={userStats} />}
-            />
+            {error !== null ? (
+              <EmptyContent
+                title={translate("errors.somethingWentWrong")}
+                subtitle={error}
+                imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                primaryButtonText={translate("common.tryAgain")}
+                onPrimaryButtonClick={() => fetchData()}
+              />
+            ) : (
+              <FlatList
+                keyExtractor={(item) => `event_${item.id}`}
+                data={[]}
+                renderItem={() => <></>}
+                refreshing={isUserStatsFetching}
+                onRefresh={() => fetchData()}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListHeaderComponent={() => (
+                  <UserAnalytics profile={user} profileStats={userStats} />
+                )}
+              />
+            )}
           </Screen>
         )}
       </View>

@@ -21,7 +21,7 @@ import {
   Card,
   Text,
   STIcon,
-  EmptyContent
+  EmptyContent,
 } from "../../components"
 
 // Utils
@@ -70,7 +70,9 @@ export const UserConnectionListScreen: FC<
 > = observer(({ navigation, route }) => {
   const profileApi = new ProfileApi()
   const [connections, setConnections] = useState<Profile[]>([])
+  const [isFetching, setIsFetching] = useState<boolean>(true)
   const [user, setUser] = useState<Profile | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     fetchData()
@@ -78,11 +80,21 @@ export const UserConnectionListScreen: FC<
 
   const fetchData = async () => {
     const { user } = route.params
+    setError(null)
     setUser(user ? user : {})
 
     if (user) {
       const response = await profileApi.getProfileConnectionsByUserId(user.id)
-      setConnections(response.data)
+      
+      if(response.kind === "ok") {
+        setConnections(response.data)
+      } else {
+        setError(translate("errors.errorOccured", {name: translate("common.userConnectionsLoading", {name: user?.first_name})}))
+      }
+      setIsFetching(false)
+    } else {
+      setError(translate("errors.errorOccured", {name: translate("common.userConnectionsLoading")}))
+      setIsFetching(false)
     }
   }
 
@@ -106,45 +118,65 @@ export const UserConnectionListScreen: FC<
       <SimpleBackground />
       <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
         <Header
-          headerText={`${user?.first_name}'s ${translate("userConnectionsScreen.title")}`}
+          headerText={translate("userConnectionsScreen.title", {name: user?.first_name})}
           style={HEADER}
           titleStyle={HEADER_TITLE}
           leftIcon="arrow_left_outline_28"
           onLeftPress={() => navigation.goBack()}
         />
 
-        <ComponentWrapper
-          isTouchable={true}
-          onPress={() => navigation.navigate("userAnalytics", { user: user })}
-        >
-          <Text preset="title" style={COMPONENT_TITLE}>
-            {user?.first_name} {user?.last_name}
-          </Text>
-          <Text preset="description" style={COMPONENT_SUBTITLE}>
-            {translate("userConnectionsScreen.partnerDescription")}
-          </Text>
-          <STIcon
-            icon="arrow_right_outline_28"
-            size={20}
-            color={color.palette.grey}
-            style={COMPONENT_ICON}
-          />
-        </ComponentWrapper>
+        {error !== null
+          ? null
+          : (
+            <ComponentWrapper
+              isTouchable={true}
+              onPress={() => navigation.navigate("userAnalytics", { user: user })}
+            >
+              <Text preset="title" style={COMPONENT_TITLE}>
+                {user?.first_name} {user?.last_name}
+              </Text>
+              <Text preset="description" style={COMPONENT_SUBTITLE}>
+                {translate("userConnectionsScreen.partnerDescription")}
+              </Text>
+              <STIcon
+                icon="arrow_right_outline_28"
+                size={20}
+                color={color.palette.grey}
+                style={COMPONENT_ICON}
+              />
+            </ComponentWrapper>
+          )
+        }
+        
 
-        <FlatList
-          keyExtractor={(item) => `event_${item.id}`}
-          data={connections}
-          renderItem={({ item }) => renderItem(item)}
-          refreshing={false}
-          onRefresh={() => fetchData()}
-          contentContainerStyle={{ marginTop: spacing[4] }}
-          ListEmptyComponent={() => (
+        {error !== null
+          ? (
             <EmptyContent
-              title={translate("userConnectionsScreen.noConnectionsInNetwork")}
-              imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+              title={translate("errors.somethingWentWrong")}
+              subtitle={error}
+              imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+              primaryButtonText={translate("common.tryAgain")}
+              onPrimaryButtonClick={() => fetchData()}
             />
-          )}
-        />
+          )
+          : (
+            <FlatList
+              keyExtractor={(item) => `event_${item.id}`}
+              data={connections}
+              renderItem={({ item }) => renderItem(item)}
+              refreshing={isFetching}
+              onRefresh={() => fetchData()}
+              contentContainerStyle={{ marginTop: spacing[4] }}
+              ListEmptyComponent={() => (
+                <EmptyContent
+                  title={translate("userConnectionsScreen.noConnectionsInNetwork")}
+                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                />
+              )}
+            />
+          )
+        }
+        
       </Screen>
     </View>
   )
