@@ -16,7 +16,7 @@ const CONTAINER: ViewStyle = {
 }
 
 const DESCRIPTION: TextStyle = {
-  marginBottom: spacing[2]
+  marginBottom: spacing[2],
 }
 
 const CHART_LINE: ViewStyle = {
@@ -40,20 +40,25 @@ export interface FlatLineChartProps {
  * Flat line chart
  */
 export const FlatLineChart = observer(function FlatLineChart(props: FlatLineChartProps) {
-  
   const getWidth = (current, needed) => {
-    const onePercent = needed/100;
-    const currentPercentage = current/onePercent;
-    return `${currentPercentage > 100 ? 100 : currentPercentage}%`;
-  };
+    const onePercent = needed / 100
+    const currentPercentage = current / onePercent
+    return `${currentPercentage > 100 ? 100 : currentPercentage}%`
+  }
 
   return (
-    <View style={{marginTop: spacing[3]}}>
-      <TextRow leftText={props.title} rightText={`${props.current}/${props.needed}`} isLast={true}/>
-      <Text preset="description" style={DESCRIPTION}>{props.description}</Text>
+    <View style={{ marginTop: spacing[3] }}>
+      <TextRow
+        leftText={props.title}
+        rightText={`${props.current}/${props.needed}`}
+        isLast={true}
+      />
+      <Text preset="description" style={DESCRIPTION}>
+        {props.description}
+      </Text>
 
-      <View style={[CONTAINER, props.isLast ? {} : {marginBottom: spacing[5]}]}>
-        <View style={[CHART_LINE, {width: getWidth(props.current, props.needed)}]} />
+      <View style={[CONTAINER, props.isLast ? {} : { marginBottom: spacing[5] }]}>
+        <View style={[CHART_LINE, { width: getWidth(props.current, props.needed) }]} />
       </View>
 
       {props.isLast ? null : <Divider bottom={spacing[4]} horizontal={spacing[0]} />}

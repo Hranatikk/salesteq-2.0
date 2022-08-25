@@ -6,6 +6,7 @@ import i18n from "i18n-js"
  *
  * @param key The i18n key.
  */
-export function translate(key: string, options?: i18n.TranslateOptions) { //TxKeyPath
+export function translate(key: string, options?: i18n.TranslateOptions) {
+  //TxKeyPath
   return key ? i18n.t(key, options) : null
 }

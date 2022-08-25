@@ -1,7 +1,6 @@
 import * as React from "react"
 import { storiesOf } from "@storybook/react-native"
 import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { color } from "../../theme"
 import { RadioButton } from "./radio-button"
 
 storiesOf("RadioButton", module)
@@ -9,7 +8,7 @@ storiesOf("RadioButton", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Radio" usage="Radio button.">
-        <RadioButton title="string" subtitle="string" isActive={false} onPress={() => {}} />
+        <RadioButton title="string" subtitle="string" isActive={false} />
       </UseCase>
     </Story>
   ))

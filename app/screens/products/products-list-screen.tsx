@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState, useRef } from "react"
-import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions, Keyboard } from "react-native"
+import { View, FlatList, TextStyle, ViewStyle, Dimensions, Keyboard } from "react-native"
 
 // Libs
-import { showMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -17,14 +17,13 @@ import {
   Screen,
   SimpleBackground,
   Header,
-  Text,
-  AutoImage,
   RadioButton,
   HorizontalSlider,
   Button,
   STIcon,
   TextField,
-  Loader
+  Loader,
+  EmptyContent,
 } from "../../components"
 
 // Utils
@@ -62,30 +61,19 @@ const BACK_BUTTON: ViewStyle = {
   left: spacing[4],
   marginHorizontal: spacing[0],
   justifyContent: "center",
-  alignItems: "center"
-}
-
-const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height/4,
-  width: (Dimensions.get("window").height/4)*1.5
-}
-
-const EMPTY_CONTAINER: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
   alignItems: "center",
 }
 
 const INPUT_CONTAINER: ViewStyle = {
   width: Dimensions.get("window").width,
-  marginTop: spacing[5]
+  marginTop: spacing[5],
 }
 
 const BUTTON_SAVE: ViewStyle = {
   position: "absolute",
   bottom: 30,
   left: spacing[0],
-  right: spacing[0]
+  right: spacing[0],
 }
 
 const BUTTON_SAVE_DISABLED: ViewStyle = {
@@ -93,30 +81,25 @@ const BUTTON_SAVE_DISABLED: ViewStyle = {
   bottom: 30,
   left: spacing[0],
   right: spacing[0],
-  opacity: 0.7
-}
-
-const EMPTY_TEXT: TextStyle = {
-  textAlign: "center",
-  marginTop: spacing[7]
+  opacity: 0.7,
 }
 
 const LIST_CONTAINER: TextStyle = {
   width: Dimensions.get("window").width,
-  paddingHorizontal: spacing[4]
+  paddingHorizontal: spacing[4],
 }
 
-export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "productsList">> = observer(
-  ({ navigation }) =>  {
-    const [activeRadio, setActiveRadio] = useState<number|null>(null)
+export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "productsList">> =
+  observer(() => {
+    const [activeRadio, setActiveRadio] = useState<number | null>(null)
     const [currentStep, setStep] = useState<number>(1)
-    const [invitedMail, changeInvitedMail] = useState<string>('')
+    const [invitedMail, changeInvitedMail] = useState<string>("")
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
-    const { firmProducts, isProductsFetching, isProductSaving } = firmStore
+    const { firmProductsList, isProductsListFetching, isProductInProgressOfSaving } = firmStore
 
     useEffect(() => {
-      fetchData();
+      fetchData()
     }, [])
 
     const fetchData = async () => {
@@ -124,36 +107,35 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     }
 
     const onSavePress = () => {
-      if(currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
+      if (currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
         firmStore.sellProduct(
           activeRadio,
-          firmProducts.filter(i => i.id === activeRadio)[0].price,
-          () => onSuccessfullSave()
+          firmProductsList.filter((i) => i.id === activeRadio)[0].price,
+          () => onSuccessfullSave(),
         )
       }
-      if(currentStep === 1 && activeRadio !== 4 && activeRadio !== 5) {
-        setStep(2);
+      if (currentStep === 1 && activeRadio !== 4 && activeRadio !== 5) {
+        setStep(2)
         sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
       }
-      if(currentStep === 2) {
-        const isMailVaild = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(invitedMail);
+      if (currentStep === 2) {
+        const isMailVaild = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(invitedMail)
 
-        if(isMailVaild) {
-          firmStore.inviteUserToNetwork(
-            invitedMail,
-            () => firmStore.sellProduct(
+        if (isMailVaild) {
+          firmStore.inviteUserToNetwork(invitedMail, () =>
+            firmStore.sellProduct(
               activeRadio,
-              firmProducts.filter(i => i.id === activeRadio)[0].price,
+              firmProductsList.filter((i) => i.id === activeRadio)[0].price,
               () => onSuccessfullSave(),
-              "User successfully invited to your network"
-            )
+              "User successfully invited to your network",
+            ),
           )
         } else {
           showMessage({
             message: "Please, enter a vaild user email",
             type: "danger",
             icon: "danger",
-            position: "bottom"
+            position: "bottom",
           })
         }
       }
@@ -166,7 +148,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     }
 
     const onBackPress = () => {
-      setStep(1);
+      setStep(1)
       sliderRef.current.scrollTo({ x: 0 })
       Keyboard.dismiss()
     }
@@ -182,25 +164,19 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
       )
     }
 
-    const isButtonDisabled = activeRadio === null ||( activeRadio !== 4 && activeRadio !== 5 && currentStep === 2 && invitedMail.length <= 0)
+    const isButtonDisabled =
+      activeRadio === null ||
+      (activeRadio !== 4 && activeRadio !== 5 && currentStep === 2 && invitedMail.length <= 0)
 
     return (
       <View testID="ProductsListScreen" style={FULL}>
-        {isProductSaving ? <Loader /> : null}
+        {isProductInProgressOfSaving ? <Loader /> : null}
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
-          <Header
-            headerTx="productsScreen.title"
-            style={HEADER}
-            titleStyle={HEADER_TITLE}
-          />
+          <Header headerTx="productsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
           {currentStep === 2 ? (
-            <Button
-              activeOpacity={0.8}
-              onPress={() => onBackPress()}
-              style={BACK_BUTTON}
-            >
+            <Button activeOpacity={0.8} onPress={() => onBackPress()} style={BACK_BUTTON}>
               <STIcon icon="chevron_back_28" color={color.palette.white} size={25} />
             </Button>
           ) : null}
@@ -208,15 +184,15 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           <HorizontalSlider innerRef={sliderRef}>
             <FlatList
               keyExtractor={(item) => `radio_prod_${item.id}`}
-              data={firmProducts}
-              renderItem={({item}) => renderItem(item)}
-              refreshing={isProductsFetching}
+              data={firmProductsList}
+              renderItem={({ item }) => renderItem(item)}
+              refreshing={isProductsListFetching}
               contentContainerStyle={LIST_CONTAINER}
               ListEmptyComponent={() => (
-                <View style={EMPTY_CONTAINER}>
-                  <AutoImage source={require("../../../assets/images/mascot/mascot-empty_box.png")} style={EMPTY_IMAGE} />
-                  <Text preset="title" style={EMPTY_TEXT}>{translate("productsScreen.noProducts")}</Text>
-                </View>
+                <EmptyContent
+                  title={translate("productsScreen.noProducts")}
+                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                />
               )}
             />
 
@@ -225,7 +201,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
                 placeholder={translate("settingsScreen.email")}
                 label={translate("productsScreen.inviteUser")}
                 value={invitedMail}
-                onChangeText={(text:string) => changeInvitedMail(text)}
+                onChangeText={(text: string) => changeInvitedMail(text)}
                 icon="mail_outline_28"
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -234,18 +210,19 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           </HorizontalSlider>
 
           <Button
-            key={`button_save_${isButtonDisabled ? 'disabled' : 'enabled'}`}
+            key={`button_save_${isButtonDisabled ? "disabled" : "enabled"}`}
             text={translate(
-              (activeRadio === 4 || activeRadio === 5 || currentStep === 2) ? "common.save" : "common.nextStep"
+              activeRadio === 4 || activeRadio === 5 || currentStep === 2
+                ? "common.save"
+                : "common.nextStep",
             )}
             preset="primary"
             style={isButtonDisabled ? BUTTON_SAVE_DISABLED : BUTTON_SAVE}
             activeOpacity={0.8}
             disabled={isButtonDisabled}
-            onPress={() => isButtonDisabled ? {} : onSavePress()}
+            onPress={() => (isButtonDisabled ? {} : onSavePress())}
           />
         </Screen>
       </View>
     )
-  }
-)
+  })

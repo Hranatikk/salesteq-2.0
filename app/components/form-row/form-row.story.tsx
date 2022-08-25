@@ -52,10 +52,10 @@ storiesOf("FormRow", module)
           </Text>
         </FormRow>
         <FormRow preset="soloRound">
-          <Text style={TEXT_STYLE_OVERRIDE}>I'm round</Text>
+          <Text style={TEXT_STYLE_OVERRIDE}>Im round</Text>
         </FormRow>
         <FormRow preset="soloStraight" style={{ marginTop: 10, backgroundColor: "#ffe" }}>
-          <Text style={TEXT_STYLE_OVERRIDE}>I'm square and have a custom style.</Text>
+          <Text style={TEXT_STYLE_OVERRIDE}>Im square and have a custom style.</Text>
         </FormRow>
       </UseCase>
     </Story>

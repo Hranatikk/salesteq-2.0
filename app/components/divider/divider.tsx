@@ -19,10 +19,12 @@ export interface DividerProps {
  */
 export const Divider = observer(function Divider(props: DividerProps) {
   return (
-    <View  style={[
-      DIVIDER,
-      props.style ? props.style : {},
-      { marginHorizontal: props.horizontal, marginBottom: props.bottom }
-    ]} />
+    <View
+      style={[
+        DIVIDER,
+        props.style ? props.style : {},
+        { marginHorizontal: props.horizontal, marginBottom: props.bottom },
+      ]}
+    />
   )
 })

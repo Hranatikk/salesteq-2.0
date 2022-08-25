@@ -2,7 +2,8 @@ import { Instance, SnapshotIn, SnapshotOut, types, getParent } from "mobx-state-
 import { FirmModel, Firm, FirmProductModel, FirmProduct } from "./firm-model"
 import { FirmApi } from "../../services/api/firm-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { showMessage } from "react-native-flash-message";
+import { translate } from "../../i18n/"
+import { showMessage } from "react-native-flash-message"
 
 /**
  * Store firm data
@@ -13,9 +14,9 @@ export const FirmStoreModel = types
     firm: types.maybeNull(FirmModel),
     isFirmFetching: types.boolean,
 
-    firmProducts: types.optional(types.array(FirmProductModel), []),
-    isProductsFetching: types.boolean,
-    isProductSaving: types.boolean
+    firmProductsList: types.optional(types.array(FirmProductModel), []),
+    isProductsListFetching: types.boolean,
+    isProductInProgressOfSaving: types.boolean,
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -28,6 +29,9 @@ export const FirmStoreModel = types
       })
     },
   }))
+  /**
+   * Get firm info
+   */
   .actions((self) => ({
     saveFirm: (firmSnapshot: Firm) => {
       self.firm = firmSnapshot
@@ -37,37 +41,7 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirm: () => {
       self.isFirmFetching = false
-      self.showMessage("Can't load firm details", "danger")
-    },
-  }))
-  .actions((self) => ({
-    saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
-      self.firmProducts.replace(productsSnapshot)
-      self.isProductsFetching = false
-    },
-  }))
-  .actions((self) => ({
-    errorGetFirmProducts: () => {
-      self.isProductsFetching = false
-      self.showMessage("Can't load firm's products", "danger")
-    },
-  }))
-  .actions((self) => ({
-    successSellProduct: (text?: string) => {
-      self.isProductSaving = false
-      self.showMessage(text ? text : "Product successfully added", "success")
-    },
-  }))
-  .actions((self) => ({
-    errorSellProduct: (text?: string) => {
-      self.isProductSaving = false
-      self.showMessage(text ? text : "Can't add product", "danger")
-    },
-  }))
-  .actions((self) => ({
-    errorInviteUser: () => {
-      self.isProductSaving = false
-      self.showMessage("Can't invite this user to network", "danger")
+      self.showMessage(translate("errors.loadFirmDetails"), "danger")
     },
   }))
   .actions((self) => ({
@@ -84,9 +58,24 @@ export const FirmStoreModel = types
       }
     },
   }))
+  /**
+   * Get firm products
+   */
+  .actions((self) => ({
+    saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
+      self.firmProductsList.replace(productsSnapshot)
+      self.isProductsListFetching = false
+    },
+  }))
+  .actions((self) => ({
+    errorGetFirmProducts: () => {
+      self.isProductsListFetching = false
+      self.showMessage(translate("errors.loadFirmProducts"), "danger")
+    },
+  }))
   .actions((self) => ({
     getFirmProducts: async () => {
-      self.isProductsFetching = true
+      self.isProductsListFetching = true
       const firmApi = new FirmApi()
       const result = await firmApi.getFirmProducts()
 
@@ -98,10 +87,32 @@ export const FirmStoreModel = types
       }
     },
   }))
+  /**
+   * Sell firm products
+   */
   .actions((self) => ({
-    sellProduct: async (productId: number, price: number, onSuccess?: () => void, successText?: string) => {
-      const {profileStore: { profile }} = getParent(self)
-      self.isProductSaving = true
+    successSellProduct: (text?: string) => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(text ? text : translate("success.productAdded"), "success")
+    },
+  }))
+  .actions((self) => ({
+    errorSellProduct: (text?: string) => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(text ? text : translate("errors.addProduct"), "danger")
+    },
+  }))
+  .actions((self) => ({
+    sellProduct: async (
+      productId: number,
+      price: number,
+      onSuccess?: () => void,
+      successText?: string,
+    ) => {
+      const {
+        profileStore: { profile },
+      } = getParent(self)
+      self.isProductInProgressOfSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.sellProduct(productId, profile.id, price)
 
@@ -111,27 +122,34 @@ export const FirmStoreModel = types
       } else {
         self.errorSellProduct()
         __DEV__ && console.log(result.kind)
-
       }
+    },
+  }))
+  /**
+   * User invitation
+   */
+  .actions((self) => ({
+    inviteUser: () => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(translate("errors.inviteUser"), "danger")
     },
   }))
   .actions((self) => ({
     inviteUserToNetwork: async (userEmail: string, onSuccess?: () => void) => {
-      self.isProductSaving = true
+      self.isProductInProgressOfSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.inviteUserToNetwork(userEmail)
 
       if (result.kind === "ok") {
         onSuccess && onSuccess()
       } else {
-        self.errorSellProduct("Can't invite this user to network")
+        self.errorSellProduct(translate("errors.inviteUser"))
         __DEV__ && console.log(result.kind)
-
       }
     },
   }))
 
-export interface FirmStore extends Instance<typeof FirmStoreModel> {}
-export interface FirmStoreSnapshotOut extends SnapshotOut<typeof FirmStoreModel> {}
-export interface FirmStoreSnapshotIn extends SnapshotIn<typeof FirmStoreModel> {}
+export type FirmStore = Instance<typeof FirmStoreModel>
+export type FirmStoreSnapshotOut = SnapshotOut<typeof FirmStoreModel>
+export type FirmStoreSnapshotIn = SnapshotIn<typeof FirmStoreModel>
 export const createFirmStoreDefaultModel = () => types.optional(FirmStoreModel, {})

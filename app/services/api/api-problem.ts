@@ -4,39 +4,39 @@ export type GeneralApiProblem =
   /**
    * Times up.
    */
-  | { kind: "timeout"; temporary: true, data: any }
+  | { kind: "timeout"; temporary: true; data: any }
   /**
    * Cannot connect to the server for some reason.
    */
-  | { kind: "cannot-connect"; temporary: true, data: any }
+  | { kind: "cannot-connect"; temporary: true; data: any }
   /**
    * The server experienced a problem. Any 5xx error.
    */
-  | { kind: "server", data: any }
+  | { kind: "server"; data: any }
   /**
    * We're not allowed because we haven't identified ourself. This is 401.
    */
-  | { kind: "unauthorized", data: any }
+  | { kind: "unauthorized"; data: any }
   /**
    * We don't have access to perform that request. This is 403.
    */
-  | { kind: "forbidden", data: any }
+  | { kind: "forbidden"; data: any }
   /**
    * Unable to find that resource.  This is a 404.
    */
-  | { kind: "not-found", data: any }
+  | { kind: "not-found"; data: any }
   /**
    * All other 4xx series errors.
    */
-  | { kind: "rejected", data: any }
+  | { kind: "rejected"; data: any }
   /**
    * Something truly unexpected happened. Most likely can try again. This is a catch all.
    */
-  | { kind: "unknown"; temporary: true, data: any }
+  | { kind: "unknown"; temporary: true; data: any }
   /**
    * The data we received is not in the expected format.
    */
-  | { kind: "bad-data", data: any }
+  | { kind: "bad-data"; data: any }
 
 /**
  * Attempts to get a common cause of problems from an api response.

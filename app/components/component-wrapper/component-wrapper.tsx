@@ -9,7 +9,7 @@ const CONTAINER: ViewStyle = {
   paddingVertical: spacing[3],
   backgroundColor: color.palette.white,
   borderRadius: 9,
-  marginBottom: spacing[4]
+  marginBottom: spacing[4],
 }
 
 export interface ComponentWrapperProps {
@@ -22,19 +22,15 @@ export interface ComponentWrapperProps {
  * White wrapper for components
  */
 export const ComponentWrapper = observer(function ComponentWrapper(props: ComponentWrapperProps) {
-  return props.isTouchable ?
-  (
+  return props.isTouchable ? (
     <TouchableOpacity
       style={CONTAINER}
       activeOpacity={0.7}
-      onPress={() => props.onPress ? props.onPress() : {}}
+      onPress={() => (props.onPress ? props.onPress() : {})}
     >
       {props.children}
     </TouchableOpacity>
-  ) :
-  (
-    <View style={CONTAINER}>
-      {props.children}
-    </View>
+  ) : (
+    <View style={CONTAINER}>{props.children}</View>
   )
 })

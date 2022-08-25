@@ -16,7 +16,5 @@ const CONTAINER: ViewStyle = {
  * Simple Background Component
  */
 export const SimpleBackground = observer(function SimpleBackground() {
-  return (
-    <View style={CONTAINER} />
-  )
+  return <View style={CONTAINER} />
 })

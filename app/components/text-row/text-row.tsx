@@ -6,15 +6,15 @@ import { Divider } from "../divider/divider"
 import { spacing } from "../../theme"
 
 const VIEW: ViewStyle = {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
+  flexDirection: "row",
+  justifyContent: "space-between",
   marginBottom: 10,
 }
 
 export interface TextRowProps {
-  leftText: string;
-  rightText: string;
-  isLast: boolean;
+  leftText: string
+  rightText: string
+  isLast: boolean
 }
 
 /**

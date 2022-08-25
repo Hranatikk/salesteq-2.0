@@ -7,7 +7,7 @@ import { STIcon } from "../st-icon/st-icon"
 
 const CONTAINER: ViewStyle = {
   marginHorizontal: spacing[4],
-  marginBottom: spacing[2]
+  marginBottom: spacing[2],
 }
 
 const INPUT_CONTAINER: ViewStyle = {
@@ -29,13 +29,13 @@ const INPUT: TextStyle = {
 }
 
 const INPUT_WITH_ICON = {
-  marginLeft: spacing[7]
+  marginLeft: spacing[7],
 }
 
 const ICON: ViewStyle = {
   position: "absolute",
   left: spacing[2],
-  top: spacing[2]
+  top: spacing[2],
 }
 
 const ERROR_TEXT: TextStyle = {
@@ -129,7 +129,11 @@ export function TextField(props: TextFieldProps) {
         />
       </View>
 
-      {error ? <Text preset="error" style={ERROR_TEXT}>{error}</Text> : null}
+      {error ? (
+        <Text preset="error" style={ERROR_TEXT}>
+          {error}
+        </Text>
+      ) : null}
     </View>
   )
 }

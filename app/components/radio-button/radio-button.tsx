@@ -5,12 +5,12 @@ import { color, spacing } from "../../theme"
 import { Text } from "../text/text"
 
 const CONTAINER: ViewStyle = {
-  marginBottom: spacing[3]
+  marginBottom: spacing[3],
 }
 
 const INNER_CONTAINER: ViewStyle = {
   flexDirection: "row",
-  alignItems: "center"
+  alignItems: "center",
 }
 
 const RADIO_BUTTON: ViewStyle = {
@@ -21,18 +21,18 @@ const RADIO_BUTTON: ViewStyle = {
   borderWidth: 1,
   marginRight: spacing[4],
   justifyContent: "center",
-  alignItems: "center"
+  alignItems: "center",
 }
 
 const RADIO_INNER: ViewStyle = {
   width: 18,
   height: 18,
   borderRadius: 18,
-  backgroundColor: color.primary
+  backgroundColor: color.primary,
 }
 
 const TEXT_WRAPPER: ViewStyle = {
-  flexDirection: "column"
+  flexDirection: "column",
 }
 
 const TITLE: TextStyle = {
@@ -43,27 +43,22 @@ export interface RadioButtonProps {
   title: string
   subtitle?: string
   isActive: boolean
-  onPress: () => void
+  onPress?: () => void
 }
 
 /**
  * Radio button
  */
 export const RadioButton = observer(function RadioButton(props: RadioButtonProps) {
-
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => props.onPress()}
-      style={CONTAINER}
-    >
+    <TouchableOpacity activeOpacity={0.8} onPress={() => props.onPress()} style={CONTAINER}>
       <View style={INNER_CONTAINER}>
-        <View style={RADIO_BUTTON}>
-          {props.isActive ? <View style={RADIO_INNER} /> : null}
-        </View>
+        <View style={RADIO_BUTTON}>{props.isActive ? <View style={RADIO_INNER} /> : null}</View>
 
         <View style={TEXT_WRAPPER}>
-          <Text preset="title" style={TITLE}>{props.title}</Text>
+          <Text preset="title" style={TITLE}>
+            {props.title}
+          </Text>
           {props.subtitle ? <Text preset="description">{props.subtitle}</Text> : null}
         </View>
       </View>

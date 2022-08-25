@@ -70,7 +70,7 @@ export const ErrorComponent = (props: ErrorComponentProps) => {
   return (
     <View style={CONTAINER}>
       <Icon style={ICON} icon="bug" />
-      <Text style={TITLE_ERROR} tx={"errorScreen.title"} />
+      <Text style={TITLE_ERROR} tx={"errors.somethingWentWrong"} />
       <Text style={FRIENDLY_SUBTITLE} tx={"errorScreen.friendlySubtitle"} />
       <View style={ERROR_DETAILS_CONTAINER}>
         <ScrollView>

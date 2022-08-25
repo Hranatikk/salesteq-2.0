@@ -10,34 +10,33 @@ const BUTTON: ViewStyle = {
   paddingHorizontal: spacing[3],
   marginRight: spacing[2],
   backgroundColor: color.palette.white,
-  borderRadius: 6
+  borderRadius: 6,
 }
 
 const BUTTON_ACTIVE: ViewStyle = {
-  backgroundColor: color.primary
+  backgroundColor: color.primary,
 }
 
 const TEXT: TextStyle = {
   fontFamily: typography.primary,
   fontSize: 16,
-  color: color.text
+  color: color.text,
 }
 
 const TEXT_ACTIVE: TextStyle = {
-  color: color.palette.white
+  color: color.palette.white,
 }
 
 export interface TabProps {
   isActive: boolean
   text: string
-  onPress: () => void
+  onPress?: () => void
 }
 
 /**
- * Tab compoenent 
+ * Tab compoenent
  */
 export const Tab = observer(function Tab(props: TabProps) {
-
   return (
     <TouchableOpacity
       activeOpacity={0.8}

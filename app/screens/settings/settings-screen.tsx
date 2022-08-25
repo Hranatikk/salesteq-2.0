@@ -10,14 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import {
-  Screen,
-  SimpleBackground,
-  Header,
-  Text,
-  TouchableRow,
-  Divider
-} from "../../components"
+import { Screen, SimpleBackground, Header, Text, TouchableRow, Divider } from "../../components"
 
 // Utils
 import { getColorByString } from "../../utils/get-color-by-string"
@@ -42,7 +35,7 @@ const HEADER_TITLE: TextStyle = {
 }
 
 const HEADER_DESCRIPTION: TextStyle = {
-  marginBottom: spacing[1]
+  marginBottom: spacing[1],
 }
 
 const CONTAINER: ViewStyle = {
@@ -51,7 +44,7 @@ const CONTAINER: ViewStyle = {
 
 const PROFILE_WRAPPER: ViewStyle = {
   flexDirection: "column",
-  marginBottom: spacing[4]
+  marginBottom: spacing[4],
 }
 
 const PROFILE_AVATAR_WRAPPER: ViewStyle = {
@@ -78,7 +71,7 @@ const PROFILE_INFO: ViewStyle = {
 
 const PROFILE_INFO_CONTAINER: ViewStyle = {
   flexDirection: "column",
-  width: (Dimensions.get('window').width - 30)/2,
+  width: (Dimensions.get("window").width - 30) / 2,
   marginBottom: 15,
 }
 
@@ -87,84 +80,101 @@ const SETTINGS_CONTAINER: ViewStyle = {
 }
 
 const LOGOUT_BUTTON: ViewStyle = {
-  alignSelf: 'center',
+  alignSelf: "center",
   marginBottom: spacing[7],
 }
 
-export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">> = observer(function SettingsScreen() {
-  const { profileStore, firmStore } = useStores()
-  const { profile, profileStats } = profileStore;
-  const { firm } = firmStore;
+export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">> = observer(
+  function SettingsScreen() {
+    const { profileStore, firmStore } = useStores()
+    const { profile, profileStats } = profileStore
+    const { firm } = firmStore
 
-  useEffect(() => {
-    async function fetchData() {
-      await firmStore.getFirm()
+    useEffect(() => {
+      async function fetchData() {
+        await firmStore.getFirm()
+      }
+
+      fetchData()
+    }, [])
+
+    const renderInfoItem = (title: string, subtitle: string) => {
+      return (
+        <View style={PROFILE_INFO_CONTAINER}>
+          <Text preset="description" style={HEADER_DESCRIPTION}>
+            {title}
+          </Text>
+          <Text preset="title">{subtitle}</Text>
+        </View>
+      )
     }
 
-    fetchData();
-  }, [])
+    const logout = async () => {
+      profileStore.logout()
+    }
 
-  const renderInfoItem = (title:string, subtitle:string) => {
     return (
-      <View style={PROFILE_INFO_CONTAINER}>
-        <Text preset="description" style={HEADER_DESCRIPTION}>{title}</Text>
-        <Text preset="title">{subtitle}</Text>
-      </View>
-    );
-  }
+      <View testID="SettingsScreen" style={FULL}>
+        <SimpleBackground />
+        <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
+          <Header headerTx="settingsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
+          <View style={PROFILE_WRAPPER}>
+            <View style={PROFILE_AVATAR_WRAPPER}>
+              <View
+                style={[
+                  PROFILE_AVATAR_CONTAINER,
+                  {
+                    backgroundColor: getColorByString(
+                      `${profile?.first_name} ${profile?.last_name}`,
+                    ),
+                  },
+                ]}
+              >
+                <Text preset="header" style={{ color: color.palette.white }}>
+                  {profile?.first_name.slice(0, 1)} {profile?.last_name.slice(0, 1)}
+                </Text>
+              </View>
+            </View>
 
-  return (
-    <View testID="SettingsScreen" style={FULL}>
-      <SimpleBackground />
-      <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
-        <Header
-          headerTx="settingsScreen.title"
-          style={HEADER}
-          titleStyle={HEADER_TITLE}
-        />
-
-        <View style={PROFILE_WRAPPER}>
-          <View style={PROFILE_AVATAR_WRAPPER}>
-            <View style={[PROFILE_AVATAR_CONTAINER, { backgroundColor: getColorByString(`${profile?.first_name} ${profile?.last_name}`) }]}>
-              <Text preset="header" style={{color: color.palette.white}}>{profile?.first_name.slice(0, 1)} {profile?.last_name.slice(0, 1)}</Text>
+            <View style={PROFILE_INFO}>
+              {renderInfoItem(translate("settingsScreen.name"), profile?.first_name)}
+              {renderInfoItem(translate("settingsScreen.surname"), profile?.last_name)}
+            </View>
+            <View style={PROFILE_INFO}>
+              {renderInfoItem(translate("settingsScreen.company"), firm?.title)}
+              {renderInfoItem(
+                translate("settingsScreen.status"),
+                profileStats?.leveling.current.title.toString(),
+              )}
+            </View>
+            <View style={PROFILE_INFO}>
+              {renderInfoItem(translate("settingsScreen.email"), profile?.email)}
             </View>
           </View>
 
-          <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.name"), profile?.first_name)}
-            {renderInfoItem(translate("settingsScreen.surname"), profile?.last_name)}
-          </View>
-          <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.company"), firm?.title)}
-            {renderInfoItem(translate("settingsScreen.status"), profileStats?.leveling.current.title.toString())}
-          </View>
-          <View style={PROFILE_INFO}>
-            {renderInfoItem(translate("settingsScreen.email"), profile?.email)}
-          </View>
-        </View>
-
-        <Divider horizontal={spacing[4]} bottom={spacing[5]} style={{ backgroundColor: color.palette.grey }} />
-
-        <View style={SETTINGS_CONTAINER}>
-          <TouchableRow
-            icon="hieroglyph_character_outline_28"
-            title={translate("settingsScreen.language")}
-            description="English"
-            isLast={false}
-            onPress={() => {}}
+          <Divider
+            horizontal={spacing[4]}
+            bottom={spacing[5]}
+            style={{ backgroundColor: color.palette.grey }}
           />
 
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {}}
-            style={LOGOUT_BUTTON}
-          >
-            <Text preset="title" style={{ color: color.palette.lightRed }}>{translate("settingsScreen.logout")}</Text>
-          </TouchableOpacity>
-        </View>
-        
-      </Screen>
-    </View>
-  )
-})
+          <View style={SETTINGS_CONTAINER}>
+            <TouchableRow
+              icon="hieroglyph_character_outline_28"
+              title={translate("settingsScreen.language")}
+              description="English"
+              isLast={false}
+            />
+
+            <TouchableOpacity activeOpacity={0.8} style={LOGOUT_BUTTON} onPress={() => logout()}>
+              <Text preset="title" style={{ color: color.palette.lightRed }}>
+                {translate("settingsScreen.logout")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Screen>
+      </View>
+    )
+  },
+)

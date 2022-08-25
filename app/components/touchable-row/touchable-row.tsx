@@ -14,7 +14,7 @@ const WRAPPER: ViewStyle = {
 
 const HEADER: ViewStyle = {
   flexDirection: "row",
-  alignItems: "center"
+  alignItems: "center",
 }
 
 const ICON_WRAPPER: ViewStyle = {
@@ -38,7 +38,7 @@ const HEADER_TEXT: ViewStyle = {
 
 const ICON: ViewStyle = {
   position: "absolute",
-  right: spacing[0]
+  right: spacing[0],
 }
 
 export interface TouchableRowProps {
@@ -46,7 +46,7 @@ export interface TouchableRowProps {
   title: string
   description: string
   isLast: boolean
-  onPress: () => void
+  onPress?: () => void
 }
 
 /**
@@ -56,7 +56,7 @@ export const TouchableRow = observer(function TouchableRow(props: TouchableRowPr
   return (
     <>
       <TouchableOpacity
-        style={[WRAPPER, props.isLast ? {} : {marginBottom: spacing[3]}]}
+        style={[WRAPPER, props.isLast ? {} : { marginBottom: spacing[3] }]}
         activeOpacity={0.8}
         onPress={() => props.onPress()}
       >
@@ -66,12 +66,16 @@ export const TouchableRow = observer(function TouchableRow(props: TouchableRowPr
           </View>
 
           <View style={HEADER_WRAPPER}>
-            <Text preset="title" style={HEADER_TEXT}>{props.title}</Text>
-            <Text preset="description" style={HEADER_TEXT}>{props.description}</Text>
+            <Text preset="title" style={HEADER_TEXT}>
+              {props.title}
+            </Text>
+            <Text preset="description" style={HEADER_TEXT}>
+              {props.description}
+            </Text>
           </View>
         </View>
 
-        <STIcon icon="arrow_right_outline_28" size={20} color={color.dim} style={ICON}/>
+        <STIcon icon="arrow_right_outline_28" size={20} color={color.dim} style={ICON} />
       </TouchableOpacity>
       {props.isLast ? null : <Divider horizontal={spacing[0]} bottom={spacing[3]} />}
     </>

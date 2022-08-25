@@ -11,26 +11,32 @@ export const RootStoreModel = types.model("RootStore").props({
     profile: null,
     profileStats: null,
     isProfileFetching: true,
+    errorGetProfile: null,
 
     profileConnections: [],
     isConnectionsFetching: false,
+    errorGetConnections: null,
+
+    isTokenFetching: false,
+    accessToken: null,
+    errorGetAccessToken: null,
   } as any),
   firmStore: types.optional(FirmStoreModel, {
     firm: null,
     isFirmFetching: false,
 
-    firmProducts: [],
-    isProductsFetching: false,
-    isProductSaving: false
+    firmProductsList: [],
+    isProductsListFetching: false,
+    isProductInProgressOfSaving: false
   } as any)
 })
 
 /**
  * The RootStore instance.
  */
-export interface RootStore extends Instance<typeof RootStoreModel> {}
+export type RootStore = Instance<typeof RootStoreModel>
 
 /**
  * The data of a RootStore.
  */
-export interface RootStoreSnapshot extends SnapshotOut<typeof RootStoreModel> {}
+export type RootStoreSnapshot = SnapshotOut<typeof RootStoreModel>

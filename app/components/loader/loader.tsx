@@ -9,12 +9,12 @@ const CONTAINER: ViewStyle = {
   width: "100%",
   height: "100%",
   justifyContent: "center",
-  alignItems: "center"
+  alignItems: "center",
 }
 
 const INNER_CONTAINER: ViewStyle = {
   backgroundColor: color.palette.black,
-  opacity: 0.4
+  opacity: 0.4,
 }
 
 /**

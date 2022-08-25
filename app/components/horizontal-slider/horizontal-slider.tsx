@@ -10,7 +10,7 @@ export interface HorizontalSliderProps {
 /**
  * Horizontal slider
  */
-export const HorizontalSlider = observer(function HorizontalSlider(props: HorizontalSliderProps, ref) {
+export const HorizontalSlider = observer(function HorizontalSlider(props: HorizontalSliderProps) {
   return (
     <ScrollView
       horizontal={true}

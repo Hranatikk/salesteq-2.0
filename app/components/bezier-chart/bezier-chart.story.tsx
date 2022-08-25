@@ -8,7 +8,7 @@ storiesOf("BezierChart", module)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="Bezier chart" usage="Bezier chart">
-        <BezierChart data={{labels: [], datasets: []}} />
+        <BezierChart data={{ labels: [], datasets: [] }} />
       </UseCase>
     </Story>
   ))

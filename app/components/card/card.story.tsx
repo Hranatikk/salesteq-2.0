@@ -12,7 +12,7 @@ storiesOf("Card", module)
         <Card
           title="Title"
           subtitle="Subtitle"
-          onPress={() => console.log('e')}
+          onPress={() => console.log("e")}
           iconName="game_outline_28"
           iconText="Icon description"
           iconTextColor={color.palette.grey}

@@ -15,8 +15,12 @@ import {
   SimpleBackground,
   Header,
   UserAnalytics,
-  ContentLoader
+  ContentLoader,
+  EmptyContent,
 } from "../../components"
+
+// Utils
+import { translate } from "../../i18n/"
 
 // Styles
 import { color, spacing } from "../../theme"
@@ -40,45 +44,52 @@ const HEADER_TITLE: TextStyle = {
   textAlign: "center",
 }
 
-export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(function AnalyticsScreen() {
-  const { profileStore } = useStores()
-  const { profile, profileStats, isProfileFetching } = profileStore
+export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(
+  function AnalyticsScreen() {
+    const { profileStore } = useStores()
+    const { profile, profileStats, isProfileFetching, errorGetProfile } = profileStore
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+    useEffect(() => {
+      fetchData()
+    }, [])
 
-  const fetchData = async () => {
-    await profileStore.getProfile()
-  }
+    const fetchData = async () => {
+      await profileStore.getProfile()
+    }
 
-  return (
-    <View testID="AnalyticsScreen" style={FULL}>
-      <SimpleBackground />
-      {isProfileFetching
-        ? <ContentLoader />
-        : (
+    return (
+      <View testID="AnalyticsScreen" style={FULL}>
+        <SimpleBackground />
+        {isProfileFetching ? (
+          <ContentLoader />
+        ) : (
           <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
-            <Header
-              headerTx="analyticsScreen.title"
-              style={HEADER}
-              titleStyle={HEADER_TITLE}
-            />
-            
-            <FlatList
-              keyExtractor={(item) => `event_${item.id}`}
-              data={[]}
-              renderItem={({item}) => (<></>)}
-              refreshing={isProfileFetching}
-              onRefresh={() => fetchData()}
-              contentContainerStyle={{ flexGrow: 1 }}
-              ListHeaderComponent={() => (
-                <UserAnalytics profile={profile} profileStats={profileStats} />
-              )}
-            />
+            <Header headerTx="analyticsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
+
+            {errorGetProfile !== null ? (
+              <EmptyContent
+                title={translate("errors.somethingWentWrong")}
+                subtitle={errorGetProfile}
+                imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                primaryButtonText={translate("common.tryAgain")}
+                onPrimaryButtonClick={() => fetchData()}
+              />
+            ) : (
+              <FlatList
+                keyExtractor={(item) => `event_${item.id}`}
+                data={[]}
+                renderItem={() => <></>}
+                refreshing={isProfileFetching}
+                onRefresh={() => fetchData()}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListHeaderComponent={() => (
+                  <UserAnalytics profile={profile} profileStats={profileStats} />
+                )}
+              />
+            )}
           </Screen>
-        )
-      }
-    </View>
-  )
-})
+        )}
+      </View>
+    )
+  },
+)

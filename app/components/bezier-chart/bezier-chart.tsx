@@ -1,10 +1,10 @@
 import * as React from "react"
-import { LineChart } from "react-native-chart-kit";
+import { LineChart } from "react-native-chart-kit"
 import { ViewStyle, Dimensions } from "react-native"
 import { observer } from "mobx-react-lite"
 
 const CONTAINER: ViewStyle = {
-  marginLeft: -30
+  marginLeft: -30,
 }
 
 export interface BezierChartProps {
@@ -32,21 +32,19 @@ export interface Dataset {
  * Bezier chart
  */
 export const BezierChart = observer(function BezierChart(props: BezierChartProps) {
-  
-
   return (
     <LineChart
       data={props.data}
-      width={Dimensions.get('window').width-30}
+      width={Dimensions.get("window").width - 30}
       height={330}
       style={CONTAINER}
       verticalLabelRotation={60}
       chartConfig={{
-        color: () => 'rgba(90, 84, 202, 1)',
+        color: () => "rgba(90, 84, 202, 1)",
         strokeWidth: 1,
-        backgroundGradientFrom: '#fff',
+        backgroundGradientFrom: "#fff",
         backgroundGradientFromOpacity: 0,
-        backgroundGradientTo: '#fff',
+        backgroundGradientTo: "#fff",
         barPercentage: 1,
         decimalPlaces: 0,
       }}
