@@ -1,13 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import {
-  View,
-  FlatList,
-  TextStyle,
-  ViewStyle,
-  ImageStyle,
-  Dimensions,
-  ScrollView,
-} from "react-native"
+import { View, FlatList, TextStyle, ViewStyle, ScrollView } from "react-native"
 
 // Libs
 import dayjs from "dayjs"
@@ -23,7 +15,7 @@ import { NavigatorParamList } from "../../navigators"
 import { ProfileApi } from "../../services/api/profile-api"
 
 // Components
-import { Screen, SimpleBackground, Header, Card, Text, AutoImage, Tab } from "../../components"
+import { Screen, SimpleBackground, Header, Card, EmptyContent, Tab } from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -55,22 +47,6 @@ const TAB_WRAPPER: ViewStyle = {
   flexDirection: "row",
   marginHorizontal: spacing[4],
   marginBottom: spacing[5],
-}
-
-const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height / 4,
-  width: (Dimensions.get("window").height / 4) * 1.5,
-}
-
-const EMPTY_CONTAINER: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
-
-const EMPTY_TEXT: TextStyle = {
-  textAlign: "center",
-  marginTop: spacing[7],
 }
 
 export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "userSaleHistory">> =
@@ -149,15 +125,10 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
               </ScrollView>
             )}
             ListEmptyComponent={() => (
-              <View style={EMPTY_CONTAINER}>
-                <AutoImage
-                  source={require("../../../assets/images/mascot/mascot-empty_box.png")}
-                  style={EMPTY_IMAGE}
-                />
-                <Text preset="title" style={EMPTY_TEXT}>
-                  {translate("userSaleHistory.noSales")}
-                </Text>
-              </View>
+              <EmptyContent
+                title={translate("userSaleHistory.noSales")}
+                imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+              />
             )}
           />
         </Screen>

@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react"
-import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "react-native"
+import { View, FlatList, TextStyle, ViewStyle } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -10,7 +10,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import { Screen, SimpleBackground, Header, Button, Card, Text, AutoImage } from "../../components"
+import { Screen, SimpleBackground, Header, Card, EmptyContent } from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -37,31 +37,10 @@ const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
 }
 
-const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height / 4,
-  width: (Dimensions.get("window").height / 4) * 1.5,
-}
-
-const EMPTY_CONTAINER: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
-
-const EMPTY_TEXT: TextStyle = {
-  textAlign: "center",
-  marginTop: spacing[7],
-}
-
-const BUTTON_ADD: ViewStyle = {
-  marginTop: spacing[4],
-  width: Dimensions.get("window").width / 1.5,
-}
-
 export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connectionsList">> =
   observer(({ navigation }) => {
     const { profileStore } = useStores()
-    const { profileConnections, isConnectionsFetching } = profileStore
+    const { profileConnections, isConnectionsFetching, errorGetConnections } = profileStore
 
     useEffect(() => {
       fetchData()
@@ -92,32 +71,36 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header headerTx="connectionsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
-          <FlatList
-            keyExtractor={(item) => `event_${item.id}`}
-            data={profileConnections}
-            renderItem={({ item }) => renderItem(item)}
-            refreshing={isConnectionsFetching}
-            onRefresh={() => fetchData()}
-            contentContainerStyle={{ flexGrow: 1 }}
-            ListEmptyComponent={() => (
-              <View style={EMPTY_CONTAINER}>
-                <AutoImage
-                  source={require("../../../assets/images/mascot/mascot-empty_box.png")}
-                  style={EMPTY_IMAGE}
+          {errorGetConnections !== null
+            ? (
+              <EmptyContent
+                  title={translate("errors.somethingWentWrong")}
+                  subtitle={errorGetConnections}
+                  imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                  primaryButtonText={translate("common.tryAgain")}
+                  onPrimaryButtonClick={() => fetchData()}
                 />
-                <Text preset="title" style={EMPTY_TEXT}>
-                  {translate("connectionsScreen.noConnectionsInOwnNetwork")}
-                </Text>
-                <Button
-                  preset="primary"
-                  text={translate("connectionsScreen.addPartner")}
-                  onPress={() => console.log("e")}
-                  activeOpacity={0.8}
-                  style={BUTTON_ADD}
-                />
-              </View>
-            )}
-          />
+            )
+            : (
+              <FlatList
+                keyExtractor={(item) => `event_${item.id}`}
+                data={profileConnections}
+                renderItem={({ item }) => renderItem(item)}
+                refreshing={isConnectionsFetching}
+                onRefresh={() => fetchData()}
+                contentContainerStyle={{ flexGrow: 1 }}
+                ListEmptyComponent={() => (
+                  <EmptyContent
+                    title={translate("connectionsScreen.noConnectionsInOwnNetwork")}
+                    imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                    primaryButtonText={translate("connectionsScreen.addPartner")}
+                    onPrimaryButtonClick={() => navigation.navigate("productsList")}
+                  />
+                )}
+              />
+            )
+          }
+          
         </Screen>
       </View>
     )

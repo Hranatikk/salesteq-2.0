@@ -14,9 +14,9 @@ export const FirmStoreModel = types
     firm: types.maybeNull(FirmModel),
     isFirmFetching: types.boolean,
 
-    firmProducts: types.optional(types.array(FirmProductModel), []),
-    isProductsFetching: types.boolean,
-    isProductSaving: types.boolean,
+    firmProductsList: types.optional(types.array(FirmProductModel), []),
+    isProductsListFetching: types.boolean,
+    isProductInProgressOfSaving: types.boolean,
   })
   .extend(withEnvironment)
   .actions(() => ({
@@ -29,6 +29,9 @@ export const FirmStoreModel = types
       })
     },
   }))
+  /**
+   * Get firm info
+   */
   .actions((self) => ({
     saveFirm: (firmSnapshot: Firm) => {
       self.firm = firmSnapshot
@@ -38,37 +41,7 @@ export const FirmStoreModel = types
   .actions((self) => ({
     errorGetFirm: () => {
       self.isFirmFetching = false
-      self.showMessage(translate("errors.cantLoadFirmDetails"), "danger")
-    },
-  }))
-  .actions((self) => ({
-    saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
-      self.firmProducts.replace(productsSnapshot)
-      self.isProductsFetching = false
-    },
-  }))
-  .actions((self) => ({
-    errorGetFirmProducts: () => {
-      self.isProductsFetching = false
-      self.showMessage(translate("errors.cantLoadFirmProducts"), "danger")
-    },
-  }))
-  .actions((self) => ({
-    successSellProduct: (text?: string) => {
-      self.isProductSaving = false
-      self.showMessage(text ? text : translate("success.productAdded"), "success")
-    },
-  }))
-  .actions((self) => ({
-    errorSellProduct: (text?: string) => {
-      self.isProductSaving = false
-      self.showMessage(text ? text : translate("errors.cantAddProduct"), "danger")
-    },
-  }))
-  .actions((self) => ({
-    errorInviteUser: () => {
-      self.isProductSaving = false
-      self.showMessage(translate("errors.cantInviteUser"), "danger")
+      self.showMessage(translate("errors.loadFirmDetails"), "danger")
     },
   }))
   .actions((self) => ({
@@ -85,9 +58,24 @@ export const FirmStoreModel = types
       }
     },
   }))
+  /**
+   * Get firm products
+   */
+  .actions((self) => ({
+    saveFirmProducts: (productsSnapshot: FirmProduct[]) => {
+      self.firmProductsList.replace(productsSnapshot)
+      self.isProductsListFetching = false
+    },
+  }))
+  .actions((self) => ({
+    errorGetFirmProducts: () => {
+      self.isProductsListFetching = false
+      self.showMessage(translate("errors.loadFirmProducts"), "danger")
+    },
+  }))
   .actions((self) => ({
     getFirmProducts: async () => {
-      self.isProductsFetching = true
+      self.isProductsListFetching = true
       const firmApi = new FirmApi()
       const result = await firmApi.getFirmProducts()
 
@@ -97,6 +85,21 @@ export const FirmStoreModel = types
         self.errorGetFirmProducts()
         __DEV__ && console.log(result.kind)
       }
+    },
+  }))
+  /**
+   * Sell firm products
+   */
+  .actions((self) => ({
+    successSellProduct: (text?: string) => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(text ? text : translate("success.productAdded"), "success")
+    },
+  }))
+  .actions((self) => ({
+    errorSellProduct: (text?: string) => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(text ? text : translate("errors.addProduct"), "danger")
     },
   }))
   .actions((self) => ({
@@ -109,7 +112,7 @@ export const FirmStoreModel = types
       const {
         profileStore: { profile },
       } = getParent(self)
-      self.isProductSaving = true
+      self.isProductInProgressOfSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.sellProduct(productId, profile.id, price)
 
@@ -122,16 +125,25 @@ export const FirmStoreModel = types
       }
     },
   }))
+  /**
+   * User invitation
+   */
+  .actions((self) => ({
+    inviteUser: () => {
+      self.isProductInProgressOfSaving = false
+      self.showMessage(translate("errors.inviteUser"), "danger")
+    },
+  }))
   .actions((self) => ({
     inviteUserToNetwork: async (userEmail: string, onSuccess?: () => void) => {
-      self.isProductSaving = true
+      self.isProductInProgressOfSaving = true
       const firmApi = new FirmApi()
       const result = await firmApi.inviteUserToNetwork(userEmail)
 
       if (result.kind === "ok") {
         onSuccess && onSuccess()
       } else {
-        self.errorSellProduct(translate("errors.cantInviteUser"))
+        self.errorSellProduct(translate("errors.inviteUser"))
         __DEV__ && console.log(result.kind)
       }
     },

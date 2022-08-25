@@ -10,7 +10,10 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
 
 // Components
-import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader } from "../../components"
+import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader, EmptyContent } from "../../components"
+
+// Utils
+import { translate } from "../../i18n/"
 
 // Styles
 import { color, spacing } from "../../theme"
@@ -37,7 +40,7 @@ const HEADER_TITLE: TextStyle = {
 export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics">> = observer(
   function AnalyticsScreen() {
     const { profileStore } = useStores()
-    const { profile, profileStats, isProfileFetching } = profileStore
+    const { profile, profileStats, isProfileFetching, errorGetProfile } = profileStore
 
     useEffect(() => {
       fetchData()
@@ -56,17 +59,31 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
           <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
             <Header headerTx="analyticsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
 
-            <FlatList
-              keyExtractor={(item) => `event_${item.id}`}
-              data={[]}
-              renderItem={() => <></>}
-              refreshing={isProfileFetching}
-              onRefresh={() => fetchData()}
-              contentContainerStyle={{ flexGrow: 1 }}
-              ListHeaderComponent={() => (
-                <UserAnalytics profile={profile} profileStats={profileStats} />
-              )}
-            />
+            {errorGetProfile !== null
+              ? (
+                <EmptyContent
+                  title={translate("errors.somethingWentWrong")}
+                  subtitle={errorGetProfile}
+                  imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                  primaryButtonText={translate("common.tryAgain")}
+                  onPrimaryButtonClick={() => fetchData()}
+                />
+              )
+              : (
+                <FlatList
+                  keyExtractor={(item) => `event_${item.id}`}
+                  data={[]}
+                  renderItem={() => <></>}
+                  refreshing={isProfileFetching}
+                  onRefresh={() => fetchData()}
+                  contentContainerStyle={{ flexGrow: 1 }}
+                  ListHeaderComponent={() => (
+                    <UserAnalytics profile={profile} profileStats={profileStats} />
+                  )}
+                />
+              )
+            }
+            
           </Screen>
         )}
       </View>

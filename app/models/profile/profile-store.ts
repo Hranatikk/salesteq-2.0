@@ -19,9 +19,11 @@ export const ProfileStoreModel = types
     profile: types.maybeNull(ProfileModel),
     profileStats: types.maybeNull(ProfileStatsOnlyModel),
     isProfileFetching: types.boolean,
+    errorGetProfile: types.maybeNull(types.string),
 
     profileConnections: types.optional(types.array(ProfileModel), []),
     isConnectionsFetching: types.boolean,
+    errorGetConnections: types.maybeNull(types.string),
 
     isTokenFetching: types.boolean,
     accessToken: types.maybeNull(types.string),
@@ -38,52 +40,21 @@ export const ProfileStoreModel = types
       })
     },
   }))
-  .actions((self) => ({
-    saveProfile: (profileSnapshot: ProfileSnapshotOut) => {
-      self.profile = profileSnapshot
-    },
-  }))
-  .actions((self) => ({
-    failGetProfile: () => {
-      self.isProfileFetching = false
-      self.showErrorMessage(translate("errors.cantLoadProfileInfo"), "danger")
-    },
-  }))
+  /**
+   * Get user profile stats
+   */
   .actions((self) => ({
     saveProfileStats: (profileStatsSnapshot: ProfileStatsOnly) => {
       self.profileStats = profileStatsSnapshot
       self.isProfileFetching = false
+      self.errorGetProfile = null
     },
   }))
   .actions((self) => ({
     failGetProfileStats: () => {
       self.isProfileFetching = false
-      self.showErrorMessage(translate("errors.cantLoadProfileStats"), "danger")
-    },
-  }))
-  .actions((self) => ({
-    saveProfileConnections: (connections: ProfileSnapshotOut[]) => {
-      self.isConnectionsFetching = false
-      self.profileConnections.replace(connections)
-    },
-  }))
-  .actions((self) => ({
-    failGetProfileConnections: () => {
-      self.isConnectionsFetching = false
-      self.showErrorMessage(translate("errors.cantLoadYourNetwork"), "danger")
-    },
-  }))
-  .actions((self) => ({
-    saveAccessToken: (accessToken: string) => {
-      self.isTokenFetching = false
-      self.accessToken = accessToken
-    },
-  }))
-  .actions((self) => ({
-    failFetchAccessToken: (error: string) => {
-      self.isTokenFetching = false
-      self.accessToken = null
-      self.errorGetAccessToken = error
+      self.errorGetProfile = translate("errors.errorOccured", {name: translate("common.profileStatsLoading")}) 
+      self.showErrorMessage(translate("errors.loadProfileStats"), "danger")
     },
   }))
   .actions((self) => ({
@@ -99,9 +70,25 @@ export const ProfileStoreModel = types
       }
     },
   }))
+  /**
+   * Get user profile information
+   */
+  .actions((self) => ({
+    saveProfile: (profileSnapshot: ProfileSnapshotOut) => {
+      self.profile = profileSnapshot
+    },
+  }))
+  .actions((self) => ({
+    failGetProfile: () => {
+      self.isProfileFetching = false
+      self.errorGetProfile = translate("errors.errorOccured", {name: translate("common.profileInfoLoading")}) 
+      self.showErrorMessage(translate("errors.loadProfileInfo"), "danger")
+    },
+  }))
   .actions((self) => ({
     getProfile: async () => {
       self.isProfileFetching = true
+      self.errorGetProfile = null
       const profileApi = new ProfileApi()
       const result = await profileApi.getProfile()
 
@@ -114,9 +101,27 @@ export const ProfileStoreModel = types
       }
     },
   }))
+  /**
+   * Get user network
+   */
+  .actions((self) => ({
+    saveProfileConnections: (connections: ProfileSnapshotOut[]) => {
+      self.isConnectionsFetching = false
+      self.errorGetConnections = null
+      self.profileConnections.replace(connections)
+    },
+  }))
+  .actions((self) => ({
+    failGetProfileConnections: () => {
+      self.isConnectionsFetching = false
+      self.errorGetConnections = translate("errors.errorOccured", {name: translate("common.connectionsFetching")})
+      self.showErrorMessage(translate("errors.loadYourNetwork"), "danger")
+    },
+  }))
   .actions((self) => ({
     getProfileConnections: async () => {
       self.isConnectionsFetching = true
+      self.errorGetConnections = null
       const profileApi = new ProfileApi()
       const result = await profileApi.getProfileConnections()
 
@@ -126,6 +131,22 @@ export const ProfileStoreModel = types
         self.failGetProfileConnections()
         __DEV__ && console.log(result.kind)
       }
+    },
+  }))
+  /**
+   * Profile sign in / logout
+   */
+  .actions((self) => ({
+    saveAccessToken: (accessToken: string) => {
+      self.isTokenFetching = false
+      self.accessToken = accessToken
+    },
+  }))
+  .actions((self) => ({
+    failFetchAccessToken: (error: string) => {
+      self.isTokenFetching = false
+      self.accessToken = null
+      self.errorGetAccessToken = error
     },
   }))
   .actions((self) => ({
@@ -138,7 +159,7 @@ export const ProfileStoreModel = types
       if (result.kind === "ok") {
         self.saveAccessToken(result.data.access)
       } else {
-        self.failFetchAccessToken(translate("errors.cantFindUserWithCredentials"))
+        self.failFetchAccessToken(translate("errors.findUserWithCredentials"))
         __DEV__ && console.log(result.kind)
       }
     },

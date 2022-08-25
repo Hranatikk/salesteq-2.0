@@ -1,22 +1,28 @@
 {
   "common": {
-    "ok": "OK!",
+    "ok": "Ok",
     "cancel": "Cancel",
     "back": "Back",
     "save": "Save",
-    "nextStep": "Next step"
+    "nextStep": "Next step",
+    "tryAgain": "Try again",
+    "connectionsFetching": "connections fetching",
+    "profileInfoLoading": "profile information loading",
+    "profileStatsLoading": "profile statistics loading"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
     "sessionExpired": "Your session has expired",
-    "cantInviteUser": "Can't invite this user to network",
-    "cantAddProduct": "Can't add product",
-    "cantLoadFirmProducts": "Can't load firm's products",
-    "cantLoadFirmDetails": "Can't load firm details",
-    "cantLoadProfileInfo": "Can't load profile information",
-    "cantLoadProfileStats": "Can't load profile statistics",
-    "cantLoadYourNetwork": "Can't load your network",
-    "cantFindUserWithCredentials": "Can't find user with given credentials"
+    "inviteUser": "Can't invite this user to network",
+    "addProduct": "Can't add product",
+    "loadFirmProducts": "Can't load firm's products",
+    "loadFirmDetails": "Can't load firm details",
+    "loadProfileInfo": "Can't load profile information",
+    "loadProfileStats": "Can't load profile statistics",
+    "loadYourNetwork": "Can't load your network",
+    "findUserWithCredentials": "Can't find user with given credentials",
+    "somethingWentWrong": "Something went wrong!",
+    "errorOccured": "An error occured during %{name}. Please, try again"
   },
   "success": {
     "productAdded": "Product successfully added"
@@ -78,7 +84,6 @@
     "logout": "Log out from account"
   },
   "errorScreen": {
-    "title": "Something went wrong!",
     "friendlySubtitle": "This is the screen that your users will see in production when an error is thrown. You'll want to customize this message (located in `app/i18n/en.json`) and probably the layout as well (`app/screens/error`). If you want to remove this entirely, check `app/app.tsx` for the <ErrorBoundary> component.",
     "traceTitle": "Error from %{name} stack",
     "reset": "RESET APP"

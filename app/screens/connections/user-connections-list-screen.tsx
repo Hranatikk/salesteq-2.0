@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import { View, FlatList, TextStyle, ViewStyle, ImageStyle, Dimensions } from "react-native"
+import { View, FlatList, TextStyle, ViewStyle } from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -20,8 +20,8 @@ import {
   ComponentWrapper,
   Card,
   Text,
-  AutoImage,
   STIcon,
+  EmptyContent
 } from "../../components"
 
 // Utils
@@ -47,22 +47,6 @@ const HEADER_TITLE: TextStyle = {
 
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
-}
-
-const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height / 4,
-  width: (Dimensions.get("window").height / 4) * 1.5,
-}
-
-const EMPTY_CONTAINER: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
-
-const EMPTY_TEXT: TextStyle = {
-  textAlign: "center",
-  marginTop: spacing[7],
 }
 
 const COMPONENT_TITLE: TextStyle = {
@@ -155,15 +139,10 @@ export const UserConnectionListScreen: FC<
           onRefresh={() => fetchData()}
           contentContainerStyle={{ marginTop: spacing[4] }}
           ListEmptyComponent={() => (
-            <View style={EMPTY_CONTAINER}>
-              <AutoImage
-                source={require("../../../assets/images/mascot/mascot-empty_box.png")}
-                style={EMPTY_IMAGE}
-              />
-              <Text preset="title" style={EMPTY_TEXT}>
-                {translate("userConnectionsScreen.noConnectionsInNetwork")}
-              </Text>
-            </View>
+            <EmptyContent
+              title={translate("userConnectionsScreen.noConnectionsInNetwork")}
+              imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+            />
           )}
         />
       </Screen>

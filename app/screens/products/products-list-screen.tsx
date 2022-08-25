@@ -4,7 +4,6 @@ import {
   FlatList,
   TextStyle,
   ViewStyle,
-  ImageStyle,
   Dimensions,
   Keyboard,
 } from "react-native"
@@ -25,14 +24,13 @@ import {
   Screen,
   SimpleBackground,
   Header,
-  Text,
-  AutoImage,
   RadioButton,
   HorizontalSlider,
   Button,
   STIcon,
   TextField,
   Loader,
+  EmptyContent
 } from "../../components"
 
 // Utils
@@ -73,17 +71,6 @@ const BACK_BUTTON: ViewStyle = {
   alignItems: "center",
 }
 
-const EMPTY_IMAGE: ImageStyle = {
-  height: Dimensions.get("window").height / 4,
-  width: (Dimensions.get("window").height / 4) * 1.5,
-}
-
-const EMPTY_CONTAINER: ViewStyle = {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-}
-
 const INPUT_CONTAINER: ViewStyle = {
   width: Dimensions.get("window").width,
   marginTop: spacing[5],
@@ -104,11 +91,6 @@ const BUTTON_SAVE_DISABLED: ViewStyle = {
   opacity: 0.7,
 }
 
-const EMPTY_TEXT: TextStyle = {
-  textAlign: "center",
-  marginTop: spacing[7],
-}
-
 const LIST_CONTAINER: TextStyle = {
   width: Dimensions.get("window").width,
   paddingHorizontal: spacing[4],
@@ -121,7 +103,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
     const [invitedMail, changeInvitedMail] = useState<string>("")
     const sliderRef = useRef(null)
     const { firmStore } = useStores()
-    const { firmProducts, isProductsFetching, isProductSaving } = firmStore
+    const { firmProductsList, isProductsListFetching, isProductInProgressOfSaving } = firmStore
 
     useEffect(() => {
       fetchData()
@@ -135,7 +117,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
       if (currentStep === 1 && (activeRadio === 4 || activeRadio === 5)) {
         firmStore.sellProduct(
           activeRadio,
-          firmProducts.filter((i) => i.id === activeRadio)[0].price,
+          firmProductsList.filter((i) => i.id === activeRadio)[0].price,
           () => onSuccessfullSave(),
         )
       }
@@ -150,7 +132,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           firmStore.inviteUserToNetwork(invitedMail, () =>
             firmStore.sellProduct(
               activeRadio,
-              firmProducts.filter((i) => i.id === activeRadio)[0].price,
+              firmProductsList.filter((i) => i.id === activeRadio)[0].price,
               () => onSuccessfullSave(),
               "User successfully invited to your network",
             ),
@@ -195,7 +177,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
 
     return (
       <View testID="ProductsListScreen" style={FULL}>
-        {isProductSaving ? <Loader /> : null}
+        {isProductInProgressOfSaving ? <Loader /> : null}
         <SimpleBackground />
         <Screen style={CONTAINER} preset="fixed" backgroundColor={color.transparent}>
           <Header headerTx="productsScreen.title" style={HEADER} titleStyle={HEADER_TITLE} />
@@ -209,20 +191,15 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
           <HorizontalSlider innerRef={sliderRef}>
             <FlatList
               keyExtractor={(item) => `radio_prod_${item.id}`}
-              data={firmProducts}
+              data={firmProductsList}
               renderItem={({ item }) => renderItem(item)}
-              refreshing={isProductsFetching}
+              refreshing={isProductsListFetching}
               contentContainerStyle={LIST_CONTAINER}
               ListEmptyComponent={() => (
-                <View style={EMPTY_CONTAINER}>
-                  <AutoImage
-                    source={require("../../../assets/images/mascot/mascot-empty_box.png")}
-                    style={EMPTY_IMAGE}
-                  />
-                  <Text preset="title" style={EMPTY_TEXT}>
-                    {translate("productsScreen.noProducts")}
-                  </Text>
-                </View>
+                <EmptyContent
+                  title={translate("productsScreen.noProducts")}
+                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                />
               )}
             />
 

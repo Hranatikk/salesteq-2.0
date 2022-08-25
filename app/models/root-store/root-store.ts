@@ -11,9 +11,11 @@ export const RootStoreModel = types.model("RootStore").props({
     profile: null,
     profileStats: null,
     isProfileFetching: true,
+    errorGetProfile: null,
 
     profileConnections: [],
     isConnectionsFetching: false,
+    errorGetConnections: null,
 
     isTokenFetching: false,
     accessToken: null,
@@ -23,9 +25,9 @@ export const RootStoreModel = types.model("RootStore").props({
     firm: null,
     isFirmFetching: false,
 
-    firmProducts: [],
-    isProductsFetching: false,
-    isProductSaving: false
+    firmProductsList: [],
+    isProductsListFetching: false,
+    isProductInProgressOfSaving: false
   } as any)
 })
 
