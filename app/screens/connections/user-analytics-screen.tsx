@@ -13,7 +13,14 @@ import { NavigatorParamList } from "../../navigators"
 import { ProfileApi } from "../../services/api/profile-api"
 
 // Components
-import { Screen, SimpleBackground, Header, UserAnalytics, ContentLoader, EmptyContent } from "../../components"
+import {
+  Screen,
+  SimpleBackground,
+  Header,
+  UserAnalytics,
+  ContentLoader,
+  EmptyContent,
+} from "../../components"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -56,17 +63,23 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
       const { user } = route.params
       setUser(user ? user : {})
 
-      if(user) {
+      if (user) {
         const response = await profileApi.getProfileStats(user.id)
 
-        if(response.kind === "ok") {
+        if (response.kind === "ok") {
           setUserStats(response.data)
         } else {
-          setError(translate("errors.errorOccured", {name: translate("common.userProfileStatsLoading", {name: user?.first_name})}))
+          setError(
+            translate("errors.errorOccured", {
+              name: translate("common.userProfileStatsLoading", { name: user?.first_name }),
+            }),
+          )
         }
         setUserStatsFetching(false)
       } else {
-        setError(translate("errors.errorOccured", {name: translate("common.userProfileStatsLoading")}))
+        setError(
+          translate("errors.errorOccured", { name: translate("common.userProfileStatsLoading") }),
+        )
         setUserStatsFetching(false)
       }
     }

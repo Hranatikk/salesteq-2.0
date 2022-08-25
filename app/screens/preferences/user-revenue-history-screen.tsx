@@ -66,20 +66,24 @@ export const UserRevenueHistoryScreen: FC<
   const fetchData = async () => {
     const { user } = route.params
 
-    if(user) {
+    if (user) {
       const revenues = await profileApi.getUserRevenues(user.id, false)
       const revenuesWithStructure = await profileApi.getUserRevenues(user.id, true)
 
-      if(revenues.kind === "ok" && revenuesWithStructure.kind === "ok") {
+      if (revenues.kind === "ok" && revenuesWithStructure.kind === "ok") {
         setRevenues(revenues.data)
         setRevenuesWithStructure(revenuesWithStructure.data)
       } else {
-        setError(translate("errors.errorOccured", {name: translate("common.userRevenueLoading", {name: user?.first_name})}))
+        setError(
+          translate("errors.errorOccured", {
+            name: translate("common.userRevenueLoading", { name: user?.first_name }),
+          }),
+        )
       }
       setIsFetching(false)
     } else {
       setIsFetching(false)
-      setError(translate("errors.errorOccured", {name: translate("common.userRevenueLoading")}))
+      setError(translate("errors.errorOccured", { name: translate("common.userRevenueLoading") }))
     }
   }
 
@@ -111,52 +115,48 @@ export const UserRevenueHistoryScreen: FC<
           onLeftPress={() => navigation.goBack()}
         />
 
-        {error !== null
-          ? (
-            <EmptyContent
-              title={translate("errors.somethingWentWrong")}
-              subtitle={error}
-              imageURI={require("../../../assets/images/mascot/mascot-404.png")}
-              primaryButtonText={translate("common.tryAgain")}
-              onPrimaryButtonClick={() => fetchData()}
-            />
-          )
-          : (
-            <FlatList
-              keyExtractor={(item) => `revenue_h_${item.id}`}
-              data={currentTab === "revenue" ? revenues : revenuesWithStructure}
-              renderItem={({ item }) => renderItem(item)}
-              refreshing={isFetching}
-              onRefresh={() => fetchData()}
-              contentContainerStyle={{ flexGrow: 1 }}
-              ListHeaderComponent={() => (
-                <ScrollView
-                  horizontal={true}
-                  style={TAB_WRAPPER}
-                  showsHorizontalScrollIndicator={false}
-                >
-                  <Tab
-                    isActive={currentTab === "revenue"}
-                    text={translate("analyticsScreen.revenueHistory")}
-                    onPress={() => setCurrentTab("revenue")}
-                  />
-                  <Tab
-                    isActive={currentTab === "revenue_with_structure"}
-                    text={translate("analyticsScreen.revenueHistoryWithStructure")}
-                    onPress={() => setCurrentTab("revenue_with_structure")}
-                  />
-                </ScrollView>
-              )}
-              ListEmptyComponent={() => (
-                <EmptyContent
-                  title={translate("userSaleHistory.noRevenues")}
-                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+        {error !== null ? (
+          <EmptyContent
+            title={translate("errors.somethingWentWrong")}
+            subtitle={error}
+            imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+            primaryButtonText={translate("common.tryAgain")}
+            onPrimaryButtonClick={() => fetchData()}
+          />
+        ) : (
+          <FlatList
+            keyExtractor={(item) => `revenue_h_${item.id}`}
+            data={currentTab === "revenue" ? revenues : revenuesWithStructure}
+            renderItem={({ item }) => renderItem(item)}
+            refreshing={isFetching}
+            onRefresh={() => fetchData()}
+            contentContainerStyle={{ flexGrow: 1 }}
+            ListHeaderComponent={() => (
+              <ScrollView
+                horizontal={true}
+                style={TAB_WRAPPER}
+                showsHorizontalScrollIndicator={false}
+              >
+                <Tab
+                  isActive={currentTab === "revenue"}
+                  text={translate("analyticsScreen.revenueHistory")}
+                  onPress={() => setCurrentTab("revenue")}
                 />
-              )}
-            />
-          )
-        }
-        
+                <Tab
+                  isActive={currentTab === "revenue_with_structure"}
+                  text={translate("analyticsScreen.revenueHistoryWithStructure")}
+                  onPress={() => setCurrentTab("revenue_with_structure")}
+                />
+              </ScrollView>
+            )}
+            ListEmptyComponent={() => (
+              <EmptyContent
+                title={translate("userSaleHistory.noRevenues")}
+                imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+              />
+            )}
+          />
+        )}
       </Screen>
     </View>
   )
