@@ -222,7 +222,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       const refreshToken = await storage.load(REFRESH_TOKEN_KEY)
       const refreshingResult = await profileApi.refreshToken(refreshToken)
 
-      if (refreshingResult.data.access) {
+      if (refreshingResult.kind === "ok" && refreshingResult.data.access) {
         setIsContentLoading(false)
         storage.save(ACCESS_TOKEN_KEY, refreshingResult.data.access)
         await profileStore.saveAccessToken(refreshingResult.data.access)
@@ -245,7 +245,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   useBackButtonHandler(canExit)
   return (
     <NavigationContainer ref={navigationRef} {...props}>
-      {profileStore.accessToken === null ? <AuthStack /> : <TabNavigator />}
+      {(!isContentLoading && profileStore.accessToken) === null ? <AuthStack /> : <TabNavigator />}
 
       {isContentLoading ? <Loader /> : null}
     </NavigationContainer>

@@ -3,6 +3,7 @@ import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
 import { View, ViewStyle, TextStyle, Dimensions, Text } from "react-native"
 import FlashMessage from "react-native-flash-message"
+import SplashScreen from "react-native-splash-screen"
 import { PortalProvider } from "@gorhom/portal"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
 import * as storage from "./utils/storage"
@@ -59,7 +60,8 @@ function App() {
 
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
-    ;(async () => {
+    (async () => {
+      // SplashScreen.hide()
       setupRootStore().then(setRootStore)
     })()
   }, [])
