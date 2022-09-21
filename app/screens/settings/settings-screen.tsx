@@ -156,7 +156,7 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
           <Divider
             horizontal={spacing[4]}
             bottom={spacing[5]}
-            style={{ backgroundColor: color.palette.grey }}
+            style={{ backgroundColor: color.dim }}
           />
 
           <View style={SETTINGS_CONTAINER}>
@@ -168,7 +168,7 @@ export const SettingsScreen: FC<StackScreenProps<NavigatorParamList, "settings">
             />
 
             <TouchableOpacity activeOpacity={0.8} style={LOGOUT_BUTTON} onPress={() => logout()}>
-              <Text preset="title" style={{ color: color.palette.lightRed }}>
+              <Text preset="title" style={{ color: color.dangerous }}>
                 {translate("settingsScreen.logout")}
               </Text>
             </TouchableOpacity>

@@ -41,7 +41,7 @@ const MESSAGE_DANGER: ViewStyle = {
 }
 
 const MESSAGE_SUCCESS: ViewStyle = {
-  backgroundColor: color.palette.green,
+  backgroundColor: color.success,
 }
 
 const ICON_CONTAINER: ViewStyle = {

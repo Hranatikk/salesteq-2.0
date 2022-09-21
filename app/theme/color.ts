@@ -29,36 +29,35 @@ export const color = {
    */
   primary: palette.purple,
   /**
-   * The main tinting color, but darker.
+   * A color used and lines and dividers.
    */
-  primaryDarker: palette.orangeDarker,
-  /**
-   * A subtle color used for borders and lines.
-   */
-  line: palette.offWhite,
+  line: palette.paleGrey,
   /**
    * The default color of text in many components.
    */
   text: palette.black,
   /**
-   * Secondary information.
+   * Secondary information, tips, icons
    */
   dim: palette.grey,
+  /**
+   * Color of text inside placeholder
+   */
+  placeholderText: palette.lightGrey,
   /**
    * Error messages and icons.
    */
   error: palette.red,
-
   /**
-   * Storybook background for Text stories, or any stories where
-   * the text color is color.text, which is white by default, and does not show
-   * in Stories against the default white background
+   * Danger action buttons and statuses
    */
-  storybookDarkBg: palette.black,
-
+  dangerous: palette.lightRed,
   /**
-   * Storybook text color for stories that display Text components against the
-   * white background
+   * Success text messages and actions
    */
-  storybookTextColor: palette.black,
+  success: palette.green,
+  /**
+   * Color for pending statuses and neutral messages
+   */
+  pending: palette.blue,
 }

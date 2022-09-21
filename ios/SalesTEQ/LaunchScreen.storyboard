@@ -23,6 +23,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS" userLabel="I"/>
                         <color key="backgroundColor" red="0.3529411764705882" green="0.32941176470588235" blue="0.792156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" red="0.47927295918367346" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -31,6 +32,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashIcon" width="4096" height="4094"/>
+        <image name="SplashIcon" width="2048" height="2047"/>
     </resources>
 </document>

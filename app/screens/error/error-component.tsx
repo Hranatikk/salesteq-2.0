@@ -14,7 +14,7 @@ const CONTAINER: ViewStyle = {
 const ERROR_DETAILS_CONTAINER: ViewStyle = {
   width: "100%",
   maxHeight: "60%",
-  backgroundColor: color.line,
+  backgroundColor: color.background,
   marginVertical: 15,
   paddingHorizontal: 10,
   paddingBottom: 15,
@@ -34,7 +34,7 @@ const TITLE_ERROR: TextStyle = {
 }
 
 const FRIENDLY_SUBTITLE: TextStyle = {
-  color: color.palette.black,
+  color: color.text,
   fontWeight: "normal",
   paddingVertical: 15,
 }
@@ -44,12 +44,6 @@ const CONTENT_ERROR: TextStyle = {
   fontWeight: "bold",
   paddingVertical: 15,
 }
-
-// Uncomment this and the Text component in the ErrorComponent if
-// you want to see a backtrace in your error reporting screen.
-// const CONTENT_BACKTRACE: TextStyle = {
-//   color: color.dim,
-// }
 
 const ICON: ImageStyle = {
   marginTop: 30,

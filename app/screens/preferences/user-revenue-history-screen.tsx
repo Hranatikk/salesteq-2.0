@@ -95,10 +95,10 @@ export const UserRevenueHistoryScreen: FC<
         }`}
         subtitle={`Revenue at ${dayjs(item.datetime).format("DD MMMM YYYY hh:mm")}`}
         statusText={`${item.status === "pending" ? "Status: Pending" : "Status: Processed"}`}
-        statusTextColor={item.status === "pending" ? color.palette.blue : color.palette.green}
+        statusTextColor={item.status === "pending" ? color.pending : color.success}
         iconName="money_wad_outline_28"
         iconText={`${item.amount.toFixed(2)} BYN`}
-        iconTextColor={color.palette.grey}
+        iconTextColor={color.dim}
       />
     )
   }

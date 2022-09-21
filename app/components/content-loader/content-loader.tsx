@@ -11,7 +11,7 @@ const WINDOW_WIDTH = Dimensions.get("window").width
  */
 export const ContentLoader = observer(function ContentLoader() {
   return (
-    <CLoader viewBox={"0 70 370 400"} backgroundColor={color.palette.grey}>
+    <CLoader viewBox={"0 70 370 400"} backgroundColor={color.dim}>
       <Rect x="15" y="17" rx="4" ry="4" width={WINDOW_WIDTH / 1.3} height="30" />
       <Rect x="15" y="60" rx="3" ry="3" width={WINDOW_WIDTH / 2} height="20" />
 

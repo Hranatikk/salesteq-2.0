@@ -122,7 +122,7 @@ export function TextField(props: TextFieldProps) {
         {icon ? <STIcon icon={icon} color={color.primary} size={30} style={ICON} /> : null}
         <TextInput
           placeholder={actualPlaceholder}
-          placeholderTextColor={color.palette.lighterGrey}
+          placeholderTextColor={color.placeholderText}
           underlineColorAndroid={color.transparent}
           {...rest}
           style={inputStyles}
