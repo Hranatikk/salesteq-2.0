@@ -154,11 +154,7 @@ const TabNavigator = () => {
         component={CalendarStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="calendar_outline_28"
-              color={focused ? color.text : color.dim}
-              size={30}
-            />
+            <STIcon icon="calendar_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />
@@ -180,11 +176,7 @@ const TabNavigator = () => {
         component={ConnectionsStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="users_outline_28"
-              color={focused ? color.text : color.dim}
-              size={30}
-            />
+            <STIcon icon="users_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />
@@ -193,11 +185,7 @@ const TabNavigator = () => {
         component={SettingsStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="settings_outline_28"
-              color={focused ? color.text : color.dim}
-              size={30}
-            />
+            <STIcon icon="settings_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />

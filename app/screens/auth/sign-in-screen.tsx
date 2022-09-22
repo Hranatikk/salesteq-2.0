@@ -43,8 +43,10 @@ const BUTTON_SIGN_IN: ViewStyle = {
 }
 
 const LOGO: ImageStyle = {
-  height: Dimensions.get("window").height / 5,
-  width: (Dimensions.get("window").height / 5) * 1.16,
+  height: Dimensions.get("window").height / 10,
+  width: (Dimensions.get("window").height / 10),
+  marginTop: spacing[6],
+  marginBottom: spacing[6],
   alignSelf: "center",
 }
 
