@@ -31,7 +31,7 @@ export const ProfileStoreModel = types
   })
   .extend(withEnvironment)
   .actions(() => ({
-    showErrorMessage: (message: string, type: "danger" | "success") => {
+    showFlashMessage: (message: string, type: "danger" | "success") => {
       showMessage({
         message: message,
         type: type,
@@ -56,7 +56,7 @@ export const ProfileStoreModel = types
       self.errorGetProfile = translate("errors.errorOccured", {
         name: translate("common.profileStatsLoading"),
       })
-      self.showErrorMessage(translate("errors.loadProfileStats"), "danger")
+      self.showFlashMessage(translate("errors.loadProfileStats"), "danger")
     },
   }))
   .actions((self) => ({
@@ -86,7 +86,7 @@ export const ProfileStoreModel = types
       self.errorGetProfile = translate("errors.errorOccured", {
         name: translate("common.profileInfoLoading"),
       })
-      self.showErrorMessage(translate("errors.loadProfileInfo"), "danger")
+      self.showFlashMessage(translate("errors.loadProfileInfo"), "danger")
     },
   }))
   .actions((self) => ({
@@ -121,7 +121,7 @@ export const ProfileStoreModel = types
       self.errorGetConnections = translate("errors.errorOccured", {
         name: translate("common.connectionsFetching"),
       })
-      self.showErrorMessage(translate("errors.loadYourNetwork"), "danger")
+      self.showFlashMessage(translate("errors.loadYourNetwork"), "danger")
     },
   }))
   .actions((self) => ({
@@ -149,6 +149,11 @@ export const ProfileStoreModel = types
     },
   }))
   .actions((self) => ({
+    setTokenFetchingStatus: (status: boolean) => {
+      self.isTokenFetching = status
+    },
+  }))
+  .actions((self) => ({
     failFetchAccessToken: (error: string) => {
       self.isTokenFetching = false
       self.accessToken = null
@@ -164,6 +169,9 @@ export const ProfileStoreModel = types
 
       if (result.kind === "ok") {
         self.saveAccessToken(result.data.access)
+      } else if (result.kind === "timeout") {
+        self.showFlashMessage(translate("errors.timeout"), "danger")
+        self.setTokenFetchingStatus(false)
       } else {
         self.failFetchAccessToken(translate("errors.findUserWithCredentials"))
         __DEV__ && console.log(result.kind)

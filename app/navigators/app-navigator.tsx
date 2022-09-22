@@ -231,11 +231,14 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   }
 
   useBackButtonHandler(canExit)
+
+  if (isContentLoading) {
+    return <Loader />
+  }
+
   return (
     <NavigationContainer ref={navigationRef} {...props}>
-      {(!isContentLoading && profileStore.accessToken) === null ? <AuthStack /> : <TabNavigator />}
-
-      {isContentLoading ? <Loader /> : null}
+      {profileStore.accessToken === null ? <AuthStack /> : <TabNavigator />}
     </NavigationContainer>
   )
 })

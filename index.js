@@ -8,6 +8,7 @@
 //
 // It's easier just to leave it here.
 import App from "./app/app.tsx"
+import "react-native-gesture-handler"
 import { AppRegistry } from "react-native"
 
 AppRegistry.registerComponent("SalesTEQ", () => App)

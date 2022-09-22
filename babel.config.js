@@ -4,7 +4,6 @@ module.exports = {
     production: {},
   },
   plugins: [
-
     [
       "@babel/plugin-proposal-decorators",
       {
@@ -12,5 +11,6 @@ module.exports = {
       },
     ],
     ["@babel/plugin-proposal-optional-catch-binding"],
+    ["react-native-reanimated/plugin"],
   ],
 }
