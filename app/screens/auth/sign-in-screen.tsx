@@ -19,6 +19,7 @@ import {
   Text,
   Loader,
 } from "../../components"
+import { Onboarding } from "./components/onboarding"
 
 // Utils
 import { translate } from "../../i18n/"
@@ -43,8 +44,10 @@ const BUTTON_SIGN_IN: ViewStyle = {
 }
 
 const LOGO: ImageStyle = {
-  height: Dimensions.get("window").height / 5,
-  width: (Dimensions.get("window").height / 5) * 1.16,
+  height: Dimensions.get("window").height / 10,
+  width: Dimensions.get("window").height / 10,
+  marginTop: spacing[6],
+  marginBottom: spacing[6],
   alignSelf: "center",
 }
 
@@ -80,6 +83,7 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
   function SignInScreen({ navigation }) {
     const [email, changeEmail] = useState<string>("")
     const [password, changePassword] = useState<string>("")
+    const [isOnboardingCompleted, setOnboardingIsCompleteStatus] = useState<boolean>(true)
     const { profileStore } = useStores()
 
     const onSignInPress = async () => {
@@ -90,7 +94,6 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
       <View testID="SignInScreen" style={FULL}>
         <SimpleBackground />
         {profileStore.isTokenFetching ? <Loader /> : null}
-
         <Screen style={CONTAINER} preset="scroll" backgroundColor={color.transparent}>
           <AutoImage source={require("../../../assets/images/logo.png")} style={LOGO} />
           <TextField
@@ -144,6 +147,10 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
             onPress={() => onSignInPress()}
           />
         </Screen>
+        <Onboarding
+          isVisible={isOnboardingCompleted}
+          onClose={() => setOnboardingIsCompleteStatus(false)}
+        />
       </View>
     )
   },

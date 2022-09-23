@@ -13,6 +13,7 @@ import {
 export class ProfileApi {
   api = create({
     baseURL: "http://salesteq.info",
+    timeout: 10000,
   })
 
   /**

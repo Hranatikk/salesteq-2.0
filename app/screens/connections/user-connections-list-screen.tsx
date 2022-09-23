@@ -111,10 +111,10 @@ export const UserConnectionListScreen: FC<
         subtitle={item.email}
         onPress={() => navigation.push("userConnectionList", { user: item })}
         statusText="Status: Gold"
-        statusTextColor={color.palette.green}
+        statusTextColor={color.success}
         iconName={item.data.turnover ? "money_wad_outline_28" : null}
         iconText={item.data?.turnover ? `${item.data.turnover} BYN` : null}
-        iconTextColor={color.palette.grey}
+        iconTextColor={color.dim}
       />
     )
   }
@@ -145,7 +145,7 @@ export const UserConnectionListScreen: FC<
             <STIcon
               icon="arrow_right_outline_28"
               size={20}
-              color={color.palette.grey}
+              color={color.dim}
               style={COMPONENT_ICON}
             />
           </ComponentWrapper>

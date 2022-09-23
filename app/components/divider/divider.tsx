@@ -5,7 +5,7 @@ import { color } from "../../theme"
 
 const DIVIDER: ViewStyle = {
   height: 1,
-  backgroundColor: color.palette.lightGrey,
+  backgroundColor: color.line,
 }
 
 export interface DividerProps {

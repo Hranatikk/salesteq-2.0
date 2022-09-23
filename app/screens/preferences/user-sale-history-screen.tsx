@@ -94,10 +94,10 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
           }`}
           subtitle={`Sale #${item.id} at ${dayjs(item.datetime).format("DD MMMM YYYY hh:mm")}`}
           statusText={`Sale #${item.id}`}
-          statusTextColor={color.palette.green}
+          statusTextColor={color.success}
           iconName="money_wad_outline_28"
           iconText={`${item.price} BYN`}
-          iconTextColor={color.palette.grey}
+          iconTextColor={color.dim}
         />
       )
     }

@@ -41,7 +41,7 @@ export function Header(props: HeaderProps) {
     <View style={[ROOT, style]}>
       {leftIcon ? (
         <Button preset="link" onPress={onLeftPress}>
-          <STIcon icon={leftIcon} size={24} color={color.palette.grey} />
+          <STIcon icon={leftIcon} size={24} color={color.dim} />
         </Button>
       ) : (
         <View style={LEFT} />
@@ -51,7 +51,7 @@ export function Header(props: HeaderProps) {
       </View>
       {rightIcon ? (
         <Button preset="link" onPress={onRightPress}>
-          <STIcon icon={rightIcon} size={24} color={color.palette.grey} />
+          <STIcon icon={rightIcon} size={24} color={color.dim} />
         </Button>
       ) : (
         <View style={RIGHT} />

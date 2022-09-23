@@ -13,7 +13,7 @@ const CONTAINER: ViewStyle = {
 }
 
 const INNER_CONTAINER: ViewStyle = {
-  backgroundColor: color.palette.black,
+  backgroundColor: color.text,
   opacity: 0.4,
 }
 

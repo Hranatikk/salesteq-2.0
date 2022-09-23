@@ -18,7 +18,7 @@ const TITLE_TEXT: TextStyle = {
 
 const STATUS_TEXT: TextStyle = {
   marginBottom: spacing[2],
-  color: color.palette.lightRed,
+  color: color.dangerous,
 }
 
 const ICON_TEXT: TextStyle = {

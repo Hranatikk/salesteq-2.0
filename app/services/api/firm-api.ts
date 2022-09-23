@@ -6,6 +6,7 @@ import { GetFirmResult, GetFirmProductsResult, GetFirmSingleProductsResult } fro
 export class FirmApi {
   api = create({
     baseURL: "http://salesteq.info",
+    timeout: 10000,
   })
 
   /**

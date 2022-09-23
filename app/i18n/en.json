@@ -12,7 +12,8 @@
     "userConnectionsLoading": "loading %{name} connections",
     "userProfileStatsLoading": "loading %{name} profile statistics",
     "userRevenueLoading": "loading %{name} revenue history",
-    "userSalesLoading": "loading %{name} sales history"
+    "userSalesLoading": "loading %{name} sales history",
+    "letsGo": "Let's go!"
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
@@ -26,7 +27,8 @@
     "loadYourNetwork": "Can't load your network",
     "findUserWithCredentials": "Can't find user with given credentials",
     "somethingWentWrong": "Something went wrong!",
-    "errorOccured": "An error occured during %{name}. Please, try again"
+    "errorOccured": "An error occured during %{name}. Please, try again",
+    "timeout": "Looks like the server is taking to long to respond, please try again in sometime"
   },
   "success": {
     "productAdded": "Product successfully added"
@@ -92,8 +94,16 @@
     "traceTitle": "Error from %{name} stack",
     "reset": "RESET APP"
   },
-  "storybook": {
-    "placeholder": "Placeholder",
-    "field": "Field"
+  "onboarding": {
+    "analysis": "See your progress visually",
+    "analysisDescription": "Watch your performance grow with a variety of custom charts and graphs presented on the main page of the application",
+    "saveTime": "Don't waste time",
+    "saveTimeDescription": "Sell your products, get statistics, track the progress of your colleagues and subordinates, make appointments and calls - all in one app!",
+    "conferencesAndPush": "Don't forget anything",
+    "conferencesAndPushDescription": "Schedule meeting calls and appointments with the built-in calendar. You will receive push notifications every time before a scheduled event",
+    "constantlyImprove": "Constantly improve",
+    "constantlyImproveDescription": "Watch free lectures and trainings collected in the application, read articles and useful industry news. It's never too late to learn!",
+    "competition": "Compete with colleagues",
+    "competitionDescription": "Watch the progress of your colleagues, compete with them and get new achievements and status"
   }
 }

@@ -55,7 +55,7 @@ const BACK_BUTTON: ViewStyle = {
   position: "absolute",
   width: 50,
   height: 50,
-  backgroundColor: color.palette.grey,
+  backgroundColor: color.dim,
   borderRadius: 25,
   top: spacing[7],
   left: spacing[4],

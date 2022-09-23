@@ -143,7 +143,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <STIcon
               icon="statistics_outline_28"
-              color={focused ? color.palette.black : color.palette.grey}
+              color={focused ? color.text : color.dim}
               size={30}
             />
           ),
@@ -154,11 +154,7 @@ const TabNavigator = () => {
         component={CalendarStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="calendar_outline_28"
-              color={focused ? color.palette.black : color.palette.grey}
-              size={30}
-            />
+            <STIcon icon="calendar_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />
@@ -169,7 +165,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused }) => (
             <STIcon
               icon="add_square_outline_28"
-              color={focused ? color.palette.black : color.palette.grey}
+              color={focused ? color.text : color.dim}
               size={30}
             />
           ),
@@ -180,11 +176,7 @@ const TabNavigator = () => {
         component={ConnectionsStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="users_outline_28"
-              color={focused ? color.palette.black : color.palette.grey}
-              size={30}
-            />
+            <STIcon icon="users_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />
@@ -193,11 +185,7 @@ const TabNavigator = () => {
         component={SettingsStack}
         options={{
           tabBarIcon: ({ focused }) => (
-            <STIcon
-              icon="settings_outline_28"
-              color={focused ? color.palette.black : color.palette.grey}
-              size={30}
-            />
+            <STIcon icon="settings_outline_28" color={focused ? color.text : color.dim} size={30} />
           ),
         }}
       />
@@ -222,7 +210,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       const refreshToken = await storage.load(REFRESH_TOKEN_KEY)
       const refreshingResult = await profileApi.refreshToken(refreshToken)
 
-      if (refreshingResult.data.access) {
+      if (refreshingResult.kind === "ok" && refreshingResult.data.access) {
         setIsContentLoading(false)
         storage.save(ACCESS_TOKEN_KEY, refreshingResult.data.access)
         await profileStore.saveAccessToken(refreshingResult.data.access)
@@ -243,11 +231,14 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   }
 
   useBackButtonHandler(canExit)
+
+  if (isContentLoading) {
+    return <Loader />
+  }
+
   return (
     <NavigationContainer ref={navigationRef} {...props}>
       {profileStore.accessToken === null ? <AuthStack /> : <TabNavigator />}
-
-      {isContentLoading ? <Loader /> : null}
     </NavigationContainer>
   )
 })

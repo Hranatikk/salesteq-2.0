@@ -57,10 +57,10 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
           subtitle={item.email}
           onPress={() => navigation.push("userConnectionList", { user: item })}
           statusText="Status: Gold"
-          statusTextColor={color.palette.green}
+          statusTextColor={color.success}
           iconName={item.data.turnover ? "money_wad_outline_28" : null}
           iconText={item.data?.turnover ? `${item.data.turnover} BYN` : null}
-          iconTextColor={color.palette.grey}
+          iconTextColor={color.dim}
         />
       )
     }

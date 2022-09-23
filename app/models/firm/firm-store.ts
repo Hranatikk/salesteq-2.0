@@ -126,7 +126,7 @@ export const FirmStoreModel = types
     },
   }))
   /**
-   * User invitation
+   * User invitation to firm
    */
   .actions((self) => ({
     inviteUser: () => {

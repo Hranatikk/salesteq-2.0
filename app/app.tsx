@@ -3,12 +3,12 @@ import "./utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
 import { View, ViewStyle, TextStyle, Dimensions, Text } from "react-native"
 import FlashMessage from "react-native-flash-message"
+import SplashScreen from "react-native-splash-screen"
 import { PortalProvider } from "@gorhom/portal"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
 import * as storage from "./utils/storage"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
-import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
 import { STIcon } from "./components"
 import { spacing, color } from "./theme"
@@ -40,7 +40,7 @@ const MESSAGE_DANGER: ViewStyle = {
 }
 
 const MESSAGE_SUCCESS: ViewStyle = {
-  backgroundColor: color.palette.green,
+  backgroundColor: color.success,
 }
 
 const ICON_CONTAINER: ViewStyle = {
@@ -59,9 +59,13 @@ function App() {
 
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
-    ;(async () => {
+    const init = async () => {
       setupRootStore().then(setRootStore)
-    })()
+    }
+
+    init().finally(async () => {
+      SplashScreen.hide()
+    })
   }, [])
 
   const renderFlashMessage = (props) => {
@@ -92,22 +96,20 @@ function App() {
   if (!rootStore || !isNavigationStateRestored) return null
 
   return (
-    <ToggleStorybook>
-      <RootStoreProvider value={rootStore}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <PortalProvider>
-            <ErrorBoundary catchErrors={"always"}>
-              <AppNavigator
-                initialState={initialNavigationState}
-                onStateChange={onNavigationStateChange}
-              />
+    <RootStoreProvider value={rootStore}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <PortalProvider>
+          <ErrorBoundary catchErrors={"always"}>
+            <AppNavigator
+              initialState={initialNavigationState}
+              onStateChange={onNavigationStateChange}
+            />
 
-              <FlashMessage MessageComponent={renderFlashMessage} />
-            </ErrorBoundary>
-          </PortalProvider>
-        </SafeAreaProvider>
-      </RootStoreProvider>
-    </ToggleStorybook>
+            <FlashMessage MessageComponent={renderFlashMessage} />
+          </ErrorBoundary>
+        </PortalProvider>
+      </SafeAreaProvider>
+    </RootStoreProvider>
   )
 }
 
