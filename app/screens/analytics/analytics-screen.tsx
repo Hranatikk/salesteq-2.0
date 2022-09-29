@@ -70,7 +70,7 @@ export const AnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "analytics
               <EmptyContent
                 title={translate("errors.somethingWentWrong")}
                 subtitle={errorGetProfile}
-                imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                imageURI={require("../../../assets/images/vector/tired.png")}
                 primaryButtonText={translate("common.tryAgain")}
                 onPrimaryButtonClick={() => fetchData()}
               />

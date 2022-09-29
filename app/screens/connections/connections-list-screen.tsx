@@ -75,7 +75,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
             <EmptyContent
               title={translate("errors.somethingWentWrong")}
               subtitle={errorGetConnections}
-              imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+              imageURI={require("../../../assets/images/vector/tired.png")}
               primaryButtonText={translate("common.tryAgain")}
               onPrimaryButtonClick={() => fetchData()}
             />
@@ -90,7 +90,7 @@ export const ConnectionsScreen: FC<StackScreenProps<NavigatorParamList, "connect
               ListEmptyComponent={() => (
                 <EmptyContent
                   title={translate("connectionsScreen.noConnectionsInOwnNetwork")}
-                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  imageURI={require("../../../assets/images/vector/tired.png")}
                   primaryButtonText={translate("connectionsScreen.addPartner")}
                   onPrimaryButtonClick={() => navigation.navigate("productsList")}
                 />

@@ -22,6 +22,7 @@ import {
   UserRevenueHistoryScreen,
   ProductsListScreen,
   SignInScreen,
+  SignUpScreen,
 } from "../screens"
 
 export type NavigatorParamList = {
@@ -35,6 +36,7 @@ export type NavigatorParamList = {
   userRevenueHistory: any
   productsList: any
   signIn: any
+  signUp: any
 }
 
 const ACCESS_TOKEN_KEY = "@access_token"
@@ -51,6 +53,7 @@ const AuthStack = () => {
       initialRouteName="signIn"
     >
       <Stack.Screen name="signIn" component={SignInScreen} />
+      <Stack.Screen name="signUp" component={SignUpScreen} />
     </Stack.Navigator>
   )
 }

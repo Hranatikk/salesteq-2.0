@@ -6,6 +6,10 @@ import { Text } from "../text/text"
 import { TextRow } from "../text-row/text-row"
 import { Divider } from "../divider/divider"
 
+const WRAPPER: ViewStyle = {
+  marginTop: spacing[3],
+}
+
 const CONTAINER: ViewStyle = {
   height: 4,
   width: "100%",
@@ -47,7 +51,7 @@ export const FlatLineChart = observer(function FlatLineChart(props: FlatLineChar
   }
 
   return (
-    <View style={{ marginTop: spacing[3] }}>
+    <View style={WRAPPER}>
       <TextRow
         leftText={props.title}
         rightText={`${props.current}/${props.needed}`}

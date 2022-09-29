@@ -103,7 +103,7 @@ export const UserAnalyticsScreen: FC<StackScreenProps<NavigatorParamList, "userA
               <EmptyContent
                 title={translate("errors.somethingWentWrong")}
                 subtitle={error}
-                imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+                imageURI={require("../../../assets/images/vector/tired.png")}
                 primaryButtonText={translate("common.tryAgain")}
                 onPrimaryButtonClick={() => fetchData()}
               />

@@ -118,7 +118,7 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
             <EmptyContent
               title={translate("errors.somethingWentWrong")}
               subtitle={error}
-              imageURI={require("../../../assets/images/mascot/mascot-404.png")}
+              imageURI={require("../../../assets/images/vector/tired.png")}
               primaryButtonText={translate("common.tryAgain")}
               onPrimaryButtonClick={() => fetchData()}
             />
@@ -151,7 +151,7 @@ export const UserSaleHistoryScreen: FC<StackScreenProps<NavigatorParamList, "use
               ListEmptyComponent={() => (
                 <EmptyContent
                   title={translate("userSaleHistory.noSales")}
-                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  imageURI={require("../../../assets/images/vector/tired.png")}
                 />
               )}
             />

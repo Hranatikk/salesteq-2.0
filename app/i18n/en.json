@@ -39,7 +39,8 @@
     "enterEmail": "Enter email",
     "enterPassword": "Enter password",
     "alreadyHaveAnAccount": "Already have an account?",
-    "haveAnInvitationCode": "Recieve an invitation code?"
+    "haveAnInvitationCode": "Recieve an invitation code?",
+    "enterInvitationCode": "Enter invitation code that you recieved"
   },
   "analyticsScreen": {
     "title": "Analytics",
