@@ -191,7 +191,7 @@ export const ProductsListScreen: FC<StackScreenProps<NavigatorParamList, "produc
               ListEmptyComponent={() => (
                 <EmptyContent
                   title={translate("productsScreen.noProducts")}
-                  imageURI={require("../../../assets/images/mascot/mascot-empty_box.png")}
+                  imageURI={require("../../../assets/images/vector/tired.png")}
                 />
               )}
             />

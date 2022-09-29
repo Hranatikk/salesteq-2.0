@@ -23,3 +23,4 @@ export * from "./preferences/user-revenue-history-screen"
 
 // AUTH
 export * from "./auth/sign-in-screen"
+export * from "./auth/sign-up-screen"

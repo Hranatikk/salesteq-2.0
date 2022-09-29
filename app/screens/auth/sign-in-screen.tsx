@@ -131,7 +131,7 @@ export const SignInScreen: FC<StackScreenProps<NavigatorParamList, "signIn">> = 
             </Text>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("settings")}
+              onPress={() => navigation.navigate("signUp")}
               style={SIGN_UP_BUTTON}
               activeOpacity={0.8}
             >
