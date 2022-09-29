@@ -1,5 +1,13 @@
 import React, { FC, useState, useRef } from "react"
-import { View, ViewStyle, Dimensions, Keyboard, TextStyle, TouchableOpacity, ScrollView } from "react-native"
+import {
+  View,
+  ViewStyle,
+  Dimensions,
+  Keyboard,
+  TextStyle,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native"
 
 // State
 import { observer } from "mobx-react-lite"
@@ -36,7 +44,7 @@ const FULL: ViewStyle = {
 const STEP_CONTAINER: TextStyle = {
   width: Dimensions.get("window").width,
   paddingHorizontal: spacing[4],
-  paddingTop: Dimensions.get("window").height/4
+  paddingTop: Dimensions.get("window").height / 4,
 }
 
 const SECOND_STEP_CONTAINER: ViewStyle = {
@@ -61,7 +69,7 @@ const BUTTON_SIGN_UP_DISABLED: ViewStyle = {
   bottom: 30,
   left: spacing[0],
   right: spacing[0],
-  opacity: 0.7
+  opacity: 0.7,
 }
 
 const INPUT: ViewStyle = {
@@ -102,7 +110,7 @@ export const SignUpScreen: FC<StackScreenProps<NavigatorParamList, "signUp">> = 
     const { profileStore } = useStores()
 
     const onSignUpPress = async () => {
-      if(currentStep === 1) {
+      if (currentStep === 1) {
         setCurrentStep(2)
         sliderRef.current.scrollTo({ x: Dimensions.get("window").width })
         Keyboard.dismiss()

@@ -1,12 +1,20 @@
 import React, { useState, useRef } from "react"
-import { SafeAreaView, View, ViewStyle, TextStyle, TextInput, TouchableOpacity, Dimensions } from "react-native"
+import {
+  SafeAreaView,
+  View,
+  ViewStyle,
+  TextStyle,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native"
 import { Text } from "../text/text"
 import { color, spacing } from "../../theme"
 
 const CODE_LENGTH = 8
 
-const inputContainerMargin = Dimensions.get("window").width*0.05 // *0.15
-const minContainerWidth = ((Dimensions.get("window").width*0.7)/6)-10
+const inputContainerMargin = Dimensions.get("window").width * 0.05 // *0.15
+const minContainerWidth = (Dimensions.get("window").width * 0.7) / 6 - 10
 
 const CONTAINER: ViewStyle = {
   width: "90%",
@@ -34,7 +42,7 @@ const CODE_SYMBOL: TextStyle = {
   fontSize: 26,
   color: color.text,
 }
-  
+
 const HIDDEN_INPUT: ViewStyle = {
   position: "absolute",
   height: 0,
@@ -43,14 +51,14 @@ const HIDDEN_INPUT: ViewStyle = {
 }
 
 interface IProps {
-  value: string;
-  setValue: (txt:string) => void;
+  value: string
+  setValue: (txt: string) => void
 }
 
-export const CodeInput = ({value, setValue}:IProps) => {
+export const CodeInput = ({ value, setValue }: IProps) => {
   const [containerIsFocused, setContainerIsFocused] = useState(false)
 
-  const codeDigitsArray = Array.from({length: CODE_LENGTH}, () => 0)
+  const codeDigitsArray = Array.from({ length: CODE_LENGTH }, () => 0)
 
   const ref = useRef<TextInput>(null)
 
@@ -75,7 +83,7 @@ export const CodeInput = ({value, setValue}:IProps) => {
 
     const containerStyle =
       containerIsFocused && isFocused
-        ? {...INPUT_CONTAINER, ...INPUT_CONTAINER_FOCUSED}
+        ? { ...INPUT_CONTAINER, ...INPUT_CONTAINER_FOCUSED }
         : INPUT_CONTAINER
 
     return (
